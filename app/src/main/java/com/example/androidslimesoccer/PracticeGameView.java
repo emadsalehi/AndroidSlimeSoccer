@@ -2,12 +2,17 @@ package com.example.androidslimesoccer;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.drm.DrmStore;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Shader;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
@@ -24,6 +29,7 @@ public class PracticeGameView extends SurfaceView implements SurfaceHolder.Callb
     Bitmap goal = BitmapFactory.decodeResource(getResources(), R.drawable.background);
     Bitmap leftGoal; Bitmap rightGoal;
     Resources resources = getResources();
+    int rightSideY; int leftSideX;
 
     public PracticeGameView(Context context, String slimeName) {
         super(context);
@@ -77,6 +83,18 @@ public class PracticeGameView extends SurfaceView implements SurfaceHolder.Callb
                 Utils.screenHeight * 19 / 20, null);
         canvas.drawBitmap(rightGoal, Utils.screenWidth * 19 / 20 - rightGoal.getWidth(),
                 Utils.screenHeight * 19 / 20, null);
+        Paint p = new Paint();
+        p.setStyle(Paint.Style.STROKE); p.setColor(Color.BLACK);
+        if (slimeSprite.specialLevel > slimeSprite.slimeType.getSpecialThreshold())
+            p.setStrokeWidth(20);
+        else
+            p.setStrokeWidth(5);
+        canvas.drawCircle(Utils.leftSpecialButtonX, Utils.leftSpecialButtonY,
+                Utils.specialButtonHalfSide, p);
+        Paint p2 = new Paint();
+        p2.setColor(slimeSprite.slimeType.getColor());
+        canvas.drawArc(new RectF(), 90 - (slimeSprite.specialLevel / 2000 * 360),
+                90 + (slimeSprite.specialLevel / 2000 * 360), true, p2);
 
     }
 
@@ -100,4 +118,23 @@ public class PracticeGameView extends SurfaceView implements SurfaceHolder.Callb
     }
 
 
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (((event.getX() > (Utils.leftSpecialButtonX - Utils.specialButtonHalfSide)) &&
+                (event.getX() < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
+                (((event.getY() < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
+                        (event.getY() > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide))))
+
+            slimeSprite.enableSpecial();
+        else if (event.getX() < Utils.leftRightBorderX)
+            slimeSprite.x -= Utils.initialXVelocity;
+        else if (event.getX() < Utils.rightUpBorderX)
+            slimeSprite.x += Utils.initialXVelocity;
+        else {
+            if (slimeSprite.yVelocity == 0)
+                slimeSprite.yVelocity = Utils.initialYVelocity;
+        }
+        return super.onTouchEvent(event);
+    }
 }
