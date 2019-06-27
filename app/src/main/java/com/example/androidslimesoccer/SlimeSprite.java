@@ -13,6 +13,7 @@ public class SlimeSprite {
     Bitmap slimeImage;
     boolean specialIsActive = false;
     boolean isFirstPlayer;
+    boolean isLookRight;
     int specialMaxTime = Utils.slimeMaxSpecialTime;
     int specialCountDown = 0;
     int x, y;
@@ -30,9 +31,11 @@ public class SlimeSprite {
         if(isFirstPlayer) {
             x = firstX;
             y = firstY;
+            isLookRight = true;
         } else {
             x = screenWidth - firstX - slimeImage.getWidth();
             y = firstY;
+            isLookRight = false;
         }
     }
 
@@ -52,12 +55,12 @@ public class SlimeSprite {
         x += xVelocity;
         y += yVelocity;
         yVelocity -= Utils.gravityAcceleration;
-        if (x < 0)
-            x = 0;
-        if (x > (screenWidth - slimeImage.getWidth()))
-            x = screenWidth - slimeImage.getWidth();
-        if (y < 0) {
-            y = 0;
+        if (x < Utils.leftGoalLine)
+            x = Utils.leftGoalLine;
+        if (x > (Utils.rightGoalLine - slimeImage.getWidth()))
+            x = Utils.rightGoalLine - slimeImage.getWidth();
+        if (y > Utils.slimeStartY) {
+            y = Utils.slimeStartY;
             yVelocity = 0;
         }
         if (specialIsActive) {
@@ -73,7 +76,4 @@ public class SlimeSprite {
         if (specialLevel > 1000)
             specialLevel = 1000;
     }
-
-
-
 }
