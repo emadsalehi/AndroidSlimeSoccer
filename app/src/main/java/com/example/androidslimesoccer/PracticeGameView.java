@@ -11,6 +11,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.text.method.MovementMethod;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.GestureDetector;
@@ -31,6 +32,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
     Bitmap goal = BitmapFactory.decodeResource(getResources(), R.drawable.goal);
     Bitmap leftGoal; Bitmap rightGoal;
     Resources resources = getResources();
+    boolean isMoveToRight = false, isMoveToLeft = false;
 
     public PracticeGameView(Context context, String slimeName) {
         super(context);
@@ -50,6 +52,9 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
                 (int)(Utils.assetsXScale * ballBitmap.getWidth()),
                 (int)(Utils.assetsXScale * ballBitmap.getHeight())));
         slimeSprite.initializeFirstState();
+        Utils.ballStartX += ((int)(Utils.assetsXScale * ballBitmap.getWidth() / 2));
+        ballSprite.initializeFirstState();
+
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
@@ -102,10 +107,16 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
         canvas.drawCircle(Utils.leftSpecialButtonX, Utils.leftSpecialButtonY,
                 (int)((double)slimeSprite.specialLevel / 1000 * Utils.specialButtonHalfSide), p2);
         slimeSprite.draw(canvas);
+        ballSprite.draw(canvas);
     }
 
     public void update() {
+        if (isMoveToRight)
+            slimeSprite.x += Utils.initialXVelocity;
+        else if (isMoveToLeft)
+            slimeSprite.x -= Utils.initialXVelocity;
         slimeSprite.update();
+        ballSprite.update();
     }
 
 //    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
@@ -136,31 +147,52 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        for (int i = 0 ; i < event.getPointerCount() ; i++) {
-            int pointerIndex = event.findPointerIndex(event.getPointerId(i));
-            if (((event.getX(pointerIndex) > (Utils.leftSpecialButtonX - Utils.specialButtonHalfSide)) &&
-                    (event.getX(pointerIndex) < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
-                    (((event.getY(pointerIndex) < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
-                            (event.getY(pointerIndex) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide))))
+        int action = event.getAction() & MotionEvent.ACTION_MASK;
+        if (action == MotionEvent.ACTION_DOWN) {
+            if (((event.getX() > (Utils.leftSpecialButtonX - Utils.specialButtonHalfSide)) &&
+                    (event.getX() < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
+                    (((event.getY() < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
+                            (event.getY() > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide))))
                 slimeSprite.enableSpecial();
-            else if (event.getX(pointerIndex) < Utils.leftRightBorderX) {
+            else if (event.getX() < Utils.leftRightBorderX) {
                 if (slimeSprite.isLookRight) {
                     slimeSprite.isLookRight = false;
                     slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
                 }
-                slimeSprite.x -= Utils.initialXVelocity;
-            } else if (event.getX(pointerIndex) < Utils.rightUpBorderX) {
+                isMoveToLeft = true;
+            } else if (event.getX() < Utils.rightUpBorderX) {
                 if (!slimeSprite.isLookRight) {
                     slimeSprite.isLookRight = true;
                     slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
                 }
-                slimeSprite.x += Utils.initialXVelocity;
+                isMoveToRight = true;
             } else {
                 if (slimeSprite.y == Utils.slimeStartY) {
                     slimeSprite.yVelocity = -Utils.initialYVelocity;
                 }
             }
+            return true;
+        } else if (action == MotionEvent.ACTION_UP) {
+            if (isMoveToLeft)
+                isMoveToLeft = false;
+            else if (isMoveToRight)
+                isMoveToRight = false;
+            return true;
         }
-        return super.onTouchEvent(event);
+//        else if (action == MotionEvent.ACTION_MOVE) {
+//            if (event.getX() < Utils.leftRightBorderX && slimeSprite.isLookRight) {
+//                slimeSprite.isLookRight = false;
+//                slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
+//                isMoveToRight = false;
+//                isMoveToLeft = true;
+//            } else if (event.getX() <= Utils.rightUpBorderX && !slimeSprite.isLookRight) {
+//                slimeSprite.isLookRight = true;
+//                slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
+//                isMoveToLeft = false;
+//                isMoveToRight = true;
+//            }
+//            return true;
+//        }
+        return false;
     }
 }
