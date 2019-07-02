@@ -14,14 +14,13 @@ public class MenuActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        intent = new Intent(this, SinglePlayerActivity.class);
+        intent = new Intent(getBaseContext(), PracticeActivity.class);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        intent.putExtra("LEFT_SLIME_NAME", "classic");
-        intent.putExtra("RIGHT_SLIME_NAME", "classic");
+        intent.putExtra("SLIME_NAME", "classic");
         startActivity(intent);
     }
 }
