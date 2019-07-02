@@ -5,8 +5,8 @@ import android.content.res.Resources;
 public class Utils {
     static final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     static final int screenHeight =  Resources.getSystem().getDisplayMetrics().heightPixels;
-    static final int gravityAcceleration = -2;
-    static final int floorFriction = -1;
+    static final int gravityAcceleration = -(screenWidth / 74) * (screenWidth / 74) / 200;
+    static final int floorFriction = gravityAcceleration / 2;
     static double assetsXScale = 1.0;
     static double assetsYScale = 1.0;
     static final int slimeStartX = screenWidth * 6 / 40;

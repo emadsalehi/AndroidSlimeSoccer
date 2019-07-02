@@ -31,7 +31,6 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
     Bitmap goal = BitmapFactory.decodeResource(getResources(), R.drawable.goal);
     Bitmap leftGoal; Bitmap rightGoal;
     Resources resources = getResources();
-    GestureDetector gestureDetector;
 
     public PracticeGameView(Context context, String slimeName) {
         super(context);
@@ -51,27 +50,6 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
                 (int)(Utils.assetsXScale * ballBitmap.getWidth()),
                 (int)(Utils.assetsXScale * ballBitmap.getHeight())));
         slimeSprite.initializeFirstState();
-
-        gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener(){
-            @Override
-            public void onLongPress(MotionEvent e) {
-                if (e.getX() < Utils.leftRightBorderX) {
-                    if (slimeSprite.isLookRight) {
-                        slimeSprite.isLookRight = false;
-                        slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
-                    }
-                    slimeSprite.x -= Utils.initialXVelocity;
-                }
-                else if (e.getX() < Utils.rightUpBorderX) {
-                    if (!slimeSprite.isLookRight) {
-                        slimeSprite.isLookRight = true;
-                        slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
-                    }
-                    slimeSprite.x += Utils.initialXVelocity;
-                }
-            }
-
-        });
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
@@ -158,30 +136,31 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (((event.getX() > (Utils.leftSpecialButtonX - Utils.specialButtonHalfSide)) &&
-                (event.getX() < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
-                (((event.getY() < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
-                        (event.getY() > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide))))
-            slimeSprite.enableSpecial();
-        else if (event.getX() < Utils.leftRightBorderX) {
-            if (slimeSprite.isLookRight) {
-                slimeSprite.isLookRight = false;
-                slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
+        for (int i = 0 ; i < event.getPointerCount() ; i++) {
+            int pointerIndex = event.findPointerIndex(event.getPointerId(i));
+            if (((event.getX(pointerIndex) > (Utils.leftSpecialButtonX - Utils.specialButtonHalfSide)) &&
+                    (event.getX(pointerIndex) < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
+                    (((event.getY(pointerIndex) < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
+                            (event.getY(pointerIndex) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide))))
+                slimeSprite.enableSpecial();
+            else if (event.getX(pointerIndex) < Utils.leftRightBorderX) {
+                if (slimeSprite.isLookRight) {
+                    slimeSprite.isLookRight = false;
+                    slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
+                }
+                slimeSprite.x -= Utils.initialXVelocity;
+            } else if (event.getX(pointerIndex) < Utils.rightUpBorderX) {
+                if (!slimeSprite.isLookRight) {
+                    slimeSprite.isLookRight = true;
+                    slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
+                }
+                slimeSprite.x += Utils.initialXVelocity;
+            } else {
+                if (slimeSprite.y == Utils.slimeStartY) {
+                    slimeSprite.yVelocity = -Utils.initialYVelocity;
+                }
             }
-            slimeSprite.x -= Utils.initialXVelocity;
         }
-        else if (event.getX() < Utils.rightUpBorderX) {
-            if (!slimeSprite.isLookRight) {
-                slimeSprite.isLookRight = true;
-                slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
-            }
-            slimeSprite.x += Utils.initialXVelocity;
-        }
-        else {
-            if (slimeSprite.y == Utils.slimeStartY) {
-                slimeSprite.yVelocity = -Utils.initialYVelocity;
-            }
-        }
-        return gestureDetector.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 }
