@@ -1,4 +1,4 @@
 # AndroidSlimeSoccer
-Sina Bolouki \n
-Ashkan Larni \n
-Emad Salehi
+- Sina Bolouki
+- Ashkan Larni
+- Emad Salehi
