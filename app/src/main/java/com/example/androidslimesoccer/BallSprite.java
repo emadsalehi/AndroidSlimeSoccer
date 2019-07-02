@@ -4,6 +4,7 @@ package com.example.androidslimesoccer;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 
 public class BallSprite {
     private Bitmap ballImage;
@@ -22,9 +23,9 @@ public class BallSprite {
         y = firstY;
     }
 
-    public void Draw (Canvas canvas) {
+    public void draw (Canvas canvas) {
         //TODO left top numbers
-        canvas.drawBitmap(ballImage,100, 100, null);
+        canvas.drawBitmap(ballImage,x, y, null);
     }
 
     public void update () {
@@ -33,25 +34,30 @@ public class BallSprite {
         yVelocity -= Utils.gravityAcceleration;
         if (y >= Utils.slimeStartY) {
             y = Utils.slimeStartY;
-            yVelocity = (int) ((double)(-yVelocity) * Utils.ballspeedReductionFactor);
+            yVelocity = (int) ((double)(-yVelocity) * Utils.ballSpeedReductionFactor);
         }
         if (x <= Utils.leftGoalLine) {
             x = Utils.leftGoalLine;
-            xVelocity = (int) ((double)(-xVelocity) * Utils.ballspeedReductionFactor);
+            xVelocity = (int) ((double)(-xVelocity) * Utils.ballSpeedReductionFactor);
         }
         if (x >= (Utils.rightGoalLine - ballImage.getWidth())) {
             x = Utils.rightGoalLine - ballImage.getWidth();
-            xVelocity = (int) ((double)(-xVelocity) * Utils.ballspeedReductionFactor);
+            xVelocity = (int) ((double)(-xVelocity) * Utils.ballSpeedReductionFactor);
         }
-        if (y < Utils.gameUpperborder) {
-            y = Utils.gameUpperborder;
-            yVelocity = (int) ((double)(-yVelocity) * Utils.ballspeedReductionFactor);
+        if (y < Utils.gameUpperBorder) {
+            y = Utils.gameUpperBorder;
+            yVelocity = (int) ((double)(-yVelocity) * Utils.ballSpeedReductionFactor);
         }
         if ((y > Utils.netUpperWallHeight && y < Utils.netUpperWallHeight + ballImage.getWidth())
                 && (x < Utils.leftGoalLine + Utils.netUpperWallWidth || x > (Utils.rightGoalLine - Utils.netUpperWallWidth)) ) {
             y = Utils.netUpperWallHeight;
-            yVelocity = (int) ((double)(-yVelocity) * Utils.ballspeedReductionFactor);
+            yVelocity = (int) ((double)(-yVelocity) * Utils.ballSpeedReductionFactor);
         }
+
+        if ( yVelocity <= 0 && yVelocity >= Utils.ballSpeedThreshold )  {
+            yVelocity = 0;
+        }
+        Log.i("speed", Integer.toString(yVelocity));
 
     }
     

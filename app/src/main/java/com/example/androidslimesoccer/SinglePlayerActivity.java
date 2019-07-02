@@ -2,6 +2,7 @@ package com.example.androidslimesoccer;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -18,5 +19,8 @@ public class SinglePlayerActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         String leftSlimeName = getIntent().getStringExtra("LEFT_SLIME_NAME");
         String rightSlimeName = getIntent().getStringExtra("RIGHT_SLIME_NAME");
-        setContentView(new SinglePlayerGameView(this, leftSlimeName, rightSlimeName));    }
+        Log.i("singleplayer", "activity");
+        setContentView(new SinglePlayerGameView(this, leftSlimeName, rightSlimeName));
+        Log.i("singleplayer", "activity");
+    }
 }

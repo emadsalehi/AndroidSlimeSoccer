@@ -4,6 +4,9 @@ package com.example.androidslimesoccer;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 
 public class SlimeSprite {
 
@@ -48,7 +51,25 @@ public class SlimeSprite {
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(slimeImage,x, y, null);
+        if (isFirstPlayer) {
+            canvas.drawBitmap(slimeImage, x, y, null);
+        } else {
+            float[] colorTransform = {
+                    0.8f, 0, 0, 0, 0,
+                    0, 0.8f, 0, 0, 0,
+                    0, 0, 0.8f, 0, 0,
+                    0, 0, 0, 1f, 0};
+
+            ColorMatrix colorMatrix = new ColorMatrix();
+            colorMatrix.setSaturation(0f); //Remove Colour
+            colorMatrix.set(colorTransform); //Apply the Red
+
+            ColorMatrixColorFilter colorFilter = new ColorMatrixColorFilter(colorMatrix);
+            Paint paint = new Paint();
+            paint.setColorFilter(colorFilter);
+            canvas.drawBitmap(slimeImage, x, y, paint);
+
+        }
     }
 
     public void update() {
@@ -68,10 +89,18 @@ public class SlimeSprite {
             if (specialCountDown == 0)
                 specialIsActive = false;
         }
-        if (x > screenWidth / 2)
-            specialLevel += Utils.fastInitialIncrease;
-        else
-            specialLevel += Utils.slowInitialIncrease;
+        if (isFirstPlayer) {
+            if (x > screenWidth / 2)
+                specialLevel += Utils.fastInitialIncrease;
+            else
+                specialLevel += Utils.slowInitialIncrease;
+        }
+        else {
+            if (x < screenWidth / 2)
+                specialLevel += Utils.fastInitialIncrease;
+            else
+                specialLevel += Utils.slowInitialIncrease;
+        }
 
         if (specialLevel > 1000)
             specialLevel = 1000;
