@@ -46,9 +46,9 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
 
         Bitmap rightSlimeBitmap = BitmapFactory.decodeResource(resources,
                 resources.getIdentifier(rightSlimeName, "drawable", context.getPackageName()));
-        rightSlimeSprite = new SlimeSprite(SlimeType.valueOf(leftSlimeName.toUpperCase()),
+        rightSlimeSprite = new SlimeSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()),
                 getResizedBitmap(rightSlimeBitmap, (int)(Utils.assetsXScale * rightSlimeBitmap.getWidth()),
-                        (int)(Utils.assetsYScale * rightSlimeBitmap.getHeight())), true);
+                        (int)(Utils.assetsYScale * rightSlimeBitmap.getHeight())), false);
         rightSlimeSprite.initializeFirstState();
 
         gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener(){
@@ -74,6 +74,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         ballSprite = new BallSprite(getResizedBitmap(ballBitmap,
                 (int)(Utils.assetsXScale * ballBitmap.getWidth()),
                 (int)(Utils.assetsXScale * ballBitmap.getHeight())));
+        ballSprite.initializeFirstState();
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
@@ -81,7 +82,8 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-
+        thread.setRunning(true);
+        thread.start();
     }
 
     @Override
@@ -103,8 +105,10 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         }
     }
 
-    public void update (){
+    public void update () {
         leftSlimeSprite.update();
+        rightSlimeSprite.update();
+        ballSprite.update();
     }
 
     @Override
@@ -128,7 +132,15 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         p2.setColor(leftSlimeSprite.slimeType.getColor());
         canvas.drawCircle(Utils.leftSpecialButtonX, Utils.leftSpecialButtonY,
                 (int)((double)leftSlimeSprite.specialLevel / 1000 * Utils.specialButtonHalfSide), p2);
+
+        canvas.drawCircle(Utils.rightSpecialButtonX, Utils.rightSpecialButtonY,
+                Utils.specialButtonHalfSide, p);
+        canvas.drawCircle(Utils.rightSpecialButtonX, Utils.rightSpecialButtonY,
+                (int)((double)rightSlimeSprite.specialLevel / 1000 * Utils.specialButtonHalfSide), p2);
+
         leftSlimeSprite.draw(canvas);
+        rightSlimeSprite.draw(canvas);
+        ballSprite.draw(canvas);
     }
 
     @Override
