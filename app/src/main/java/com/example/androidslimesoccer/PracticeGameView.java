@@ -119,19 +119,6 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
         ballSprite.update();
     }
 
-//    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
-//        int width = bm.getWidth();
-//        int height = bm.getHeight();
-//        float scaleWidth = ((float) newWidth) / width;
-//        float scaleHeight = ((float) newHeight) / height;
-//        Matrix matrix = new Matrix();
-//        matrix.postScale(scaleWidth, scaleHeight);
-//        Bitmap resizedBitmap =
-//                Bitmap.createBitmap(bm, 1, 1, width, height, matrix, false);
-//        bm.recycle();
-//        return resizedBitmap;
-//    }
-
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
         return Bitmap.createScaledBitmap(bm, newWidth, newHeight, true);
     }
