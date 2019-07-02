@@ -7,13 +7,13 @@ import android.view.SurfaceHolder;
 
 public class MainThread extends Thread {
     private SurfaceHolder surfaceHolder;
-    private PracticeGameView gameView;
+    private GameView gameView;
     private boolean running;
     public static Canvas canvas;
     private int targetFPS = Utils.targetFPS;
     private long averageFPS;
 
-    public MainThread(SurfaceHolder surfaceHolder, PracticeGameView gameView) {
+    public MainThread(SurfaceHolder surfaceHolder, GameView gameView) {
 
         super();
         this.surfaceHolder = surfaceHolder;

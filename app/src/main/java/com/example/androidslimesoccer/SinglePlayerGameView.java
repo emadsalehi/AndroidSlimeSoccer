@@ -15,7 +15,7 @@ import android.view.SurfaceHolder;
 
 //TODO Will Be Completed By "SINA"
 
-public class SinglePlayerGameView extends SurfaceView implements SurfaceHolder.Callback {
+public class SinglePlayerGameView extends GameView implements SurfaceHolder.Callback {
 
     MainThread thread;
     SlimeSprite leftSlimeSprite;

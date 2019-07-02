@@ -21,7 +21,7 @@ import android.view.View;
 
 //TODO Will Be Completed By "EMAD"
 
-public class PracticeGameView extends SurfaceView implements SurfaceHolder.Callback {
+public class PracticeGameView extends GameView implements SurfaceHolder.Callback {
 
     MainThread thread;
     SlimeSprite slimeSprite;
