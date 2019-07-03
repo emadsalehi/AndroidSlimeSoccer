@@ -15,8 +15,7 @@ public class SlimeSprite {
     SlimeType slimeType;
     Bitmap slimeImage;
     boolean specialIsActive = false;
-    boolean isFirstPlayer;
-    boolean isLookRight;
+    boolean isFirstPlayer, isLookRight, isMoveRight = false, isMoveLeft = false;
     int specialMaxTime = Utils.slimeMaxSpecialTime;
     int specialCountDown = 0;
     int x, y;
@@ -73,7 +72,10 @@ public class SlimeSprite {
     }
 
     public void update() {
-        x += xVelocity;
+        if (isMoveLeft)
+            x -= Utils.initialXVelocity;
+        else if (isMoveRight)
+            x += Utils.initialXVelocity;
         y += yVelocity;
         yVelocity -= Utils.gravityAcceleration;
         if (x < Utils.leftGoalLine)
