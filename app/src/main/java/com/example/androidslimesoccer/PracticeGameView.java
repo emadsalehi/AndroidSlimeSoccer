@@ -129,20 +129,21 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int action = event.getAction() & MotionEvent.ACTION_MASK;
-        if (action == MotionEvent.ACTION_DOWN) {
-            if (((event.getX() > (Utils.leftSpecialButtonX - Utils.specialButtonHalfSide)) &&
-                    (event.getX() < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
-                    (((event.getY() < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
-                            (event.getY() > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide))))
+        int index = event.getActionIndex();
+        int action = event.getActionMasked();
+        if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN) {
+            if (((event.getX(index) > (Utils.leftSpecialButtonX - Utils.specialButtonHalfSide)) &&
+                    (event.getX(index) < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
+                    (((event.getY(index) < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
+                            (event.getY(index) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide))))
                 slimeSprite.enableSpecial();
-            else if (event.getX() < Utils.leftRightBorderX) {
+            else if (event.getX(index) < Utils.leftRightBorderX) {
                 if (slimeSprite.isLookRight) {
                     slimeSprite.isLookRight = false;
                     slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
                 }
                 slimeSprite.isMoveLeft = true;
-            } else if (event.getX() < Utils.rightUpBorderX) {
+            } else if (event.getX(index) < Utils.rightUpBorderX) {
                 if (!slimeSprite.isLookRight) {
                     slimeSprite.isLookRight = true;
                     slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
@@ -154,7 +155,8 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
                 }
             }
             return true;
-        } else if (action == MotionEvent.ACTION_UP) {
+        } else if ((action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP) &&
+                event.getX(index) < Utils.rightUpBorderX) {
             if (slimeSprite.isMoveLeft)
                 slimeSprite.isMoveLeft = false;
             else if (slimeSprite.isMoveRight)
