@@ -32,7 +32,6 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
     Bitmap goal = BitmapFactory.decodeResource(getResources(), R.drawable.goal);
     Bitmap leftGoal; Bitmap rightGoal;
     Resources resources = getResources();
-    boolean isMoveToRight = false, isMoveToLeft = false;
 
     public PracticeGameView(Context context, String slimeName) {
         super(context);
@@ -111,10 +110,6 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
     }
 
     public void update() {
-        if (isMoveToRight)
-            slimeSprite.x += Utils.initialXVelocity;
-        else if (isMoveToLeft)
-            slimeSprite.x -= Utils.initialXVelocity;
         slimeSprite.update();
         ballSprite.update();
     }
@@ -146,13 +141,13 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
                     slimeSprite.isLookRight = false;
                     slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
                 }
-                isMoveToLeft = true;
+                slimeSprite.isMoveLeft = true;
             } else if (event.getX() < Utils.rightUpBorderX) {
                 if (!slimeSprite.isLookRight) {
                     slimeSprite.isLookRight = true;
                     slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
                 }
-                isMoveToRight = true;
+                slimeSprite.isMoveRight = true;
             } else {
                 if (slimeSprite.y == Utils.slimeStartY) {
                     slimeSprite.yVelocity = -Utils.initialYVelocity;
@@ -160,10 +155,10 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
             }
             return true;
         } else if (action == MotionEvent.ACTION_UP) {
-            if (isMoveToLeft)
-                isMoveToLeft = false;
-            else if (isMoveToRight)
-                isMoveToRight = false;
+            if (slimeSprite.isMoveLeft)
+                slimeSprite.isMoveLeft = false;
+            else if (slimeSprite.isMoveRight)
+                slimeSprite.isMoveRight = false;
             return true;
         }
 //        else if (action == MotionEvent.ACTION_MOVE) {
