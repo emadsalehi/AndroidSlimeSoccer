@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 
 public class SlimeSprite {
@@ -28,17 +29,24 @@ public class SlimeSprite {
         this.slimeImage = slimeImage;
         this.isFirstPlayer = isFirstPlayer;
         firstY -= slimeImage.getHeight();
+        isLookRight = isFirstPlayer;
     }
 
     public void initializeFirstState() {
         if(isFirstPlayer) {
             x = firstX;
             y = firstY;
-            isLookRight = true;
+            if (!isLookRight) {
+                isLookRight = true;
+                slimeImage = flipBitmap(slimeImage);
+            }
         } else {
             x = screenWidth - firstX - slimeImage.getWidth();
             y = firstY;
-            isLookRight = false;
+            if (isLookRight) {
+                isLookRight = false;
+                slimeImage = flipBitmap(slimeImage);
+            }
         }
     }
 
@@ -77,10 +85,16 @@ public class SlimeSprite {
     }
 
     public void update() {
-        if (isMoveLeft)
+        if (isMoveLeft) {
             x -= Utils.initialXVelocity;
-        else if (isMoveRight)
+            xVelocity = -Utils.initialXVelocity;
+        }
+        else if (isMoveRight) {
             x += Utils.initialXVelocity;
+            xVelocity = Utils.initialXVelocity;
+        } else {
+            xVelocity = 0;
+        }
         y += yVelocity;
         yVelocity -= Utils.gravityAcceleration;
         if (x < Utils.leftGoalLine)
@@ -118,4 +132,11 @@ public class SlimeSprite {
         if (specialLevel > 1000)
             specialLevel = 1000;
     }
+
+    public Bitmap flipBitmap (Bitmap bm) {
+        Matrix matrix = new Matrix();
+        matrix.preScale(-1.0f, 1.0f);
+        return Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+    }
+
 }
