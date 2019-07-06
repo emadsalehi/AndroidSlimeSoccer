@@ -75,7 +75,10 @@ public class LogicProvider {
     }
 
     public void goalChecker() {
-
+        if (ballSprite.x <= Utils.leftGoalLine || (ballSprite.x + 2 * Utils.ballRatio) >= Utils.rightGoalLine) {
+            slimeSprite.initializeFirstState();
+            ballSprite.initializeFirstState();
+        }
     }
 
     public int distance(SlimeSprite slimeSprite, BallSprite ballSprite) {

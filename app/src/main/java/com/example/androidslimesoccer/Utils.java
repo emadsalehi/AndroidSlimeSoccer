@@ -38,7 +38,6 @@ public class Utils {
     static final int goalLimitY = screenHeight * 10 / 40;
     static final int leftGoalX = screenWidth * 10 / 40;
     static final int rightGoalX = screenWidth * 28 / 40;
-
     static int ballRatio;
     static int slimeRatio;
 }
