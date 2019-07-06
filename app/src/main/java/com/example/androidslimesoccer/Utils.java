@@ -30,7 +30,7 @@ public class Utils {
     static final int gameUpperBorder = 0;
     static final int netUpperWallHeight = screenHeight * 30 / 40;
     static final int netUpperWallWidth = 0;
-    static final double ballSpeedReductionFactor = 0.6;
+    static final double ballSpeedReductionFactor = 0.7;
     static final double ballSpeedThreshold = -10;
     static int ballStartX = screenWidth * 20 / 40;
     static final int ballStartY = screenHeight * 20 / 40;
