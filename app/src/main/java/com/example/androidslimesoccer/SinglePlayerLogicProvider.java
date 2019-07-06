@@ -59,10 +59,10 @@ public class SinglePlayerLogicProvider {
 
         int yProjection = (slimeCenterY - ballCenterY);
         int xProjection = (slimeCenterX - ballCenterX);
-//        Log.i("ratios", Integer.toString(slimeRatio + ballRatio));
-//        Log.i("dis", Integer.toString(dis));
         if (dis < ( ballRatio + slimeRatio ) && yProjection >= 0) {
             Log.i("collision", "1");
+            if (ballSprite.y == Utils.slimeStartY - ballSprite.getBallImage().getHeight())
+                ballSprite.yVelocity -= Utils.screenHeight / 80;
             double relativeXVelocity = ballSprite.xVelocity - slimeSprite.xVelocity;
             double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
 
@@ -77,21 +77,21 @@ public class SinglePlayerLogicProvider {
             ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
             ballSprite.y = slimeCenterY - (ballRatio + slimeRatio) * yProjection / dis - ballRatio;
         }
-        else if (yProjection < - ballRatio && (xProjection < (ballRatio + slimeRatio)
-                && xProjection > -(ballRatio + slimeRatio))) {
+        else if (yProjection >= - ballRatio && (xProjection < (ballRatio + slimeRatio)
+                && xProjection > -(ballRatio + slimeRatio)) && yProjection <= 0) {
             Log.i("collision", "2");
-            double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
-            ballSprite.yVelocity = -(int)relativeYVelocity  + slimeSprite.yVelocity;
-            ballSprite.y = slimeSprite.y + ballRatio;
-            if (ballSprite.y >= Utils.slimeStartY + ballSprite.getBallImage().getHeight()) {
-                Log.i("collision", "3");
-                ballSprite.y = Utils.slimeStartY + ballSprite.getBallImage().getHeight();
-                ballSprite.yVelocity = 0;
-                if (xProjection <= 0 ) {
-                    ballSprite.x += Utils.screenWidth / 50;
-                }else {
-                    ballSprite.x -= Utils.screenWidth / 50;
-                }
+            if (ballSprite.y == Utils.slimeStartY - ballSprite.getBallImage().getHeight()) {
+                slimeSprite.y = Utils.slimeStartY - ballSprite.getBallImage().getHeight()
+                        - slimeSprite.slimeImage.getHeight();
+                if (xProjection >= 0)
+                    ballSprite.x -= Utils.screenWidth / 80;
+                else
+                    ballSprite.x += Utils.screenWidth / 80;
+
+            } else {
+                double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
+                ballSprite.yVelocity = -(int) relativeYVelocity + slimeSprite.yVelocity;
+                ballSprite.y = slimeSprite.y + ballRatio;
             }
         }
     }
