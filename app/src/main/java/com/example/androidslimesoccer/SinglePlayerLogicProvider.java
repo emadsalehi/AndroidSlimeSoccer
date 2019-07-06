@@ -44,13 +44,13 @@ public class SinglePlayerLogicProvider {
         int slimeCenterY = slimeSprite.y + slimeSprite.slimeImage.getHeight();
         int slimeCenterX = slimeSprite.x + slimeRatio;
 
-        int ballCenterX = ballSprite.x + ballSprite.getBallImage().getHeight();
+        int ballCenterX = ballSprite.x + ballRatio;
         int ballCenterY = ballSprite.y + ballRatio;
 
         int yProjection = (slimeCenterY - ballCenterY);
         int xProjection = (slimeCenterX - ballCenterX);
-        Log.i("ratios", Integer.toString(slimeRatio + ballRatio));
-        Log.i("dis", Integer.toString(dis));
+//        Log.i("ratios", Integer.toString(slimeRatio + ballRatio));
+//        Log.i("dis", Integer.toString(dis));
         if (dis < ( ballRatio + slimeRatio ) && yProjection >= 0) {
             Log.i("collision", "1");
             double relativeXVelocity = ballSprite.xVelocity - slimeSprite.xVelocity;
@@ -60,10 +60,12 @@ public class SinglePlayerLogicProvider {
                     dis;
             double newSpeedX = relativeXVelocity - 2 * radialSpeed * xProjection / dis;
             double newSpeedY = relativeYVelocity - 2 * radialSpeed * yProjection / dis;
+            Log.i("newSpeedY",Double.toString(newSpeedX));
             ballSprite.xVelocity = (int)newSpeedX + slimeSprite.xVelocity;
             ballSprite.yVelocity = (int)newSpeedY + slimeSprite.yVelocity;
-            ballSprite.x = slimeSprite.x - (ballRatio + slimeRatio) * xProjection / dis;
-            ballSprite.y = slimeSprite.y - (ballRatio + slimeRatio) * yProjection / dis;
+            Log.i("yProjection",Double.toString(yProjection));
+            ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
+            ballSprite.y = slimeCenterY - (ballRatio + slimeRatio) * yProjection / dis - ballRatio;
         }
         else if (yProjection < - ballRatio && (xProjection < (ballRatio + slimeRatio)
                 && xProjection > -(ballRatio + slimeRatio))) {
