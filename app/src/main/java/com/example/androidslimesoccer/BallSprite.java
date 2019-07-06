@@ -4,7 +4,6 @@ package com.example.androidslimesoccer;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.Log;
 
 public class BallSprite {
     private Bitmap ballImage;
@@ -19,6 +18,8 @@ public class BallSprite {
     public void initializeFirstState () {
         x = firstX;
         y = firstY;
+        xVelocity = 0;
+        yVelocity = 0;
     }
 
     public void draw (Canvas canvas) {
