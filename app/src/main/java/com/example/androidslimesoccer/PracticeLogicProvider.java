@@ -1,10 +1,10 @@
 package com.example.androidslimesoccer;
 
-public class PracticeGameLogicProvider {
+public class PracticeLogicProvider {
     SlimeSprite slimeSprite;
     BallSprite ballSprite;
 
-    public PracticeGameLogicProvider(SlimeSprite slimeSprite, BallSprite ballSprite) {
+    public PracticeLogicProvider(SlimeSprite slimeSprite, BallSprite ballSprite) {
         this.slimeSprite = slimeSprite;
         this.ballSprite = ballSprite;
     }
