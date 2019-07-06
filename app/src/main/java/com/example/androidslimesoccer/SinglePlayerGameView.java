@@ -177,7 +177,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
                     (event.getX(index) < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
                     (((event.getY(index) < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
                             (event.getY(index) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide)))) {
-                singlePlayerLogicProvider.enablePlayerSpecial();
+                singlePlayerLogicProvider.doSpecial(leftSlimeSprite,rightSlimeSprite);
                 leftSlimeSprite.specialButtonIsHold = true;
             }
             else if (event.getX(index) < Utils.leftRightBorderX) {

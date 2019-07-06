@@ -35,7 +35,47 @@ public class SinglePlayerLogicProvider {
     }
 
     public void slimeAndBallCollisionChecker(SlimeSprite slimeSprite) {
+        int ballRatio = Utils.ballRatio;
+        int slimeRatio = Utils.slimeRatio;
+        int dis = distance(slimeSprite, ballSprite);
 
+        int slimeCenterY = slimeSprite.y + slimeRatio;
+        int slimeCenterX = slimeSprite.x + slimeRatio;
+
+        int ballCenterX = ballSprite.x + ballRatio;
+        int ballCenterY = ballSprite.y + ballRatio;
+
+        int yProjection = (slimeCenterY - ballCenterY);
+        int xProjection = (slimeCenterX - ballCenterX);
+
+        if (dis < ( ballRatio + slimeRatio ) && yProjection >= 0) {
+            double relativeXVelocity = ballSprite.xVelocity - slimeSprite.xVelocity;
+            double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
+
+            double radialSpeed = (relativeXVelocity * xProjection + relativeYVelocity * yProjection) /
+                    dis;
+            double newSpeedX = relativeXVelocity - 2 * radialSpeed * xProjection / dis;
+            double newSpeedY = relativeYVelocity - 2 * radialSpeed * yProjection / dis;
+            ballSprite.xVelocity = (int)newSpeedX + slimeSprite.xVelocity;
+            ballSprite.yVelocity = (int)newSpeedY + slimeSprite.yVelocity;
+            ballSprite.x = slimeSprite.x - (ballRatio + slimeRatio) * xProjection / dis;
+            ballSprite.y = slimeSprite.y - (ballRatio + slimeRatio) * yProjection / dis;
+        }
+        else if (yProjection < - ballRatio && (xProjection < (ballRatio + slimeRatio)
+                && xProjection > -(ballRatio + slimeRatio))) {
+            double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
+            ballSprite.yVelocity = -(int)relativeYVelocity  + slimeSprite.yVelocity;
+            ballSprite.y = slimeSprite.y + ballRatio;
+            if (ballSprite.y >= Utils.slimeStartY + ballSprite.getBallImage().getHeight()) {
+                ballSprite.y = Utils.slimeStartY + ballSprite.getBallImage().getHeight();
+                ballSprite.yVelocity = 0;
+                if (xProjection <= 0 ) {
+                    ballSprite.x += Utils.screenWidth / 50;
+                }else {
+                    ballSprite.x -= Utils.screenWidth / 50;
+                }
+            }
+        }
     }
 
     public void aiUpdateAction() {
