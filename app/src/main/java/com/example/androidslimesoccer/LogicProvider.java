@@ -40,16 +40,17 @@ public class LogicProvider {
         if (dis < ( ballRatio + slimeRatio ) && yProjection >= 0) {
             Log.i("collision", "1");
             if (ballSprite.y == Utils.slimeStartY - ballSprite.getBallImage().getHeight())
-                ballSprite.yVelocity -= Utils.screenHeight / 80;
+                ballSprite.yVelocity -= Utils.screenHeight / 70;
             double relativeXVelocity = ballSprite.xVelocity - slimeSprite.xVelocity;
             double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
 
             double radialSpeed = (relativeXVelocity * xProjection + relativeYVelocity * yProjection) /
                     dis;
-            double newSpeedX = relativeXVelocity - 2 * radialSpeed * xProjection / dis;
+            double newSpeedX = relativeXVelocity - radialSpeed * xProjection / dis;
             double newSpeedY = relativeYVelocity - 2 * radialSpeed * yProjection / dis;
             Log.i("newSpeedY",Double.toString(newSpeedX));
-            ballSprite.xVelocity = (int)newSpeedX + slimeSprite.xVelocity;
+            if (ballSprite.y != Utils.slimeStartY - ballSprite.getBallImage().getHeight())
+                ballSprite.xVelocity = (int)(newSpeedX / 2) + slimeSprite.xVelocity;
             ballSprite.yVelocity = (int)newSpeedY + slimeSprite.yVelocity;
             Log.i("yProjection",Double.toString(yProjection));
             ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
@@ -85,6 +86,6 @@ public class LogicProvider {
     public int distance(SlimeSprite slimeSprite, BallSprite ballSprite) {
         return (int)(Math.sqrt(Math.pow(((ballSprite.x + Utils.ballRatio) - (slimeSprite.x + Utils.slimeRatio)), 2) +
                 Math.pow(((ballSprite.y + Utils.ballRatio) - (slimeSprite.y + slimeSprite.slimeImage.getHeight())), 2)))
-                + Utils.ballRatio / 4;
+                + Utils.ballRatio / 3;
     }
 }
