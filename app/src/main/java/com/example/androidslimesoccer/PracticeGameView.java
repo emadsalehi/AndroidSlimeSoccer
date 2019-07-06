@@ -23,7 +23,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
     Bitmap goal = BitmapFactory.decodeResource(getResources(), R.drawable.goal);
     Bitmap leftGoal; Bitmap rightGoal;
     Resources resources = getResources();
-    PracticeLogicProvider practiceLogicProvider;
+    LogicProvider logicProvider;
 
 
     public PracticeGameView(Context context, String slimeName) {
@@ -47,7 +47,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
                 (int)(Utils.assetsXScale * ballBitmap.getHeight())));
         slimeSprite.initializeFirstState();
         ballSprite.initializeFirstState();
-        practiceLogicProvider = new PracticeLogicProvider(slimeSprite, ballSprite);
+        logicProvider = new LogicProvider(slimeSprite, ballSprite);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
@@ -104,7 +104,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
     }
 
     public void update() {
-        practiceLogicProvider.update();
+        logicProvider.update();
     }
 
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
@@ -129,7 +129,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
                     (event.getX(index) < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
                     (((event.getY(index) < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
                             (event.getY(index) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide)))) {
-                practiceLogicProvider.enableSpecial();
+                logicProvider.enableSpecial();
                 slimeSprite.specialButtonIsHold = true;
             }
             else if (event.getX(index) < Utils.leftRightBorderX) {
