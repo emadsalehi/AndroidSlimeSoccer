@@ -7,7 +7,7 @@ public enum SlimeType {
     CLASSIC(500, 400, true, Color.RED),
     INDIAN(400, 400, true, Color.rgb(130, 77, 7)),
     ALIEN(600, 500, true, Color.GREEN),
-    TRAFIC(400, 200, true, Color.GRAY),
+    TRAFFIC(400, 200, true, Color.GRAY),
     RUNNER(100, 20, false, Color.rgb(71, 161, 11));
 
 

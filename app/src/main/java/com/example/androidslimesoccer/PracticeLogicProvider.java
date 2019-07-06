@@ -18,9 +18,18 @@ public class PracticeLogicProvider {
         ballSprite.update();
         if (slimeSprite.specialIsActive)
             doSpecial();
+
     }
 
     public void doSpecial() {
+
+    }
+
+    public void slimeAndBallCollisionChecker() {
+
+    }
+
+    public void goalChecker() {
 
     }
 }
