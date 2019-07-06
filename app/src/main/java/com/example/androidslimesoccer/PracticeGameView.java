@@ -129,25 +129,25 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
                     (event.getX(index) < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
                     (((event.getY(index) < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
                             (event.getY(index) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide)))) {
-                logicProvider.enableSpecial();
+                slimeSprite.enableSpecial();
                 slimeSprite.specialButtonIsHold = true;
+            } else if (event.getX(index) < Utils.leftUpBorderX) {
+                if (slimeSprite.y == Utils.slimeStartY - slimeSprite.slimeImage.getHeight()) {
+                    slimeSprite.yVelocity = -Utils.initialYVelocity;
+                }
             }
-            else if (event.getX(index) < Utils.leftRightBorderX) {
+            else if (event.getX(index) <= Utils.leftRightBorderX) {
                 if (slimeSprite.isLookRight) {
                     slimeSprite.isLookRight = false;
                     slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
                 }
                 slimeSprite.isMoveLeft = true;
-            } else if (event.getX(index) < Utils.rightUpBorderX) {
+            } else {
                 if (!slimeSprite.isLookRight) {
                     slimeSprite.isLookRight = true;
                     slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
                 }
                 slimeSprite.isMoveRight = true;
-            } else {
-                if (slimeSprite.y == Utils.slimeStartY - slimeSprite.slimeImage.getHeight()) {
-                    slimeSprite.yVelocity = -Utils.initialYVelocity;
-                }
             }
             return true;
         } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP) {
@@ -157,7 +157,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
                             (event.getY(index) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide)))) {
                 slimeSprite.specialButtonIsHold = false;
             }
-            else if (event.getX(index) < Utils.rightUpBorderX) {
+            else if (event.getX(index) > Utils.leftUpBorderX) {
                 if (slimeSprite.isMoveLeft)
                     slimeSprite.isMoveLeft = false;
                 else if (slimeSprite.isMoveRight)

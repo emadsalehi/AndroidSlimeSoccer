@@ -11,10 +11,6 @@ public class LogicProvider {
         this.ballSprite = ballSprite;
     }
 
-    public void enableSpecial() {
-        slimeSprite.enableSpecial();
-    }
-
     public void update() {
         slimeSprite.update();
         ballSprite.update();

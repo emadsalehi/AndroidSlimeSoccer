@@ -29,7 +29,6 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     Bitmap goal = BitmapFactory.decodeResource(getResources(), R.drawable.goal);
     Bitmap leftGoal; Bitmap rightGoal;
     Resources resources = getResources();
-    GestureDetector gestureDetector;
     SinglePlayerLogicProvider singlePlayerLogicProvider;
     int goalLimit;
     int leftGoalNumber;
@@ -63,26 +62,6 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
                         (int)(Utils.assetsYScale * rightSlimeBitmap.getHeight())), false);
         rightSlimeSprite.initializeFirstState();
 
-        gestureDetector = new GestureDetector(new GestureDetector.SimpleOnGestureListener(){
-            @Override
-            public void onLongPress(MotionEvent e) {
-                if (e.getX() < Utils.leftRightBorderX) {
-                    if (leftSlimeSprite.isLookRight) {
-                        leftSlimeSprite.isLookRight = false;
-                        leftSlimeSprite.slimeImage = flipBitmap(leftSlimeSprite.slimeImage);
-                    }
-                    leftSlimeSprite.x -= Utils.initialXVelocity;
-                }
-                else if (e.getX() < Utils.rightUpBorderX) {
-                    if (!leftSlimeSprite.isLookRight) {
-                        leftSlimeSprite.isLookRight = true;
-                        leftSlimeSprite.slimeImage = flipBitmap(leftSlimeSprite.slimeImage);
-                    }
-                    leftSlimeSprite.x += Utils.initialXVelocity;
-                }
-            }
-
-        });
         this.goalLimit = goalLimit;
         Utils.ballRatio = (int)(Utils.assetsXScale * ballBitmap.getWidth() / 2);
         Utils.ballStartX -= Utils.ballRatio;
@@ -177,25 +156,25 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
                     (event.getX(index) < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
                     (((event.getY(index) < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
                             (event.getY(index) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide)))) {
-                singlePlayerLogicProvider.doSpecial(leftSlimeSprite,rightSlimeSprite);
+                leftSlimeSprite.enableSpecial();
                 leftSlimeSprite.specialButtonIsHold = true;
+            } else if (event.getX(index) < Utils.leftUpBorderX) {
+                if (leftSlimeSprite.y == Utils.slimeStartY - leftSlimeSprite.slimeImage.getHeight()) {
+                    leftSlimeSprite.yVelocity = -Utils.initialYVelocity;
+                }
             }
-            else if (event.getX(index) < Utils.leftRightBorderX) {
+            else if (event.getX(index) <= Utils.leftRightBorderX) {
                 if (leftSlimeSprite.isLookRight) {
                     leftSlimeSprite.isLookRight = false;
                     leftSlimeSprite.slimeImage = flipBitmap(leftSlimeSprite.slimeImage);
                 }
                 leftSlimeSprite.isMoveLeft = true;
-            } else if (event.getX(index) < Utils.rightUpBorderX) {
+            } else {
                 if (!leftSlimeSprite.isLookRight) {
                     leftSlimeSprite.isLookRight = true;
                     leftSlimeSprite.slimeImage = flipBitmap(leftSlimeSprite.slimeImage);
                 }
                 leftSlimeSprite.isMoveRight = true;
-            } else {
-                if (leftSlimeSprite.y == Utils.slimeStartY - leftSlimeSprite.slimeImage.getHeight()) {
-                    leftSlimeSprite.yVelocity = -Utils.initialYVelocity;
-                }
             }
             return true;
         } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP) {
@@ -205,7 +184,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
                             (event.getY(index) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide)))) {
                 leftSlimeSprite.specialButtonIsHold = false;
             }
-            else if (event.getX(index) < Utils.rightUpBorderX) {
+            else if (event.getX(index) > Utils.leftUpBorderX) {
                 if (leftSlimeSprite.isMoveLeft)
                     leftSlimeSprite.isMoveLeft = false;
                 else if (leftSlimeSprite.isMoveRight)
