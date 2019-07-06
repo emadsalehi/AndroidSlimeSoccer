@@ -12,8 +12,8 @@ public class Utils {
     static final int leftGoalLine = screenWidth * 3 / 40;
     static final int rightGoalLine = screenWidth * 37 / 40;
     static final int initialXVelocity = screenWidth / 100;
-    static final int initialYVelocity = screenHeight / 35;
-    static final int gravityAcceleration = -initialYVelocity * initialYVelocity / 280;
+    static final int initialYVelocity = screenHeight / 32;
+    static final int gravityAcceleration = -screenHeight / 260;
     static final int floorFriction = gravityAcceleration / 2;
     static final int slimeMaxSpecialTime = 100;
     static final int slowInitialIncrease = 1;
@@ -35,7 +35,7 @@ public class Utils {
     static int ballStartX = screenWidth * 20 / 40;
     static final int ballStartY = screenHeight * 20 / 40;
     static final int goalLimitX = screenWidth * 19 / 40;
-    static final int goalLimitY = screenHeight * 10 / 40;
+    static final int goalLimitY = screenHeight * 8 / 40;
     static final int leftGoalX = screenWidth * 10 / 40;
     static final int rightGoalX = screenWidth * 28 / 40;
     static int ballRatio;
