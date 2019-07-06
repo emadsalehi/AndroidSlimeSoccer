@@ -30,8 +30,8 @@ public class BallSprite {
         x += xVelocity;
         y += yVelocity;
         yVelocity -= Utils.gravityAcceleration;
-        if (y >= Utils.slimeStartY) {
-            y = Utils.slimeStartY;
+        if (y >= (Utils.slimeStartY - ballImage.getHeight())) {
+            y = Utils.slimeStartY - ballImage.getHeight();
             yVelocity = (int) ((double)(-yVelocity) * Utils.ballSpeedReductionFactor);
         }
         if (x <= Utils.leftGoalLine) {

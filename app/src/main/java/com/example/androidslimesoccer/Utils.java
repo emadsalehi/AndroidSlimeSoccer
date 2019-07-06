@@ -8,7 +8,7 @@ public class Utils {
     static double assetsXScale = 1.0;
     static double assetsYScale = 1.0;
     static final int slimeStartX = screenWidth * 6 / 40;
-    static final int slimeStartY = screenHeight * 35 / 40;
+    static final int slimeStartY = screenHeight * 76 / 80;
     static final int leftGoalLine = screenWidth * 3 / 40;
     static final int rightGoalLine = screenWidth * 37 / 40;
     static final int initialXVelocity = screenWidth / 100;

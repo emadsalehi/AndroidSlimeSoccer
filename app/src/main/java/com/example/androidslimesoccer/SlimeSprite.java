@@ -27,6 +27,7 @@ public class SlimeSprite {
         this.slimeType = slimeType;
         this.slimeImage = slimeImage;
         this.isFirstPlayer = isFirstPlayer;
+        firstY -= slimeImage.getHeight();
     }
 
     public void initializeFirstState() {
@@ -86,8 +87,8 @@ public class SlimeSprite {
             x = Utils.leftGoalLine;
         if (x > (Utils.rightGoalLine - slimeImage.getWidth()))
             x = Utils.rightGoalLine - slimeImage.getWidth();
-        if (y > Utils.slimeStartY) {
-            y = Utils.slimeStartY;
+        if (y > firstY) {
+            y = firstY;
             yVelocity = 0;
         }
         if (specialIsActive) {
