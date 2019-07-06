@@ -19,8 +19,9 @@ public class SinglePlayerActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         String leftSlimeName = getIntent().getStringExtra("LEFT_SLIME_NAME");
         String rightSlimeName = getIntent().getStringExtra("RIGHT_SLIME_NAME");
+        int goalLimit = getIntent().getIntExtra("GOAL_LIMIT", 0);
         Log.i("singleplayer", "activity");
-        setContentView(new SinglePlayerGameView(this, leftSlimeName, rightSlimeName));
+        setContentView(new SinglePlayerGameView(this, leftSlimeName, rightSlimeName, goalLimit));
         Log.i("singleplayer", "activity");
     }
 }

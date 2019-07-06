@@ -34,6 +34,11 @@ public class Utils {
     static final double ballSpeedThreshold = -10;
     static int ballStartX = screenWidth * 20 / 40;
     static final int ballStartY = screenHeight * 20 / 40;
+    static final int goalLimitX = screenWidth * 19 / 40;
+    static final int goalLimitY = screenHeight * 10 / 40;
+    static final int leftGoalX = screenWidth * 10 / 40;
+    static final int rightGoalX = screenWidth * 28 / 40;
+
     static int ballRatio;
     static int slimeRatio;
 }

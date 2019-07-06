@@ -8,6 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -20,6 +22,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     MainThread thread;
     SlimeSprite leftSlimeSprite;
     SlimeSprite rightSlimeSprite;
+    Context context;
     Bitmap ballBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ball);
     BallSprite ballSprite;
     Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
@@ -27,15 +30,24 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     Bitmap leftGoal; Bitmap rightGoal;
     Resources resources = getResources();
     GestureDetector gestureDetector;
+    SinglePlayerLogicProvider singlePlayerLogicProvider;
+    int goalLimit;
+    int leftGoalNumber;
+    int rightGoalNumber;
 
-    public SinglePlayerGameView(Context context, String leftSlimeName, String rightSlimeName) {
+    public SinglePlayerGameView(Context context, String leftSlimeName, String rightSlimeName
+                ,int goalLimit) {
         super(context);
+        this.context = context;
+        leftGoalNumber = 0;
+        rightGoalNumber = 0;
         Utils.assetsXScale = (double)Utils.screenWidth / background.getWidth();
         Utils.assetsYScale = (double)Utils.screenHeight / background.getHeight();
         background = getResizedBitmap(background, Utils.screenWidth, Utils.screenHeight);
         leftGoal = getResizedBitmap(goal, (int)(Utils.assetsXScale * goal.getWidth()),
                 (int)(Utils.assetsYScale * goal.getHeight()));
         rightGoal = flipBitmap(leftGoal);
+
 
         Bitmap leftSlimeBitmap = BitmapFactory.decodeResource(resources,
                 resources.getIdentifier(leftSlimeName, "drawable", context.getPackageName()));
@@ -71,10 +83,15 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
             }
 
         });
+        this.goalLimit = goalLimit;
+        Utils.ballRatio = (int)(Utils.assetsXScale * ballBitmap.getWidth() / 2);
+        Utils.ballStartX -= Utils.ballRatio;
+        Utils.slimeRatio = leftSlimeSprite.slimeImage.getWidth() / 2;
         ballSprite = new BallSprite(getResizedBitmap(ballBitmap,
                 (int)(Utils.assetsXScale * ballBitmap.getWidth()),
                 (int)(Utils.assetsXScale * ballBitmap.getHeight())));
         ballSprite.initializeFirstState();
+        singlePlayerLogicProvider = new SinglePlayerLogicProvider(leftSlimeSprite, rightSlimeSprite, ballSprite);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
@@ -106,9 +123,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     }
 
     public void update () {
-        leftSlimeSprite.update();
-        rightSlimeSprite.update();
-        ballSprite.update();
+        singlePlayerLogicProvider.update();
     }
 
     @Override
@@ -141,35 +156,64 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         leftSlimeSprite.draw(canvas);
         rightSlimeSprite.draw(canvas);
         ballSprite.draw(canvas);
+        Typeface numberTypeface = Typeface.createFromAsset(this.context.getAssets(),
+                        "fonts/Courier-BoldRegular.ttf");
+        Log.i("goalLimit", Integer.toString(goalLimit));
+        Paint numberPaint = new Paint();
+        numberPaint.setTypeface(numberTypeface);
+        numberPaint.setTextSize(Utils.screenHeight / 9);
+        canvas.drawText(Integer.toString(goalLimit), Utils.goalLimitX, Utils.goalLimitY, numberPaint);
+
+        canvas.drawText(Integer.toString(leftGoalNumber), Utils.leftGoalX, Utils.goalLimitY, numberPaint);
+        canvas.drawText(Integer.toString(rightGoalNumber), Utils.rightGoalX, Utils.goalLimitY, numberPaint);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (((event.getX() > (Utils.leftSpecialButtonX - Utils.specialButtonHalfSide)) &&
-                (event.getX() < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
-                (((event.getY() < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
-                        (event.getY() > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide))))
-            leftSlimeSprite.enableSpecial();
-        else if (event.getX() < Utils.leftRightBorderX) {
-            if (leftSlimeSprite.isLookRight) {
-                leftSlimeSprite.isLookRight = false;
-                leftSlimeSprite.slimeImage = flipBitmap(leftSlimeSprite.slimeImage);
+        int index = event.getActionIndex();
+        int action = event.getActionMasked();
+        if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_POINTER_DOWN) {
+            if (((event.getX(index) > (Utils.leftSpecialButtonX - Utils.specialButtonHalfSide)) &&
+                    (event.getX(index) < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
+                    (((event.getY(index) < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
+                            (event.getY(index) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide)))) {
+                singlePlayerLogicProvider.enablePlayerSpecial();
+                leftSlimeSprite.specialButtonIsHold = true;
             }
-            leftSlimeSprite.x -= Utils.initialXVelocity;
-        }
-        else if (event.getX() < Utils.rightUpBorderX) {
-            if (!leftSlimeSprite.isLookRight) {
-                leftSlimeSprite.isLookRight = true;
-                leftSlimeSprite.slimeImage = flipBitmap(leftSlimeSprite.slimeImage);
+            else if (event.getX(index) < Utils.leftRightBorderX) {
+                if (leftSlimeSprite.isLookRight) {
+                    leftSlimeSprite.isLookRight = false;
+                    leftSlimeSprite.slimeImage = flipBitmap(leftSlimeSprite.slimeImage);
+                }
+                leftSlimeSprite.isMoveLeft = true;
+            } else if (event.getX(index) < Utils.rightUpBorderX) {
+                if (!leftSlimeSprite.isLookRight) {
+                    leftSlimeSprite.isLookRight = true;
+                    leftSlimeSprite.slimeImage = flipBitmap(leftSlimeSprite.slimeImage);
+                }
+                leftSlimeSprite.isMoveRight = true;
+            } else {
+                if (leftSlimeSprite.y == Utils.slimeStartY) {
+                    leftSlimeSprite.yVelocity = -Utils.initialYVelocity;
+                }
             }
-            leftSlimeSprite.x += Utils.initialXVelocity;
-        }
-        else {
-            if (leftSlimeSprite.y == Utils.slimeStartY) {
-                leftSlimeSprite.yVelocity = -Utils.initialYVelocity;
+            return true;
+        } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP) {
+            if (((event.getX(index) > (Utils.leftSpecialButtonX - Utils.specialButtonHalfSide)) &&
+                    (event.getX(index) < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
+                    (((event.getY(index) < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
+                            (event.getY(index) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide)))) {
+                leftSlimeSprite.specialButtonIsHold = false;
             }
+            else if (event.getX(index) < Utils.rightUpBorderX) {
+                if (leftSlimeSprite.isMoveLeft)
+                    leftSlimeSprite.isMoveLeft = false;
+                else if (leftSlimeSprite.isMoveRight)
+                    leftSlimeSprite.isMoveRight = false;
+            }
+            return true;
         }
-        return gestureDetector.onTouchEvent(event);
+        return false;
     }
 
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {

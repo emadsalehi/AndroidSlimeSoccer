@@ -55,7 +55,7 @@ public class BallSprite {
         if ( yVelocity <= 0 && yVelocity >= Utils.ballSpeedThreshold )  {
             yVelocity = 0;
         }
-        Log.i("speed", Integer.toString(yVelocity));
+//        Log.i("speed", Integer.toString(yVelocity));
     }
 
     public Bitmap getBallImage() {
