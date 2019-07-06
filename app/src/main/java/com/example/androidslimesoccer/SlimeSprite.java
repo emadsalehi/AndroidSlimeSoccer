@@ -14,7 +14,7 @@ public class SlimeSprite {
     private int screenHeight = Utils.screenHeight;
     SlimeType slimeType;
     Bitmap slimeImage;
-    boolean specialIsActive = false;
+    boolean specialIsActive = false, specialButtonIsHold = false;
     boolean isFirstPlayer, isLookRight, isMoveRight = false, isMoveLeft = false;
     int specialMaxTime = Utils.slimeMaxSpecialTime;
     int specialCountDown = 0;
@@ -44,8 +44,12 @@ public class SlimeSprite {
     public void enableSpecial() {
         if (specialLevel > slimeType.getSpecialThreshold()) {
             specialIsActive = true;
-            specialCountDown = specialMaxTime;
-            specialLevel -= slimeType.getEnableDecrease();
+            if (slimeType.isImmediate()) {
+                specialLevel -= slimeType.getEnableDecrease();
+                specialCountDown = specialMaxTime;
+            } else {
+                specialCountDown = 1;
+            }
         }
     }
 
@@ -88,7 +92,13 @@ public class SlimeSprite {
         }
         if (specialIsActive) {
             specialCountDown--;
+            if (!slimeType.isImmediate() && specialButtonIsHold) {
+                specialLevel -= slimeType.getEnableDecrease();
+                specialCountDown++;
+            }
             if (specialCountDown == 0)
+                specialIsActive = false;
+            if (specialLevel < slimeType.getSpecialThreshold())
                 specialIsActive = false;
         }
         if (isFirstPlayer) {
