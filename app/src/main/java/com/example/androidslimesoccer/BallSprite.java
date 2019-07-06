@@ -35,11 +35,11 @@ public class BallSprite {
             y = Utils.slimeStartY - ballImage.getHeight();
             yVelocity = (int) ((double)(-yVelocity) * Utils.ballSpeedReductionFactor);
         }
-        if (x <= Utils.leftGoalLine) {
+        if (x < Utils.leftGoalLine && (Utils.goalLimitY >= y)) {
             x = Utils.leftGoalLine;
             xVelocity = (int) ((double)(-xVelocity) * Utils.ballSpeedReductionFactor);
         }
-        if (x >= (Utils.rightGoalLine - ballImage.getWidth())) {
+        if (x > (Utils.rightGoalLine - ballImage.getWidth()) && (Utils.goalLimitY >= y)) {
             x = Utils.rightGoalLine - ballImage.getWidth();
             xVelocity = (int) ((double)(-xVelocity) * Utils.ballSpeedReductionFactor);
         }
