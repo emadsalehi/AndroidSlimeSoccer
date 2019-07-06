@@ -3,6 +3,8 @@ package com.example.androidslimesoccer;
 
 //TODO Will Be Completed By ALL
 
+import android.util.Log;
+
 public class SinglePlayerLogicProvider {
     SlimeSprite slimeSprite1, slimeSprite2;
     BallSprite ballSprite;
@@ -39,16 +41,18 @@ public class SinglePlayerLogicProvider {
         int slimeRatio = Utils.slimeRatio;
         int dis = distance(slimeSprite, ballSprite);
 
-        int slimeCenterY = slimeSprite.y + slimeRatio;
+        int slimeCenterY = slimeSprite.y + slimeSprite.slimeImage.getHeight();
         int slimeCenterX = slimeSprite.x + slimeRatio;
 
-        int ballCenterX = ballSprite.x + ballRatio;
+        int ballCenterX = ballSprite.x + ballSprite.getBallImage().getHeight();
         int ballCenterY = ballSprite.y + ballRatio;
 
         int yProjection = (slimeCenterY - ballCenterY);
         int xProjection = (slimeCenterX - ballCenterX);
-
+        Log.i("ratios", Integer.toString(slimeRatio + ballRatio));
+        Log.i("dis", Integer.toString(dis));
         if (dis < ( ballRatio + slimeRatio ) && yProjection >= 0) {
+            Log.i("collision", "1");
             double relativeXVelocity = ballSprite.xVelocity - slimeSprite.xVelocity;
             double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
 
@@ -63,10 +67,12 @@ public class SinglePlayerLogicProvider {
         }
         else if (yProjection < - ballRatio && (xProjection < (ballRatio + slimeRatio)
                 && xProjection > -(ballRatio + slimeRatio))) {
+            Log.i("collision", "2");
             double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
             ballSprite.yVelocity = -(int)relativeYVelocity  + slimeSprite.yVelocity;
             ballSprite.y = slimeSprite.y + ballRatio;
             if (ballSprite.y >= Utils.slimeStartY + ballSprite.getBallImage().getHeight()) {
+                Log.i("collision", "3");
                 ballSprite.y = Utils.slimeStartY + ballSprite.getBallImage().getHeight();
                 ballSprite.yVelocity = 0;
                 if (xProjection <= 0 ) {
@@ -88,6 +94,6 @@ public class SinglePlayerLogicProvider {
 
     public int distance(SlimeSprite slimeSprite, BallSprite ballSprite) {
         return (int)(Math.sqrt(Math.pow(((ballSprite.x + Utils.ballRatio) - (slimeSprite.x + Utils.slimeRatio)), 2) +
-                Math.pow(((ballSprite.y + Utils.ballRatio) - (slimeSprite.y - slimeSprite.slimeImage.getHeight())), 2)));
+                Math.pow(((ballSprite.y + Utils.ballRatio) - (slimeSprite.y + slimeSprite.slimeImage.getHeight())), 2)));
     }
 }

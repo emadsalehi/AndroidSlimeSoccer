@@ -54,6 +54,15 @@ public class BallSprite {
 
         if ( yVelocity <= 0 && yVelocity >= Utils.ballSpeedThreshold )  {
             yVelocity = 0;
+            if (xVelocity > 0) {
+                xVelocity +=Utils.floorFriction;
+            }
+            else if (xVelocity < 0) {
+                xVelocity -= Utils.floorFriction;
+            }
+            if (xVelocity <= Utils.floorFriction && xVelocity >= -Utils.floorFriction){
+                xVelocity = 0;
+            }
         }
 //        Log.i("speed", Integer.toString(yVelocity));
     }

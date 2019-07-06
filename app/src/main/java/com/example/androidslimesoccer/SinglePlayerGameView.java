@@ -158,7 +158,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         ballSprite.draw(canvas);
         Typeface numberTypeface = Typeface.createFromAsset(this.context.getAssets(),
                         "fonts/Courier-BoldRegular.ttf");
-        Log.i("goalLimit", Integer.toString(goalLimit));
+//        Log.i("goalLimit", Integer.toString(goalLimit));
         Paint numberPaint = new Paint();
         numberPaint.setTypeface(numberTypeface);
         numberPaint.setTextSize(Utils.screenHeight / 9);
