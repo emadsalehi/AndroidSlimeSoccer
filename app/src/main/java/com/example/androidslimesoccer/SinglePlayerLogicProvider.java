@@ -59,22 +59,18 @@ public class SinglePlayerLogicProvider {
 
         int yProjection = (slimeCenterY - ballCenterY);
         int xProjection = (slimeCenterX - ballCenterX);
-        if (dis < ( ballRatio + slimeRatio ) && yProjection >= 0) {
+        if (dis < (ballRatio + slimeSprite.slimeImage.getHeight()) && yProjection >= 0) {
             Log.i("collision", "1");
-            if (ballSprite.y == Utils.slimeStartY - ballSprite.getBallImage().getHeight())
-                ballSprite.yVelocity -= Utils.screenHeight / 70;
             double relativeXVelocity = ballSprite.xVelocity - slimeSprite.xVelocity;
             double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
+            double totalVelocity = Math.sqrt(Math.pow(relativeXVelocity, 2) + Math.pow(relativeYVelocity, 2));
 
-            double radialSpeed = (relativeXVelocity * xProjection + relativeYVelocity * yProjection) /
-                    dis;
-            double newSpeedX = relativeXVelocity - radialSpeed * xProjection / dis;
-            double newSpeedY = relativeYVelocity - 2 * radialSpeed * yProjection / dis;
-            Log.i("newSpeedY",Double.toString(newSpeedX));
-            if (ballSprite.y != Utils.slimeStartY - ballSprite.getBallImage().getHeight())
-                ballSprite.xVelocity = (int)(newSpeedX / 2) + slimeSprite.xVelocity;
-            ballSprite.yVelocity = (int)newSpeedY + slimeSprite.yVelocity;
-            Log.i("yProjection",Double.toString(yProjection));
+            double theta = Math.atan2(yProjection, -xProjection);
+            double alpha = Math.atan2(relativeXVelocity, relativeYVelocity);
+            double finalAngle = 2 * theta - alpha - Math.PI / 2;
+            
+            ballSprite.xVelocity = (int) (slimeSprite.xVelocity / 4 + totalVelocity * Math.cos(finalAngle));
+            ballSprite.yVelocity = (int) (slimeSprite.yVelocity / 4 - totalVelocity * Math.sin(finalAngle));
             ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
             ballSprite.y = slimeCenterY - (ballRatio + slimeRatio) * yProjection / dis - ballRatio;
         }
