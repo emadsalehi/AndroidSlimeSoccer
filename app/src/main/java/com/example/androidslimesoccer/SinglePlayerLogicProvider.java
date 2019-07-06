@@ -33,12 +33,12 @@ public class SinglePlayerLogicProvider {
 
 
     public void goalChecker() {
-        if (ballSprite.x <= Utils.leftGoalLine) {
+        if (ballSprite.x <= Utils.leftGoalLine && (Utils.goalLimitY < ballSprite.y)) {
             slime2Goals++;
             slimeSprite1.initializeFirstState();
             slimeSprite2.initializeFirstState();
             ballSprite.initializeFirstState();
-        } else if ((ballSprite.x + 2 * Utils.ballRatio) >= Utils.rightGoalLine) {
+        } else if ((ballSprite.x + 2 * Utils.ballRatio) >= Utils.rightGoalLine && (Utils.goalLimitY < ballSprite.y)) {
             slime1Goals++;
             slimeSprite1.initializeFirstState();
             slimeSprite2.initializeFirstState();
