@@ -193,7 +193,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
                 }
                 leftSlimeSprite.isMoveRight = true;
             } else {
-                if (leftSlimeSprite.y == Utils.slimeStartY) {
+                if (leftSlimeSprite.y == Utils.slimeStartY - leftSlimeSprite.slimeImage.getHeight()) {
                     leftSlimeSprite.yVelocity = -Utils.initialYVelocity;
                 }
             }

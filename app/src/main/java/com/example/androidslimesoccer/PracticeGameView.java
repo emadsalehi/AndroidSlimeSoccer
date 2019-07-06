@@ -145,7 +145,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
                 }
                 slimeSprite.isMoveRight = true;
             } else {
-                if (slimeSprite.y == Utils.slimeStartY) {
+                if (slimeSprite.y == Utils.slimeStartY - slimeSprite.slimeImage.getHeight()) {
                     slimeSprite.yVelocity = -Utils.initialYVelocity;
                 }
             }
