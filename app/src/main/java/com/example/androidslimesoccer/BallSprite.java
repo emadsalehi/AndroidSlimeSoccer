@@ -17,8 +17,6 @@ public class BallSprite {
     }
 
     public void initializeFirstState () {
-        xVelocity = 0;
-        yVelocity = 0;
         x = firstX;
         y = firstY;
     }
@@ -58,7 +56,9 @@ public class BallSprite {
             yVelocity = 0;
         }
         Log.i("speed", Integer.toString(yVelocity));
-
     }
-    
+
+    public Bitmap getBallImage() {
+        return ballImage;
+    }
 }

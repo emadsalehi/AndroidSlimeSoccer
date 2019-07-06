@@ -2,23 +2,14 @@ package com.example.androidslimesoccer;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.drm.DrmStore;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.RectF;
-import android.graphics.Shader;
-import android.text.method.MovementMethod;
-import android.util.Log;
-import android.view.DragEvent;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder;
-import android.view.View;
 
 //TODO Will Be Completed By "EMAD"
 
@@ -37,7 +28,6 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
         super(context);
         Utils.assetsXScale = (double)Utils.screenWidth / background.getWidth();
         Utils.assetsYScale = (double)Utils.screenHeight / background.getHeight();
-        Log.i(slimeName, "HEY");
         background = getResizedBitmap(background, Utils.screenWidth, Utils.screenHeight);
         leftGoal = getResizedBitmap(goal, (int)(Utils.assetsXScale * goal.getWidth()),
                 (int)(Utils.assetsYScale * goal.getHeight()));
@@ -47,11 +37,12 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
         slimeSprite = new SlimeSprite(SlimeType.valueOf(slimeName.toUpperCase()),
                 getResizedBitmap(slimeBitmap, (int)(Utils.assetsXScale * slimeBitmap.getWidth()),
                         (int)(Utils.assetsYScale * slimeBitmap.getHeight())), true);
+        Utils.ballRatio = (int)(Utils.assetsXScale * ballBitmap.getWidth() / 2);
+        Utils.ballStartX -= Utils.ballRatio;
         ballSprite = new BallSprite(getResizedBitmap(ballBitmap,
                 (int)(Utils.assetsXScale * ballBitmap.getWidth()),
                 (int)(Utils.assetsXScale * ballBitmap.getHeight())));
         slimeSprite.initializeFirstState();
-        Utils.ballStartX += ((int)(Utils.assetsXScale * ballBitmap.getWidth() / 2));
         ballSprite.initializeFirstState();
 
         getHolder().addCallback(this);
@@ -163,20 +154,6 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
                 slimeSprite.isMoveRight = false;
             return true;
         }
-//        else if (action == MotionEvent.ACTION_MOVE) {
-//            if (event.getX() < Utils.leftRightBorderX && slimeSprite.isLookRight) {
-//                slimeSprite.isLookRight = false;
-//                slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
-//                isMoveToRight = false;
-//                isMoveToLeft = true;
-//            } else if (event.getX() <= Utils.rightUpBorderX && !slimeSprite.isLookRight) {
-//                slimeSprite.isLookRight = true;
-//                slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
-//                isMoveToLeft = false;
-//                isMoveToRight = true;
-//            }
-//            return true;
-//        }
         return false;
     }
 }
