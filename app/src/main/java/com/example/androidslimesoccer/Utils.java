@@ -35,4 +35,5 @@ public class Utils {
     static int ballStartX = screenWidth * 20 / 40;
     static final int ballStartY = screenHeight * 20 / 40;
     static int ballRatio;
+    static int slimeRatio;
 }
