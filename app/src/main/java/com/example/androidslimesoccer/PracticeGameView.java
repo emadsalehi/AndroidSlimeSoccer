@@ -24,7 +24,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
     Bitmap leftGoal;
     Bitmap rightGoal;
     Resources resources = getResources();
-    LogicProvider logicProvider;
+    PracticeLogicProvider logicProvider;
 
 
     public PracticeGameView(Context context, String slimeName) {
@@ -40,15 +40,15 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
         slimeSprite = new SlimeSprite(SlimeType.valueOf(slimeName.toUpperCase()),
                 getResizedBitmap(slimeBitmap, (int) (Utils.assetsXScale * slimeBitmap.getWidth()),
                         (int) (Utils.assetsYScale * slimeBitmap.getHeight())), true);
-        Utils.ballRatio = (int) (Utils.assetsXScale * ballBitmap.getWidth() / 2);
+        Utils.ballRatio = (int) (Utils.assetsYScale * ballBitmap.getWidth() / 2);
         Utils.ballStartX -= Utils.ballRatio;
         Utils.slimeRatio = slimeSprite.slimeImage.getWidth() / 2;
         ballSprite = new BallSprite(getResizedBitmap(ballBitmap,
-                (int) (Utils.assetsXScale * ballBitmap.getWidth()),
-                (int) (Utils.assetsXScale * ballBitmap.getHeight())));
+                (int) (Utils.assetsYScale * ballBitmap.getWidth()),
+                (int) (Utils.assetsYScale * ballBitmap.getHeight())));
         slimeSprite.initializeFirstState();
         ballSprite.initializeFirstState();
-        logicProvider = new LogicProvider(slimeSprite, ballSprite);
+        logicProvider = new PracticeLogicProvider(slimeSprite, ballSprite);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
