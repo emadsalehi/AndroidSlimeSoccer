@@ -10,7 +10,8 @@ import android.view.View;
 
 public class MenuActivity extends Activity {
 
-    Intent practiceIntent;
+    Intent practicePlayerSelect;
+    //    Intent practiceIntent;
     Intent singlePlayerIntent;
 //    Intent multiPlayerIntent;
 
@@ -26,9 +27,8 @@ public class MenuActivity extends Activity {
     }
 
     public void onPracticeClick(View v) {
-        practiceIntent = new Intent(this, PracticeActivity.class);
-        practiceIntent.putExtra("SLIME_NAME", "classic");
-        startActivity(practiceIntent);
+        practicePlayerSelect = new Intent(this, PracticePlayerSelectActivity.class);
+        startActivity(practicePlayerSelect);
     }
 
     public void onSinglePlayerClick(View v) {
