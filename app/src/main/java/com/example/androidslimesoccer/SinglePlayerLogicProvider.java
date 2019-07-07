@@ -70,9 +70,9 @@ public class SinglePlayerLogicProvider {
             double theta = Math.atan2(yProjection, -xProjection);
             double alpha = Math.atan2(relativeXVelocity, relativeYVelocity);
             double finalAngle = 2 * theta - alpha - Math.PI / 2;
-            
-            ballSprite.xVelocity = (int) (slimeSprite.xVelocity / 4 + totalVelocity * Math.cos(finalAngle));
-            ballSprite.yVelocity = (int) (slimeSprite.yVelocity / 4 - totalVelocity * Math.sin(finalAngle));
+
+            ballSprite.xVelocity = (int) (totalVelocity * Math.cos(finalAngle));
+            ballSprite.yVelocity = (int) (- totalVelocity * Math.sin(finalAngle));
             ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
             ballSprite.y = slimeCenterY - (ballRatio + slimeRatio) * yProjection / dis - ballRatio;
         }
