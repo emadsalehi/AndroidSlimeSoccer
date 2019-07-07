@@ -21,30 +21,31 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
     BallSprite ballSprite;
     Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.practice_background);
     Bitmap goal = BitmapFactory.decodeResource(getResources(), R.drawable.goal);
-    Bitmap leftGoal; Bitmap rightGoal;
+    Bitmap leftGoal;
+    Bitmap rightGoal;
     Resources resources = getResources();
     LogicProvider logicProvider;
 
 
     public PracticeGameView(Context context, String slimeName) {
         super(context);
-        Utils.assetsXScale = (double)Utils.screenWidth / background.getWidth();
-        Utils.assetsYScale = (double)Utils.screenHeight / background.getHeight();
+        Utils.assetsXScale = (double) Utils.screenWidth / background.getWidth();
+        Utils.assetsYScale = (double) Utils.screenHeight / background.getHeight();
         background = getResizedBitmap(background, Utils.screenWidth, Utils.screenHeight);
-        leftGoal = getResizedBitmap(goal, (int)(Utils.assetsXScale * goal.getWidth()),
-                (int)(Utils.assetsYScale * goal.getHeight()));
+        leftGoal = getResizedBitmap(goal, (int) (Utils.assetsXScale * goal.getWidth()),
+                (int) (Utils.assetsYScale * goal.getHeight()));
         rightGoal = flipBitmap(leftGoal);
         Bitmap slimeBitmap = BitmapFactory.decodeResource(resources,
                 resources.getIdentifier(slimeName, "drawable", context.getPackageName()));
         slimeSprite = new SlimeSprite(SlimeType.valueOf(slimeName.toUpperCase()),
-                getResizedBitmap(slimeBitmap, (int)(Utils.assetsXScale * slimeBitmap.getWidth()),
-                        (int)(Utils.assetsYScale * slimeBitmap.getHeight())), true);
-        Utils.ballRatio = (int)(Utils.assetsXScale * ballBitmap.getWidth() / 2);
+                getResizedBitmap(slimeBitmap, (int) (Utils.assetsXScale * slimeBitmap.getWidth()),
+                        (int) (Utils.assetsYScale * slimeBitmap.getHeight())), true);
+        Utils.ballRatio = (int) (Utils.assetsXScale * ballBitmap.getWidth() / 2);
         Utils.ballStartX -= Utils.ballRatio;
         Utils.slimeRatio = slimeSprite.slimeImage.getWidth() / 2;
         ballSprite = new BallSprite(getResizedBitmap(ballBitmap,
-                (int)(Utils.assetsXScale * ballBitmap.getWidth()),
-                (int)(Utils.assetsXScale * ballBitmap.getHeight())));
+                (int) (Utils.assetsXScale * ballBitmap.getWidth()),
+                (int) (Utils.assetsXScale * ballBitmap.getHeight())));
         slimeSprite.initializeFirstState();
         ballSprite.initializeFirstState();
         logicProvider = new LogicProvider(slimeSprite, ballSprite);
@@ -88,7 +89,8 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
         canvas.drawBitmap(rightGoal, Utils.screenWidth * 39 / 40 - rightGoal.getWidth(),
                 Utils.screenHeight * 14 / 20, null);
         Paint p = new Paint();
-        p.setStyle(Paint.Style.STROKE); p.setColor(Color.BLACK);
+        p.setStyle(Paint.Style.STROKE);
+        p.setColor(Color.BLACK);
         if (slimeSprite.specialLevel > slimeSprite.slimeType.getSpecialThreshold())
             p.setStrokeWidth(15);
         else
@@ -98,7 +100,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
         Paint p2 = new Paint();
         p2.setColor(slimeSprite.slimeType.getColor());
         canvas.drawCircle(Utils.leftSpecialButtonX, Utils.leftSpecialButtonY,
-                (int)((double)slimeSprite.specialLevel / 1000 * Utils.specialButtonHalfSide), p2);
+                (int) ((double) slimeSprite.specialLevel / 1000 * Utils.specialButtonHalfSide), p2);
         slimeSprite.draw(canvas);
         ballSprite.draw(canvas);
     }
@@ -111,13 +113,11 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
         return Bitmap.createScaledBitmap(bm, newWidth, newHeight, true);
     }
 
-    public Bitmap flipBitmap (Bitmap bm) {
+    public Bitmap flipBitmap(Bitmap bm) {
         Matrix matrix = new Matrix();
         matrix.preScale(-1.0f, 1.0f);
         return Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
     }
-
-
 
 
     @Override
@@ -135,8 +135,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
                 if (slimeSprite.y == Utils.slimeStartY - slimeSprite.slimeImage.getHeight()) {
                     slimeSprite.yVelocity = -Utils.initialYVelocity;
                 }
-            }
-            else if (event.getX(index) <= Utils.leftRightBorderX) {
+            } else if (event.getX(index) <= Utils.leftRightBorderX) {
                 if (slimeSprite.isLookRight) {
                     slimeSprite.isLookRight = false;
                     slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
@@ -156,8 +155,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
                     (((event.getY(index) < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
                             (event.getY(index) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide)))) {
                 slimeSprite.specialButtonIsHold = false;
-            }
-            else if (event.getX(index) > Utils.leftUpBorderX) {
+            } else if (event.getX(index) > Utils.leftUpBorderX) {
                 if (slimeSprite.isMoveLeft)
                     slimeSprite.isMoveLeft = false;
                 else if (slimeSprite.isMoveRight)

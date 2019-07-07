@@ -11,6 +11,8 @@ import android.view.View;
 public class MenuActivity extends Activity {
 
     Intent practiceIntent;
+    Intent singlePlayerIntent;
+//    Intent multiPlayerIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,22 @@ public class MenuActivity extends Activity {
         practiceIntent.putExtra("SLIME_NAME", "classic");
         startActivity(practiceIntent);
     }
+
+    public void onSinglePlayerClick(View v) {
+        singlePlayerIntent = new Intent(this, SinglePlayerActivity.class);
+        singlePlayerIntent.putExtra("LEFT_SLIME_NAME", "classic");
+        singlePlayerIntent.putExtra("RIGHT_SLIME_NAME", "classic");
+        singlePlayerIntent.putExtra("GOAL_LIMIT", 5);
+        startActivity(singlePlayerIntent);
+    }
+
+//    public void onMultiPlayerClick(View v) {
+//        multiPlayerIntent = new Intent(this, MultiPlayerActivity.class);
+//        multiPlayerIntent.putExtra("LEFT_SLIME_NAME", "classic");
+//        multiPlayerIntent.putExtra("RIGHT_SLIME_NAME", "classic");
+//        multiPlayerIntent.putExtra("GOAL_LIMIT", 5);
+//        startActivity(multiPlayerIntent);
+//    }
 
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
         return Bitmap.createScaledBitmap(bm, newWidth, newHeight, true);

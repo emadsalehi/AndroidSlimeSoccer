@@ -4,7 +4,7 @@ import android.content.res.Resources;
 
 public class Utils {
     static final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-    static final int screenHeight =  Resources.getSystem().getDisplayMetrics().heightPixels;
+    static final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
     static double assetsXScale = 1.0;
     static double assetsYScale = 1.0;
     static final int slimeStartX = screenWidth * 6 / 40;
@@ -19,8 +19,8 @@ public class Utils {
     static final int slowInitialIncrease = 1;
     static final int fastInitialIncrease = 3;
     static final int initialSpecialLevel = 200;
-    static final int leftRightBorderX = (int)(0.7f * screenWidth);
-    static final int leftUpBorderX = (int)(0.5f * screenWidth);
+    static final int leftRightBorderX = (int) (0.7f * screenWidth);
+    static final int leftUpBorderX = (int) (0.5f * screenWidth);
     static final int leftSpecialButtonX = screenWidth * 7 / 40;
     static final int leftSpecialButtonY = screenHeight / 5;
     static final int rightSpecialButtonX = screenWidth * 33 / 40;
@@ -40,4 +40,5 @@ public class Utils {
     static final int rightGoalX = screenWidth * 28 / 40;
     static int ballRatio;
     static int slimeRatio;
+    static int slimeNumbers = SlimeType.values().length;
 }
