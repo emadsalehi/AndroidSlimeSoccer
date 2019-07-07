@@ -7,4 +7,75 @@
     android:background="@drawable/player_select"
     tools:context=".PracticePlayerSelectActivity">
 
+    <ImageView
+        android:id="@+id/classic"
+        android:layout_width="70dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="600dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/classic" />
+
+    <ImageView
+        android:id="@+id/indian"
+        android:layout_width="70dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="350dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="600dp"
+        android:layout_marginBottom="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/indian" />
+
+    <ImageView
+        android:id="@+id/alien"
+        android:layout_width="70dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="600dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="600dp"
+        android:layout_marginBottom="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/alien" />
+
+    <ImageView
+        android:id="@+id/traffic"
+        android:layout_width="70dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="600dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="350dp"
+        android:layout_marginBottom="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/traffic" />
+
+    <ImageView
+        android:id="@+id/runner"
+        android:layout_width="70dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="600dp"
+        android:layout_marginBottom="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/runner" />
+
 </android.support.constraint.ConstraintLayout>
