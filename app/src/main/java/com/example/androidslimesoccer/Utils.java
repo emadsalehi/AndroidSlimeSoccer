@@ -41,4 +41,6 @@ public class Utils {
     static int ballRatio;
     static int slimeRatio;
     static int slimeNumbers = SlimeType.values().length;
+
+    static int slimeJumpTime =  2 * Utils.initialYVelocity / -Utils.gravityAcceleration;
 }

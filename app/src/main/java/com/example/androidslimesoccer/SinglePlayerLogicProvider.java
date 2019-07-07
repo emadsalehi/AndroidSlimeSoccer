@@ -96,11 +96,41 @@ public class SinglePlayerLogicProvider {
     }
 
     public void aiUpdateAction() {
-
+        if (slimeSprite2.yVelocity == 0) {
+            int ballSpriteY = ballSprite.y;
+            int ballSpriteX = ballSprite.x;
+            int ballXVelocity = ballSprite.xVelocity;
+            int ballYVelocity = ballSprite.yVelocity;
+            int slime2SpriteX = slimeSprite2.x;
+            int slime2SpriteY = slimeSprite2.y;
+            int slime2YVelocity = Utils.initialYVelocity;
+            Log.i("ballSpriteX", Integer.toString(Utils.slimeJumpTime));
+            for (int t = 0; t < Utils.slimeJumpTime ; t++) {
+                ballSpriteX += ballXVelocity;
+                ballSpriteY += ballYVelocity;
+                ballYVelocity = (ballYVelocity == 0)  ? 0 : ballYVelocity - Utils.gravityAcceleration;
+                slime2SpriteY += slime2YVelocity;
+                slime2YVelocity = (slime2YVelocity == 0) ? 0 : slime2YVelocity - Utils.gravityAcceleration;
+//                Log.i("ballSpriteX", Integer.toString(ballSpriteX));
+//                Log.i("ballSpriteY", Integer.toString(ballSpriteY));
+//                Log.i("slimeSpriteX", Integer.toString(slime2SpriteX));
+//                Log.i("slimeSpriteY", Integer.toString(slime2SpriteY));
+                if (aiDistance(slime2SpriteY, slime2SpriteX, ballSpriteY, ballSpriteX) <=
+                        (Utils.ballRatio + Utils.slimeRatio)) {
+                    slimeSprite2.yVelocity -= Utils.initialYVelocity;
+                    break;
+                }
+            }
+        }
     }
 
     public void doSpecial(SlimeSprite performerSlimeSprite, SlimeSprite performedSlimeSprite) {
 
+    }
+
+    public int aiDistance(int slimeSpriteY, int slimeSpriteX, int ballSpriteY, int ballSpriteX) {
+        return (int)(Math.sqrt(Math.pow(((ballSpriteX + Utils.ballRatio) - (slimeSpriteX + Utils.slimeRatio)), 2) +
+                Math.pow(((ballSpriteY + Utils.ballRatio) - (slimeSpriteY + slimeSprite2.slimeImage.getHeight())), 2)));
     }
 
     public int distance(SlimeSprite slimeSprite, BallSprite ballSprite) {
