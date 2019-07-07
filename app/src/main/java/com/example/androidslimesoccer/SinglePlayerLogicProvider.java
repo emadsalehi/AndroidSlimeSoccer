@@ -33,12 +33,14 @@ public class SinglePlayerLogicProvider {
 
 
     public void goalChecker() {
-        if (ballSprite.x <= Utils.leftGoalLine && (Utils.goalLimitY < ballSprite.y)) {
+        if (ballSprite.x <= Utils.leftGoalLine &&
+                (Utils.netUpperWallHeight < ballSprite.y + 2 * Utils.ballRatio)) {
             slime2Goals++;
             slimeSprite1.initializeFirstState();
             slimeSprite2.initializeFirstState();
             ballSprite.initializeFirstState();
-        } else if ((ballSprite.x + 2 * Utils.ballRatio) >= Utils.rightGoalLine && (Utils.goalLimitY < ballSprite.y)) {
+        } else if ((ballSprite.x + 2 * Utils.ballRatio) >= Utils.rightGoalLine &&
+                (Utils.netUpperWallHeight < ballSprite.y + 2 * Utils.ballRatio)) {
             slime1Goals++;
             slimeSprite1.initializeFirstState();
             slimeSprite2.initializeFirstState();
@@ -68,9 +70,9 @@ public class SinglePlayerLogicProvider {
             double theta = Math.atan2(yProjection, -xProjection);
             double alpha = Math.atan2(relativeXVelocity, relativeYVelocity);
             double finalAngle = 2 * theta - alpha - Math.PI / 2;
-            
-            ballSprite.xVelocity = (int) (slimeSprite.xVelocity / 4 + totalVelocity * Math.cos(finalAngle));
-            ballSprite.yVelocity = (int) (slimeSprite.yVelocity / 4 - totalVelocity * Math.sin(finalAngle));
+
+            ballSprite.xVelocity = (int) (totalVelocity * Math.cos(finalAngle));
+            ballSprite.yVelocity = (int) (- totalVelocity * Math.sin(finalAngle));
             ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
             ballSprite.y = slimeCenterY - (ballRatio + slimeRatio) * yProjection / dis - ballRatio;
         }

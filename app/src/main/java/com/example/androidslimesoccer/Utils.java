@@ -28,14 +28,14 @@ public class Utils {
     static final int specialButtonHalfSide = screenHeight * 3 / 40;
     static final int targetFPS = 30;
     static final int gameUpperBorder = 0;
-    static final int netUpperWallHeight = screenHeight * 30 / 40;
-    static final int netUpperWallWidth = 0;
+    static final int netUpperWallHeight = screenHeight * 28 / 40;
+    static final int netUpperWallWidth = screenWidth * 2 / 40;
     static final double ballSpeedReductionFactor = 0.78;
     static final double ballSpeedThreshold = -10;
     static int ballStartX = screenWidth * 20 / 40;
     static final int ballStartY = screenHeight * 20 / 40;
     static final int goalLimitX = screenWidth * 19 / 40;
-    static final int goalLimitY = screenHeight * 8 / 40;
+    static final int goalLimitY = screenHeight * 9 / 40;
     static final int leftGoalX = screenWidth * 10 / 40;
     static final int rightGoalX = screenWidth * 28 / 40;
     static int ballRatio;

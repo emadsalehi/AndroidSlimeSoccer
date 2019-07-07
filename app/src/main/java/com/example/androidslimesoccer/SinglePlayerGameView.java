@@ -143,8 +143,10 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         numberPaint.setTextSize(Utils.screenHeight / 9);
         canvas.drawText(Integer.toString(goalLimit), Utils.goalLimitX, Utils.goalLimitY, numberPaint);
 
-        canvas.drawText(Integer.toString(leftGoalNumber), Utils.leftGoalX, Utils.goalLimitY, numberPaint);
-        canvas.drawText(Integer.toString(rightGoalNumber), Utils.rightGoalX, Utils.goalLimitY, numberPaint);
+        canvas.drawText(Integer.toString(singlePlayerLogicProvider.slime1Goals),
+                Utils.leftGoalX, Utils.goalLimitY, numberPaint);
+        canvas.drawText(Integer.toString(singlePlayerLogicProvider.slime2Goals),
+                Utils.rightGoalX, Utils.goalLimitY, numberPaint);
     }
 
     @Override
