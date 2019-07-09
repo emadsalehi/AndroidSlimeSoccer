@@ -78,6 +78,11 @@ public class SinglePlayerLogicProvider {
             ballSprite.xVelocity = (int) (slimeSprite.xVelocity * 9 / 10 + totalVelocity * Math.cos(finalAngle));
             ballSprite.yVelocity = (int) (slimeSprite.yVelocity * 9 / 10 - totalVelocity * Math.sin(finalAngle));
 
+            if (ballSprite.y >= Utils.slimeStartY - 2 * ballRatio - 1) {
+                ballSprite.yVelocity += 5 * Utils.gravityAcceleration;
+                ballSprite.xVelocity += Utils.gravityAcceleration;
+            }
+
             ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
             ballSprite.y = slimeCenterY - (ballRatio + slimeRatio) * yProjection / dis - ballRatio;
         }

@@ -53,9 +53,17 @@ public class PracticeLogicProvider {
 
             ballSprite.xVelocity = (int) (slimeSprite.xVelocity * 9 / 10 + totalVelocity * Math.cos(finalAngle));
             ballSprite.yVelocity = (int) (slimeSprite.yVelocity * 9 / 10 - totalVelocity * Math.sin(finalAngle));
+            Log.i("Y Ball", String.valueOf(ballSprite.y));
+            Log.i("Y Ball Ratio", String.valueOf(ballRatio));
+            Log.i("Y Ball Start", String.valueOf(Utils.slimeStartY));
 
-            ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
+            if (ballSprite.y >= Utils.slimeStartY - 2 * ballRatio - 1) {
+                ballSprite.yVelocity += 5 * Utils.gravityAcceleration;
+                ballSprite.xVelocity += Utils.gravityAcceleration;
+            }
+
             ballSprite.y = slimeCenterY - (ballRatio + slimeRatio) * yProjection / dis - ballRatio;
+            ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
         }
         else if (yProjection > - ballRatio && (xProjection < (ballRatio / 2 + slimeRatio)
                 && xProjection > -(ballRatio / 2 + slimeRatio)) && yProjection < 0
