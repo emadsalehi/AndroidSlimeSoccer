@@ -21,9 +21,12 @@ public class SinglePlayerLogicProvider {
         aiUpdateAction();
         slimeSprite1.update();
         slimeSprite2.update();
-        ballSprite.update();
         slimeAndBallCollisionChecker(slimeSprite1);
         slimeAndBallCollisionChecker(slimeSprite2);
+        ballSprite.update();
+        ballAndWallCollisionChecker();
+        slimeAndWallCollisionChecker(slimeSprite1);
+        slimeAndWallCollisionChecker(slimeSprite2);
         if (slimeSprite1.specialIsActive)
             doSpecial(slimeSprite1, slimeSprite2);
         if (slimeSprite2.specialIsActive)
@@ -72,29 +75,82 @@ public class SinglePlayerLogicProvider {
             double alpha = Math.atan2(relativeXVelocity, relativeYVelocity);
             double finalAngle = 2 * theta - alpha - Math.PI / 2;
 
-            ballSprite.xVelocity = (int) (slimeSprite.xVelocity * 3 / 5 + totalVelocity * Math.cos(finalAngle));
-            ballSprite.yVelocity = (int) (slimeSprite.yVelocity * 3 / 5 - totalVelocity * Math.sin(finalAngle));
+            ballSprite.xVelocity = (int) (slimeSprite.xVelocity * 7 / 10 + totalVelocity * Math.cos(finalAngle));
+            ballSprite.yVelocity = (int) (slimeSprite.yVelocity * 7 / 10 - totalVelocity * Math.sin(finalAngle));
 
             ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
             ballSprite.y = slimeCenterY - (ballRatio + slimeRatio) * yProjection / dis - ballRatio;
         }
         else if (yProjection > - ballRatio && (xProjection < (ballRatio / 2 + slimeRatio)
-                && xProjection > -(ballRatio / 2 + slimeRatio)) && yProjection < 0) {
+                && xProjection > -(ballRatio / 2 + slimeRatio)) && yProjection < 0
+                && ballSprite.y <= Utils.slimeStartY - 2 * ballRatio) {
             if (ballSprite.y == Utils.slimeStartY - ballSprite.getBallImage().getHeight()) {
                 slimeSprite.y = Utils.slimeStartY - ballSprite.getBallImage().getHeight()
                         - slimeSprite.slimeImage.getHeight();
+                slimeSprite.yVelocity *= 0.8;
                 Log.i("collision", "21");
-                if (xProjection >= 0)
-                    ballSprite.xVelocity -= Utils.screenWidth / 90;
-                else
-                    ballSprite.xVelocity += Utils.screenWidth / 90;
-
             } else {
                 Log.i("collision", "22");
                 double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
-                ballSprite.yVelocity -= ((int) relativeYVelocity  - slimeSprite.yVelocity / 2);
-                ballSprite.y = slimeSprite.y + ballRatio + ballSprite.yVelocity / 5;
+                ballSprite.yVelocity = -((int) relativeYVelocity  + slimeSprite.yVelocity);
+                ballSprite.y = (int) (slimeSprite.y + ballRatio + slimeRatio * Utils.halfCircleConverter) + 1;
             }
+            if (xProjection >= 0)
+                ballSprite.xVelocity -= Utils.screenWidth / 200;
+            else
+                ballSprite.xVelocity += Utils.screenWidth / 200;
+        }
+    }
+
+    public void ballAndWallCollisionChecker() {
+        if (ballSprite.y >= (Utils.slimeStartY - ballSprite.getBallImage().getHeight())) {
+            ballSprite.y = Utils.slimeStartY - ballSprite.getBallImage().getHeight();
+            ballSprite.yVelocity = (int) ((double)(-ballSprite.yVelocity) * Utils.ballSpeedReductionFactor);
+        }
+        if (ballSprite.x < Utils.leftGoalLine &&
+                (Utils.netUpperWallHeight + 2 * Utils.ballRatio >= ballSprite.y)) {
+            ballSprite.x = Utils.leftGoalLine;
+            ballSprite.xVelocity = (int) ((double)(-ballSprite.xVelocity) * Utils.ballSpeedReductionFactor);
+        }
+        if (ballSprite.x > (Utils.rightGoalLine - ballSprite.getBallImage().getWidth()) &&
+                (Utils.netUpperWallHeight + 2 * Utils.ballRatio >= ballSprite.y)) {
+            ballSprite.x = Utils.rightGoalLine - ballSprite.getBallImage().getWidth();
+            ballSprite.xVelocity = (int) ((double)(-ballSprite.xVelocity) * Utils.ballSpeedReductionFactor);
+        }
+        if (ballSprite.y < Utils.gameUpperBorder) {
+            ballSprite.y = Utils.gameUpperBorder;
+            ballSprite.yVelocity = (int) ((double)(-ballSprite.yVelocity) * Utils.ballSpeedReductionFactor);
+        }
+        if ((ballSprite.y > Utils.netUpperWallHeight
+                && ballSprite.y < Utils.netUpperWallHeight + ballSprite.getBallImage().getWidth())
+                && (ballSprite.x < Utils.leftGoalLine + Utils.netUpperWallWidth ||
+                ballSprite.x > (Utils.rightGoalLine - Utils.netUpperWallWidth)) ) {
+            ballSprite.y = Utils.netUpperWallHeight;
+            ballSprite.yVelocity = (int) ((double)(-ballSprite.yVelocity) );
+        }
+
+        if ( ballSprite.yVelocity <= 0 && ballSprite.yVelocity >= Utils.ballSpeedThreshold )  {
+            ballSprite.yVelocity = 0;
+            if (ballSprite.xVelocity > 0) {
+                ballSprite.xVelocity +=Utils.floorFriction;
+            }
+            else if (ballSprite.xVelocity < 0) {
+                ballSprite.xVelocity -= Utils.floorFriction;
+            }
+            if (ballSprite.xVelocity <= Utils.floorFriction && ballSprite.xVelocity >= -Utils.floorFriction){
+                ballSprite.xVelocity = 0;
+            }
+        }
+    }
+
+    public void slimeAndWallCollisionChecker(SlimeSprite slimeSprite) {
+        if (slimeSprite.x < Utils.leftGoalLine)
+            slimeSprite.x = Utils.leftGoalLine;
+        if (slimeSprite.x > (Utils.rightGoalLine - slimeSprite.slimeImage.getWidth()))
+            slimeSprite.x = Utils.rightGoalLine - slimeSprite.slimeImage.getWidth();
+        if (slimeSprite.y > slimeSprite.firstY) {
+            slimeSprite.y = slimeSprite.firstY;
+            slimeSprite.yVelocity = 0;
         }
     }
 

@@ -31,43 +31,6 @@ public class BallSprite {
         x += xVelocity;
         y += yVelocity;
         yVelocity -= Utils.gravityAcceleration;
-        if (y >= (Utils.slimeStartY - ballImage.getHeight())) {
-            y = Utils.slimeStartY - ballImage.getHeight();
-            yVelocity = (int) ((double)(-yVelocity) * Utils.ballSpeedReductionFactor);
-        }
-        if (x < Utils.leftGoalLine &&
-                (Utils.netUpperWallHeight + 2 * Utils.ballRatio >= y)) {
-            x = Utils.leftGoalLine;
-            xVelocity = (int) ((double)(-xVelocity) * Utils.ballSpeedReductionFactor);
-        }
-        if (x > (Utils.rightGoalLine - ballImage.getWidth()) &&
-                (Utils.netUpperWallHeight + 2 * Utils.ballRatio >= y)) {
-            x = Utils.rightGoalLine - ballImage.getWidth();
-            xVelocity = (int) ((double)(-xVelocity) * Utils.ballSpeedReductionFactor);
-        }
-        if (y < Utils.gameUpperBorder) {
-            y = Utils.gameUpperBorder;
-            yVelocity = (int) ((double)(-yVelocity) * Utils.ballSpeedReductionFactor);
-        }
-        if ((y > Utils.netUpperWallHeight && y < Utils.netUpperWallHeight + ballImage.getWidth())
-                && (x < Utils.leftGoalLine + Utils.netUpperWallWidth || x > (Utils.rightGoalLine - Utils.netUpperWallWidth)) ) {
-            y = Utils.netUpperWallHeight;
-            yVelocity = (int) ((double)(-yVelocity) );
-        }
-
-        if ( yVelocity <= 0 && yVelocity >= Utils.ballSpeedThreshold )  {
-            yVelocity = 0;
-            if (xVelocity > 0) {
-                xVelocity +=Utils.floorFriction;
-            }
-            else if (xVelocity < 0) {
-                xVelocity -= Utils.floorFriction;
-            }
-            if (xVelocity <= Utils.floorFriction && xVelocity >= -Utils.floorFriction){
-                xVelocity = 0;
-            }
-        }
-//        Log.i("speed", Integer.toString(yVelocity));
     }
 
     public Bitmap getBallImage() {

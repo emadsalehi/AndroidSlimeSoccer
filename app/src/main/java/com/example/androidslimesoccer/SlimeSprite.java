@@ -97,14 +97,6 @@ public class SlimeSprite {
         }
         y += yVelocity;
         yVelocity -= Utils.gravityAcceleration;
-        if (x < Utils.leftGoalLine)
-            x = Utils.leftGoalLine;
-        if (x > (Utils.rightGoalLine - slimeImage.getWidth()))
-            x = Utils.rightGoalLine - slimeImage.getWidth();
-        if (y > firstY) {
-            y = firstY;
-            yVelocity = 0;
-        }
         if (specialIsActive) {
             specialCountDown--;
             if (!slimeType.isImmediate() && specialButtonIsHold) {
