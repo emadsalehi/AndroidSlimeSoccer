@@ -12,12 +12,18 @@ public class MainThread extends Thread {
     public static Canvas canvas;
     private int targetFPS = Utils.targetFPS;
     private long averageFPS;
+    private boolean paused;
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
 
     public MainThread(SurfaceHolder surfaceHolder, GameView gameView) {
 
         super();
         this.surfaceHolder = surfaceHolder;
         this.gameView = gameView;
+        this.paused = false;
     }
 
     public void setRunning(boolean running) {
@@ -34,6 +40,9 @@ public class MainThread extends Thread {
         long targetTime = 1000 / targetFPS;
 
         while (running) {
+            if (paused) {
+                continue;
+            }
             startTime = System.nanoTime();
             canvas = null;
 
