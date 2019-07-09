@@ -75,8 +75,8 @@ public class SinglePlayerLogicProvider {
             double alpha = Math.atan2(relativeXVelocity, relativeYVelocity);
             double finalAngle = 2 * theta - alpha - Math.PI / 2;
 
-            ballSprite.xVelocity = (int) (slimeSprite.xVelocity * 7 / 10 + totalVelocity * Math.cos(finalAngle));
-            ballSprite.yVelocity = (int) (slimeSprite.yVelocity * 7 / 10 - totalVelocity * Math.sin(finalAngle));
+            ballSprite.xVelocity = (int) (slimeSprite.xVelocity * 9 / 10 + totalVelocity * Math.cos(finalAngle));
+            ballSprite.yVelocity = (int) (slimeSprite.yVelocity * 9 / 10 - totalVelocity * Math.sin(finalAngle));
 
             ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
             ballSprite.y = slimeCenterY - (ballRatio + slimeRatio) * yProjection / dis - ballRatio;
@@ -88,17 +88,17 @@ public class SinglePlayerLogicProvider {
                 slimeSprite.y = Utils.slimeStartY - ballSprite.getBallImage().getHeight()
                         - slimeSprite.slimeImage.getHeight();
                 slimeSprite.yVelocity *= 0.8;
+                if (xProjection >= 0)
+                    ballSprite.xVelocity -= Utils.screenWidth / 200;
+                else
+                    ballSprite.xVelocity += Utils.screenWidth / 200;
                 Log.i("collision", "21");
             } else {
                 Log.i("collision", "22");
                 double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
-                ballSprite.yVelocity = -((int) relativeYVelocity  + slimeSprite.yVelocity);
-                ballSprite.y = (int) (slimeSprite.y + ballRatio + slimeRatio * Utils.halfCircleConverter) + 1;
+                ballSprite.yVelocity = ((int) -relativeYVelocity  + slimeSprite.yVelocity);
+                ballSprite.y = (int) (slimeSprite.y + ballRatio + slimeRatio * Utils.halfCircleConverter);
             }
-            if (xProjection >= 0)
-                ballSprite.xVelocity -= Utils.screenWidth / 200;
-            else
-                ballSprite.xVelocity += Utils.screenWidth / 200;
         }
     }
 
@@ -144,10 +144,14 @@ public class SinglePlayerLogicProvider {
     }
 
     public void slimeAndWallCollisionChecker(SlimeSprite slimeSprite) {
-        if (slimeSprite.x < Utils.leftGoalLine)
+        if (slimeSprite.x < Utils.leftGoalLine) {
             slimeSprite.x = Utils.leftGoalLine;
-        if (slimeSprite.x > (Utils.rightGoalLine - slimeSprite.slimeImage.getWidth()))
+            slimeSprite.xVelocity = 0;
+        }
+        else if (slimeSprite.x > (Utils.rightGoalLine - slimeSprite.slimeImage.getWidth())) {
             slimeSprite.x = Utils.rightGoalLine - slimeSprite.slimeImage.getWidth();
+            slimeSprite.xVelocity = 0;
+        }
         if (slimeSprite.y > slimeSprite.firstY) {
             slimeSprite.y = slimeSprite.firstY;
             slimeSprite.yVelocity = 0;
