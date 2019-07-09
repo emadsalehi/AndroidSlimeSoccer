@@ -7,6 +7,8 @@ public class SinglePlayerSelectActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.practice_player_select);
+        setContentView(R.layout.single_player_select);
     }
+
+
 }
