@@ -9,10 +9,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.util.Log;
-import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 
 //TODO Will Be Completed By "SINA"
@@ -51,24 +48,24 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         Bitmap leftSlimeBitmap = BitmapFactory.decodeResource(resources,
                 resources.getIdentifier(leftSlimeName, "drawable", context.getPackageName()));
         leftSlimeSprite = new SlimeSprite(SlimeType.valueOf(leftSlimeName.toUpperCase()),
-                getResizedBitmap(leftSlimeBitmap, (int)(Utils.assetsXScale * leftSlimeBitmap.getWidth()),
+                getResizedBitmap(leftSlimeBitmap, (int)(Utils.assetsYScale * leftSlimeBitmap.getWidth()),
                         (int)(Utils.assetsYScale * leftSlimeBitmap.getHeight())), true);
         leftSlimeSprite.initializeFirstState();
 
         Bitmap rightSlimeBitmap = BitmapFactory.decodeResource(resources,
                 resources.getIdentifier(rightSlimeName, "drawable", context.getPackageName()));
         rightSlimeSprite = new SlimeSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()),
-                getResizedBitmap(rightSlimeBitmap, (int)(Utils.assetsXScale * rightSlimeBitmap.getWidth()),
+                getResizedBitmap(rightSlimeBitmap, (int)(Utils.assetsYScale * rightSlimeBitmap.getWidth()),
                         (int)(Utils.assetsYScale * rightSlimeBitmap.getHeight())), false);
         rightSlimeSprite.initializeFirstState();
 
         this.goalLimit = goalLimit;
-        Utils.ballRatio = (int)(Utils.assetsXScale * ballBitmap.getWidth() / 2);
+        Utils.ballRatio = (int)(Utils.assetsYScale * ballBitmap.getWidth() / 2);
         Utils.ballStartX -= Utils.ballRatio;
         Utils.slimeRatio = leftSlimeSprite.slimeImage.getWidth() / 2;
         ballSprite = new BallSprite(getResizedBitmap(ballBitmap,
-                (int)(Utils.assetsXScale * ballBitmap.getWidth()),
-                (int)(Utils.assetsXScale * ballBitmap.getHeight())));
+                (int)(Utils.assetsYScale * ballBitmap.getWidth()),
+                (int)(Utils.assetsYScale * ballBitmap.getHeight())));
         ballSprite.initializeFirstState();
         singlePlayerLogicProvider = new SinglePlayerLogicProvider(leftSlimeSprite, rightSlimeSprite, ballSprite);
         getHolder().addCallback(this);

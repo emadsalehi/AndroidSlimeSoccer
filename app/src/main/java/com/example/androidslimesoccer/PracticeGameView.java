@@ -38,7 +38,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
         Bitmap slimeBitmap = BitmapFactory.decodeResource(resources,
                 resources.getIdentifier(slimeName, "drawable", context.getPackageName()));
         slimeSprite = new SlimeSprite(SlimeType.valueOf(slimeName.toUpperCase()),
-                getResizedBitmap(slimeBitmap, (int) (Utils.assetsXScale * slimeBitmap.getWidth()),
+                getResizedBitmap(slimeBitmap, (int) (Utils.assetsYScale * slimeBitmap.getWidth()),
                         (int) (Utils.assetsYScale * slimeBitmap.getHeight())), true);
         Utils.ballRatio = (int) (Utils.assetsYScale * ballBitmap.getWidth() / 2);
         Utils.ballStartX -= Utils.ballRatio;
