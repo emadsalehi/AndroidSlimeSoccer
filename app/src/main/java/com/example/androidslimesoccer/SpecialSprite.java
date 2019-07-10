@@ -48,7 +48,7 @@ public class SpecialSprite {
                     Random random = new Random();
                     x2 = random.nextInt(specialImage1.getWidth()) + x;
                     y2 = random.nextInt(specialImage1.getHeight()) + y + specialImage1.getHeight();
-                    canvas.drawBitmap(specialImage1, x2, y2, null);
+                    canvas.drawBitmap(specialImage2, x2, y2, null);
                 }
             } else if (slimeType == SlimeType.TRAFFIC) {
                 canvas.drawBitmap(specialImage1, x, y, null);
