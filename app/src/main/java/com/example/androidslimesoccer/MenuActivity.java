@@ -33,7 +33,7 @@ public class MenuActivity extends Activity {
 
     public void onSinglePlayerClick(View v) {
         singlePlayerIntent = new Intent(this, SinglePlayerActivity.class);
-        singlePlayerIntent.putExtra("LEFT_SLIME_NAME", "classic");
+        singlePlayerIntent.putExtra("LEFT_SLIME_NAME", "indian");
         singlePlayerIntent.putExtra("RIGHT_SLIME_NAME", "classic");
         singlePlayerIntent.putExtra("GOAL_LIMIT", 5);
         startActivity(singlePlayerIntent);
