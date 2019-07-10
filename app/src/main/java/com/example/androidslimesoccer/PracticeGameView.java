@@ -17,6 +17,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
 
     MainThread thread;
     SlimeSprite slimeSprite;
+    SpecialSprite specialSprite;
     Bitmap ballBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ball);
     BallSprite ballSprite;
     Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.practice_background);
@@ -48,7 +49,8 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
                 (int) (Utils.assetsYScale * ballBitmap.getHeight())));
         slimeSprite.initializeFirstState();
         ballSprite.initializeFirstState();
-        logicProvider = new PracticeLogicProvider(slimeSprite, ballSprite);
+        specialSprite = new SpecialSprite(SlimeType.valueOf(slimeName.toUpperCase()), resources);
+        logicProvider = new PracticeLogicProvider(slimeSprite, ballSprite, specialSprite);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
@@ -100,9 +102,10 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
         Paint p2 = new Paint();
         p2.setColor(slimeSprite.slimeType.getColor());
         canvas.drawCircle(Utils.leftSpecialButtonX, Utils.leftSpecialButtonY,
-                (int) ((double) slimeSprite.specialLevel / 1000 * Utils.specialButtonHalfSide), p2);
+                (int) ((double) slimeSprite.specialLevel / 1000 * Utils.specialButtonHalfSide - 7), p2);
         slimeSprite.draw(canvas);
         ballSprite.draw(canvas);
+        specialSprite.draw(canvas);
     }
 
     public void update() {
