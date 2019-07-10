@@ -139,7 +139,7 @@ public class PracticeLogicProvider {
             double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
             double totalVelocity = Math.sqrt(Math.pow(relativeXVelocity, 2) + Math.pow(relativeYVelocity, 2)) * (0.95);
 
-            if (relativeYVelocity < 0 && yProjection <= 1.5 * ballRatio) {
+            if (relativeYVelocity < -1 && yProjection <= 1.5 * ballRatio) {
                 break out;
             }
 
