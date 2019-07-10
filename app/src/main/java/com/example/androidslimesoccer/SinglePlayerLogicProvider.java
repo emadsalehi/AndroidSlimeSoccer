@@ -3,6 +3,8 @@ package com.example.androidslimesoccer;
 
 //TODO Will Be Completed By ALL
 
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.util.Log;
 
 public class SinglePlayerLogicProvider {
@@ -172,23 +174,66 @@ public class SinglePlayerLogicProvider {
             int slime2SpriteX = slimeSprite2.x;
             int slime2SpriteY = slimeSprite2.y;
             int slime2YVelocity = Utils.initialYVelocity;
-            Log.i("ballSpriteX", Integer.toString(Utils.slimeJumpTime));
-            for (int t = 0; t < Utils.slimeJumpTime ; t++) {
+            for (int t = 0; t < Utils.slimeJumpTime; t++) {
                 ballSpriteX += ballXVelocity;
                 ballSpriteY += ballYVelocity;
-                ballYVelocity = (ballYVelocity == 0)  ? 0 : ballYVelocity - Utils.gravityAcceleration;
+                ballYVelocity = (ballYVelocity == 0) ? 0 : ballYVelocity - Utils.gravityAcceleration;
                 slime2SpriteY += slime2YVelocity;
                 slime2YVelocity = (slime2YVelocity == 0) ? 0 : slime2YVelocity - Utils.gravityAcceleration;
-//                Log.i("ballSpriteX", Integer.toString(ballSpriteX));
-//                Log.i("ballSpriteY", Integer.toString(ballSpriteY));
-//                Log.i("slimeSpriteX", Integer.toString(slime2SpriteX));
-//                Log.i("slimeSpriteY", Integer.toString(slime2SpriteY));
                 if (aiDistance(slime2SpriteY, slime2SpriteX, ballSpriteY, ballSpriteX) <=
                         (Utils.ballRatio + Utils.slimeRatio)) {
                     slimeSprite2.yVelocity -= Utils.initialYVelocity;
                     break;
                 }
             }
+        }
+        int aiSpriteCenterX = slimeSprite2.x + Utils.slimeRatio;
+        int playerSpriteCenterX = slimeSprite1.x + Utils.slimeRatio;
+        if (aiSpriteCenterX > playerSpriteCenterX && aiSpriteCenterX > ballSprite.x 
+                && playerSpriteCenterX < ballSprite.x 
+            && ballSprite.x - playerSpriteCenterX > aiSpriteCenterX - ballSprite.x) {
+            aiGotoBall();
+        }
+        else if (aiSpriteCenterX > playerSpriteCenterX && aiSpriteCenterX > ballSprite.x
+                && playerSpriteCenterX < ballSprite.x
+                && ballSprite.x - playerSpriteCenterX < aiSpriteCenterX - ballSprite.x) {
+            aiGotoNet();
+        }
+        else if (ballSprite.x > aiSpriteCenterX) {
+            aiGotoBall();
+        }
+        else {
+            aiGotoNet();
+        }
+        
+    }
+
+    private void aiGotoNet() {
+        slimeSprite2.isMoveRight =true;
+        slimeSprite2.isMoveLeft = false;
+    }
+
+    public void aiGotoBall () {
+        int aiSpriteCenterX = slimeSprite2.x + Utils.slimeRatio;
+        if (ballSprite.x < slimeSprite2.x) {
+            if (slimeSprite2.isLookRight) {
+                slimeSprite2.isLookRight = false;
+                slimeSprite2.slimeImage = flipBitmap(slimeSprite2.slimeImage);
+            }
+            slimeSprite2.isMoveRight = false;
+            slimeSprite2.isMoveLeft = true;
+        }
+        else if (ballSprite.x > aiSpriteCenterX) {
+            if (!slimeSprite2.isLookRight) {
+                slimeSprite2.isLookRight =true;
+                slimeSprite2.slimeImage = flipBitmap(slimeSprite2.slimeImage);
+            }
+            slimeSprite2.isMoveRight = true;
+            slimeSprite2.isMoveLeft = false;
+        }
+        else {
+            slimeSprite2.isMoveLeft = false;
+            slimeSprite1.isMoveRight = false;
         }
     }
 
@@ -206,5 +251,10 @@ public class SinglePlayerLogicProvider {
                 Math.pow(((ballSprite.y + Utils.ballRatio) -
                         (slimeSprite.y + (1 + Utils.halfCircleConverter) * Utils.slimeRatio)), 2))
                 + Utils.ballRatio / 2);
+    }
+    public Bitmap flipBitmap (Bitmap bm) {
+        Matrix matrix = new Matrix();
+        matrix.preScale(-1.0f, 1.0f);
+        return Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
     }
 }

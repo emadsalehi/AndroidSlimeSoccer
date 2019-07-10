@@ -30,6 +30,9 @@ public class SlimeSprite {
         this.isFirstPlayer = isFirstPlayer;
         firstY -= slimeImage.getHeight();
         isLookRight = isFirstPlayer;
+        if (!isLookRight) {
+            this.slimeImage = flipBitmap(slimeImage);
+        }
     }
 
     public void initializeFirstState() {
