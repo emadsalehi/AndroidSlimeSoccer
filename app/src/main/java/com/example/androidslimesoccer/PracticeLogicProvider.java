@@ -40,12 +40,7 @@ public class PracticeLogicProvider {
 
         int yProjection = (slimeCenterY - ballCenterY);
         int xProjection = (slimeCenterX - ballCenterX);
-        if (dis < (ballRatio + (Utils.halfCircleConverter + 1) * slimeRatio) && yProjection >= 0 &&
-        !(yProjection <= ballRatio && ballSprite.yVelocity < 0 && ballSprite.y == Utils.slimeStartY - 2 * ballRatio)) {
-            Log.i("ballRatio", Integer.toString(ballRatio));
-            Log.i("ballYSpeed", Integer.toString(ballSprite.yVelocity));
-            Log.i("ballY", Integer.toString(ballSprite.y - Utils.slimeStartY + 2 * ballRatio));
-            Log.i("yProjection", Integer.toString(yProjection));
+        if (dis < (ballRatio + (Utils.halfCircleConverter + 1) * slimeRatio) && yProjection >= 0) {
             Log.i("collision", "1");
             yProjection += Utils.halfCircleConverter * slimeRatio;
             double relativeXVelocity = ballSprite.xVelocity - slimeSprite.xVelocity;
