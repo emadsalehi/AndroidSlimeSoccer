@@ -66,8 +66,11 @@ public class SinglePlayerLogicProvider {
 
         int yProjection = (slimeCenterY - ballCenterY);
         int xProjection = (slimeCenterX - ballCenterX);
-        if (dis < (ballRatio + (Utils.halfCircleConverter + 1) * slimeRatio) && yProjection >= 0) {
+        out: if (dis < (ballRatio + (Utils.halfCircleConverter + 1) * slimeRatio) && yProjection >= 0) {
             Log.i("collision", "1");
+            if (ballSprite.yVelocity < 0 && yProjection <= ballRatio) {
+                break out;
+            }
             yProjection += Utils.halfCircleConverter * slimeRatio;
             double relativeXVelocity = ballSprite.xVelocity - slimeSprite.xVelocity;
             double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
@@ -85,11 +88,11 @@ public class SinglePlayerLogicProvider {
                 ballSprite.xVelocity += Utils.gravityAcceleration;
             }
 
-            ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
             ballSprite.y = slimeCenterY - (ballRatio + slimeRatio) * yProjection / dis - ballRatio;
+            ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
         }
-        else if (yProjection > - ballRatio && (xProjection < (ballRatio / 2 + slimeRatio)
-                && xProjection > -(ballRatio / 2 + slimeRatio)) && yProjection < 0
+        else if (yProjection > - ballRatio && (xProjection <= (ballRatio / 2 + slimeRatio)
+                && xProjection >= -(ballRatio / 2 + slimeRatio)) && yProjection < 0
                 && ballSprite.y <= Utils.slimeStartY - 2 * ballRatio) {
             if (ballSprite.y == Utils.slimeStartY - ballSprite.getBallImage().getHeight()) {
                 slimeSprite.y = Utils.slimeStartY - ballSprite.getBallImage().getHeight()
@@ -103,8 +106,9 @@ public class SinglePlayerLogicProvider {
             } else {
                 Log.i("collision", "22");
                 double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
-                ballSprite.yVelocity = ((int) -relativeYVelocity  + slimeSprite.yVelocity);
-                ballSprite.y = (int) (slimeSprite.y + ballRatio + slimeRatio * Utils.halfCircleConverter);
+                ballSprite.yVelocity = ((int) -relativeYVelocity + slimeSprite.yVelocity / 2);
+                ballSprite.xVelocity += slimeSprite.xVelocity * 2;
+                ballSprite.y =(slimeSprite.y + slimeSprite.slimeImage.getHeight() + 1);
             }
         }
     }

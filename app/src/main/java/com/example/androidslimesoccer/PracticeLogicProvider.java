@@ -40,8 +40,11 @@ public class PracticeLogicProvider {
 
         int yProjection = (slimeCenterY - ballCenterY);
         int xProjection = (slimeCenterX - ballCenterX);
-        if (dis < (ballRatio + (Utils.halfCircleConverter + 1) * slimeRatio) && yProjection >= 0) {
+        out: if (dis < (ballRatio + (Utils.halfCircleConverter + 1) * slimeRatio) && yProjection >= 0) {
             Log.i("collision", "1");
+            if (ballSprite.yVelocity < 0 && yProjection <= ballRatio) {
+                break out;
+            }
             yProjection += Utils.halfCircleConverter * slimeRatio;
             double relativeXVelocity = ballSprite.xVelocity - slimeSprite.xVelocity;
             double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
@@ -53,9 +56,6 @@ public class PracticeLogicProvider {
 
             ballSprite.xVelocity = (int) (slimeSprite.xVelocity * 9 / 10 + totalVelocity * Math.cos(finalAngle));
             ballSprite.yVelocity = (int) (slimeSprite.yVelocity * 9 / 10 - totalVelocity * Math.sin(finalAngle));
-            Log.i("Y Ball", String.valueOf(ballSprite.y));
-            Log.i("Y Ball Ratio", String.valueOf(ballRatio));
-            Log.i("Y Ball Start", String.valueOf(Utils.slimeStartY));
 
             if (ballSprite.y >= Utils.slimeStartY - 2 * ballRatio - 1) {
                 ballSprite.yVelocity += 5 * Utils.gravityAcceleration;
@@ -65,8 +65,8 @@ public class PracticeLogicProvider {
             ballSprite.y = slimeCenterY - (ballRatio + slimeRatio) * yProjection / dis - ballRatio;
             ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
         }
-        else if (yProjection > - ballRatio && (xProjection < (ballRatio / 2 + slimeRatio)
-                && xProjection > -(ballRatio / 2 + slimeRatio)) && yProjection < 0
+        else if (yProjection > - ballRatio && (xProjection <= (ballRatio / 2 + slimeRatio)
+                && xProjection >= -(ballRatio / 2 + slimeRatio)) && yProjection < 0
                 && ballSprite.y <= Utils.slimeStartY - 2 * ballRatio) {
             if (ballSprite.y == Utils.slimeStartY - ballSprite.getBallImage().getHeight()) {
                 slimeSprite.y = Utils.slimeStartY - ballSprite.getBallImage().getHeight()
@@ -80,8 +80,9 @@ public class PracticeLogicProvider {
             } else {
                 Log.i("collision", "22");
                 double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
-                ballSprite.yVelocity = ((int) -relativeYVelocity  + slimeSprite.yVelocity);
-                ballSprite.y = (int) (slimeSprite.y + ballRatio + slimeRatio * Utils.halfCircleConverter);
+                ballSprite.yVelocity = ((int) -relativeYVelocity + slimeSprite.yVelocity / 2);
+                ballSprite.xVelocity += slimeSprite.xVelocity * 2;
+                ballSprite.y =(slimeSprite.y + slimeSprite.slimeImage.getHeight() + 1);
             }
         }
     }
