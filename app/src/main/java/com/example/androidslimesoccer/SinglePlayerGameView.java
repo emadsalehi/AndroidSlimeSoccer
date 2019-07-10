@@ -19,6 +19,8 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     MainThread thread;
     SlimeSprite leftSlimeSprite;
     SlimeSprite rightSlimeSprite;
+    SpecialSprite leftSpecialSprite;
+    SpecialSprite rightSpecialSprite;
     Context context;
     Bitmap ballBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ball);
     BallSprite ballSprite;
@@ -67,7 +69,10 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
                 (int)(Utils.assetsYScale * ballBitmap.getWidth()),
                 (int)(Utils.assetsYScale * ballBitmap.getHeight())));
         ballSprite.initializeFirstState();
-        singlePlayerLogicProvider = new SinglePlayerLogicProvider(leftSlimeSprite, rightSlimeSprite, ballSprite);
+        leftSpecialSprite = new SpecialSprite(SlimeType.valueOf(leftSlimeName.toUpperCase()), resources);
+        rightSpecialSprite = new SpecialSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()), resources);
+        singlePlayerLogicProvider = new SinglePlayerLogicProvider(leftSlimeSprite, rightSlimeSprite
+                , ballSprite, leftSpecialSprite, rightSpecialSprite);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
@@ -132,9 +137,10 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         leftSlimeSprite.draw(canvas);
         rightSlimeSprite.draw(canvas);
         ballSprite.draw(canvas);
+        leftSpecialSprite.draw(canvas);
+        rightSpecialSprite.draw(canvas);
         Typeface numberTypeface = Typeface.createFromAsset(this.context.getAssets(),
                         "fonts/Courier-BoldRegular.ttf");
-//        Log.i("goalLimit", Integer.toString(goalLimit));
         Paint numberPaint = new Paint();
         numberPaint.setTypeface(numberTypeface);
         numberPaint.setTextSize(Utils.screenHeight / 9);
