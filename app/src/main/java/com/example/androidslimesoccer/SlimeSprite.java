@@ -108,8 +108,6 @@ public class SlimeSprite {
             }
             if (specialCountDown == 0)
                 specialIsActive = false;
-            if (specialLevel < slimeType.getSpecialThreshold())
-                specialIsActive = false;
         }
         if (isFirstPlayer) {
             if (x > screenWidth / 2)
