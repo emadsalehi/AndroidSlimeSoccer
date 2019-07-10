@@ -1,14 +1,17 @@
 package com.example.androidslimesoccer;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 public class PracticeLogicProvider {
     SlimeSprite slimeSprite;
     BallSprite ballSprite;
+    SpecialSprite specialSprite;
 
-    public PracticeLogicProvider(SlimeSprite slimeSprite, BallSprite ballSprite) {
+    public PracticeLogicProvider(SlimeSprite slimeSprite, BallSprite ballSprite, SpecialSprite specialSprite) {
         this.slimeSprite = slimeSprite;
         this.ballSprite = ballSprite;
+        this.specialSprite = specialSprite;
     }
 
     public void update() {
@@ -19,15 +22,104 @@ public class PracticeLogicProvider {
         ballAndWallCollisionChecker();
         if (slimeSprite.specialIsActive) {
             doSpecial();
+        } else {
+            specialSprite.isOnDraw = false;
         }
         goalChecker();
     }
 
     public void doSpecial() {
+        if (specialSprite.slimeType == SlimeType.INDIAN) {
+            specialSprite.isOnDraw = false;
+        } else if (specialSprite.slimeType == SlimeType.TRAFFIC) {
+            specialSprite.x = ballSprite.x - Utils.ballRatio;
+            specialSprite.y = ballSprite.y - Utils.ballRatio;
+            if (slimeSprite.specialCountDown >= Utils.slimeMaxSpecialTime - 3) {
+                ballSprite.xVelocity = 0;
+                ballSprite.yVelocity = 0;
+            }
+            if (slimeSprite.specialCountDown == 0 || slimeSprite.specialCountDown >= Utils.slimeMaxSpecialTime - 5) {
+                specialSprite.isOnDraw = true;
+            } else {
+                specialSprite.isOnDraw = false;
+            }
+        } else if (specialSprite.slimeType == SlimeType.RUNNER) {
+            out: if (slimeSprite.isMoveLeft) {
+                slimeSprite.xVelocity = -3 * Utils.initialXVelocity;
+                slimeSprite.x -= Utils.initialXVelocity;
+                if (slimeAndBallCollisionChecker()) {
+                    ballSprite.update();
+                    ballAndWallCollisionChecker();
+                    break out;
+                }
+                slimeSprite.x -= Utils.initialXVelocity;
+                if (slimeAndBallCollisionChecker()) {
+                    ballSprite.update();
+                    ballAndWallCollisionChecker();
+                    break out;
+                }
+                slimeSprite.x -= Utils.initialXVelocity;
+                if (slimeAndBallCollisionChecker()) {
+                    ballSprite.update();
+                    ballAndWallCollisionChecker();
+                    break out;
+                }
+            }
+            else if (slimeSprite.isMoveRight) {
+                slimeSprite.xVelocity = 3 * Utils.initialXVelocity;
+                slimeSprite.x += Utils.initialXVelocity;
+                if (slimeAndBallCollisionChecker()) {
+                    ballSprite.update();
+                    ballAndWallCollisionChecker();
+                    break out;
+                }
+                slimeSprite.x += Utils.initialXVelocity;
+                if (slimeAndBallCollisionChecker()) {
+                    ballSprite.update();
+                    ballAndWallCollisionChecker();
+                    break out;
+                }
+                slimeSprite.x += Utils.initialXVelocity;
+                if (slimeAndBallCollisionChecker()) {
+                    ballSprite.update();
+                    ballAndWallCollisionChecker();
+                    break out;
+                }
+            } else {
+                slimeSprite.xVelocity = 0;
+            }
+            slimeAndWallCollisionChecker();
 
+        } else if (specialSprite.slimeType == SlimeType.ALIEN) {
+            if (slimeSprite.specialCountDown >= Utils.slimeMaxSpecialTime - 2) {
+                specialSprite.isOnDraw = true;
+                specialSprite.x = (int) (ballSprite.x - slimeSprite.slimeImage.getWidth() + 0.4 * Utils.ballRatio);
+                specialSprite.y = (int) (ballSprite.y + 1.6 * Utils.ballRatio);
+            } else if (slimeSprite.specialCountDown >= Utils.slimeMaxSpecialTime - 4) {
+                specialSprite.isOnDraw = true;
+                Bitmap temp = specialSprite.specialImage1;
+                specialSprite.specialImage1 = specialSprite.specialImage2;
+                specialSprite.specialImage2 = temp;
+                specialSprite.x = (int) (ballSprite.x - slimeSprite.slimeImage.getWidth() + 0.4 * Utils.ballRatio);
+                specialSprite.y = (int) (ballSprite.y + 1.6 * Utils.ballRatio);
+            } else if (slimeSprite.specialCountDown >= Utils.slimeMaxSpecialTime - 5) {
+                specialSprite.isOnDraw = false;
+                Bitmap temp = specialSprite.specialImage1;
+                specialSprite.specialImage1 = specialSprite.specialImage2;
+                specialSprite.specialImage2 = temp;
+                slimeSprite.x = (int) (ballSprite.x - slimeSprite.slimeImage.getWidth() +  1.4 * Utils.ballRatio);
+                slimeSprite.y = (ballSprite.y + Utils.ballRatio);
+                if (slimeSprite.y + slimeSprite.slimeImage.getHeight() > Utils.slimeStartY)
+                    slimeSprite.y = Utils.slimeStartY - slimeSprite.slimeImage.getHeight();
+                slimeSprite.yVelocity = -Utils.initialYVelocity;
+                slimeSprite.xVelocity = 0;
+            } else {
+                specialSprite.isOnDraw = false;
+            }
+        }
     }
 
-    public void slimeAndBallCollisionChecker() {
+    public boolean slimeAndBallCollisionChecker() {
         int ballRatio = Utils.ballRatio;
         int slimeRatio = Utils.slimeRatio;
         int dis = distance(slimeSprite, ballSprite);
@@ -42,13 +134,14 @@ public class PracticeLogicProvider {
         int xProjection = (slimeCenterX - ballCenterX);
         out: if (dis < (ballRatio + (Utils.halfCircleConverter + 1) * slimeRatio) && yProjection >= 0) {
             Log.i("collision", "1");
-            if (ballSprite.yVelocity < 0 && yProjection <= ballRatio) {
-                break out;
-            }
             yProjection += Utils.halfCircleConverter * slimeRatio;
             double relativeXVelocity = ballSprite.xVelocity - slimeSprite.xVelocity;
             double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
             double totalVelocity = Math.sqrt(Math.pow(relativeXVelocity, 2) + Math.pow(relativeYVelocity, 2)) * (0.95);
+
+            if (relativeYVelocity < 0 && yProjection <= 1.5 * ballRatio) {
+                break out;
+            }
 
             double theta = Math.atan2(yProjection, -xProjection);
             double alpha = Math.atan2(relativeXVelocity, relativeYVelocity);
@@ -64,6 +157,7 @@ public class PracticeLogicProvider {
 
             ballSprite.y = slimeCenterY - (ballRatio + slimeRatio) * yProjection / dis - ballRatio;
             ballSprite.x = slimeCenterX - (ballRatio + slimeRatio) * xProjection / dis - ballRatio;
+            return true;
         }
         else if (yProjection > - ballRatio && (xProjection <= (ballRatio / 2 + slimeRatio)
                 && xProjection >= -(ballRatio / 2 + slimeRatio)) && yProjection < 0
@@ -84,7 +178,9 @@ public class PracticeLogicProvider {
                 ballSprite.xVelocity += slimeSprite.xVelocity * 2;
                 ballSprite.y =(slimeSprite.y + slimeSprite.slimeImage.getHeight() + 1);
             }
+            return true;
         }
+        return false;
     }
 
     public void ballAndWallCollisionChecker() {
