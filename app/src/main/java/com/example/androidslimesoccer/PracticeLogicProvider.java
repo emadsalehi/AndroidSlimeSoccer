@@ -260,7 +260,7 @@ public class PracticeLogicProvider {
     public int distance(SlimeSprite slimeSprite, BallSprite ballSprite) {
         return (int)(Math.sqrt(Math.pow(((ballSprite.x + Utils.ballRatio) - (slimeSprite.x + Utils.slimeRatio)), 2) +
                 Math.pow(((ballSprite.y + Utils.ballRatio) -
-                        (slimeSprite.y + (1 + Utils.halfCircleConverter) * Utils.slimeRatio)), 2))
-                + Utils.ballRatio / 2);
+                        (slimeSprite.y + slimeSprite.slimeImage.getHeight() +
+                                Utils.halfCircleConverter * Utils.slimeRatio)), 2)) + Utils.ballRatio / 2);
     }
 }
