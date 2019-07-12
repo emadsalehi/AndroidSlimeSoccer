@@ -247,12 +247,18 @@ public class SinglePlayerLogicProvider {
             ballSprite.y = Utils.gameUpperBorder;
             ballSprite.yVelocity = (int) ((double)(-ballSprite.yVelocity) * Utils.ballSpeedReductionFactor);
         }
-        if ((ballSprite.y > Utils.netUpperWallHeight
-                && ballSprite.y < Utils.netUpperWallHeight + ballSprite.getBallImage().getWidth())
+        if ((ballSprite.y > Utils.netUpperWallHeight - ballSprite.getBallImage().getWidth()
+                && ballSprite.y < Utils.netUpperWallHeight + 2 * ballSprite.getBallImage().getWidth())
                 && (ballSprite.x < Utils.leftGoalLine + Utils.netUpperWallWidth ||
                 ballSprite.x > (Utils.rightGoalLine - Utils.netUpperWallWidth)) ) {
             ballSprite.y = Utils.netUpperWallHeight;
-            ballSprite.yVelocity = (int) ((double)(-ballSprite.yVelocity) );
+            ballSprite.yVelocity = (-ballSprite.yVelocity) ;
+            if (ballSprite.x < Utils.leftGoalLine + Utils.netUpperWallWidth ) {
+                ballSprite.xVelocity += Utils.netxVelocityIncrease;
+            }
+            else {
+                ballSprite.yVelocity -= Utils.netxVelocityIncrease;
+            }
         }
 
         if ( ballSprite.yVelocity <= 0 && ballSprite.yVelocity >= Utils.ballSpeedThreshold )  {
@@ -285,7 +291,8 @@ public class SinglePlayerLogicProvider {
     }
 
     public void aiUpdateAction() {
-        if (slimeSprite2.yVelocity == 0) {
+        if (slimeSprite2.yVelocity == 0 &&
+                slimeSprite2.y + slimeSprite2.slimeImage.getHeight() >= Utils.slimeStartY) {
             int ballSpriteY = ballSprite.y;
             int ballSpriteX = ballSprite.x;
             int ballXVelocity = ballSprite.xVelocity;

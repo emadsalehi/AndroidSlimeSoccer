@@ -43,4 +43,5 @@ public class Utils {
     static int slimeNumbers = SlimeType.values().length;
     static double halfCircleConverter = 0.05;
     static int slimeJumpTime =  2 * Utils.initialYVelocity / -Utils.gravityAcceleration;
+    static final int netxVelocityIncrease = screenWidth / 200;
 }
