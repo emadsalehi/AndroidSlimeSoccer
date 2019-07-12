@@ -184,6 +184,17 @@ public class SinglePlayerLogicProvider {
             double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
             double totalVelocity = Math.sqrt(Math.pow(relativeXVelocity, 2) + Math.pow(relativeYVelocity, 2)) * (0.95);
 
+            if (relativeYVelocity < 0 && relativeYVelocity < -yProjection) {
+                ballSprite.y = (slimeSprite.y + slimeSprite.slimeImage.getHeight());
+                if (ballSprite.y >= Utils.slimeStartY - 2 * ballRatio) {
+                    ballSprite.y = Utils.slimeStartY - ballSprite.getBallImage().getHeight();
+                    ballSprite.yVelocity = 0;
+                    slimeSprite.y = Utils.slimeStartY - ballSprite.getBallImage().getHeight()
+                            - slimeSprite.slimeImage.getHeight();
+                }
+                break out;
+            }
+
             if (relativeYVelocity < -1 && yProjection <= 1.5 * ballRatio) {
                 break out;
             }

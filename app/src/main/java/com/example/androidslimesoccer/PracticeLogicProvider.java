@@ -139,9 +139,20 @@ public class PracticeLogicProvider {
             double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
             double totalVelocity = Math.sqrt(Math.pow(relativeXVelocity, 2) + Math.pow(relativeYVelocity, 2)) * (0.95);
 
+            if (relativeYVelocity < 0 && relativeYVelocity < -yProjection) {
+                ballSprite.y = (slimeSprite.y + slimeSprite.slimeImage.getHeight());
+                if (ballSprite.y >= Utils.slimeStartY - 2 * ballRatio) {
+                    ballSprite.y = Utils.slimeStartY - ballSprite.getBallImage().getHeight();
+                    ballSprite.yVelocity = 0;
+                    slimeSprite.y = Utils.slimeStartY - ballSprite.getBallImage().getHeight()
+                            - slimeSprite.slimeImage.getHeight();
+                }
+                break out;
+            }
             if (relativeYVelocity < -1 && yProjection <= 1.5 * ballRatio) {
                 break out;
             }
+
 
             double theta = Math.atan2(yProjection, -xProjection);
             double alpha = Math.atan2(relativeXVelocity, relativeYVelocity);
@@ -165,7 +176,6 @@ public class PracticeLogicProvider {
             if (ballSprite.y == Utils.slimeStartY - ballSprite.getBallImage().getHeight()) {
                 slimeSprite.y = Utils.slimeStartY - ballSprite.getBallImage().getHeight()
                         - slimeSprite.slimeImage.getHeight();
-                slimeSprite.yVelocity *= 0.8;
                 if (xProjection >= 0)
                     ballSprite.xVelocity -= Utils.screenWidth / 200;
                 else

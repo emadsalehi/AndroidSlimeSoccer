@@ -64,6 +64,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         this.goalLimit = goalLimit;
         Utils.ballRatio = (int)(Utils.assetsYScale * ballBitmap.getWidth() / 2);
         Utils.ballStartX = Utils.screenWidth / 2 - Utils.ballRatio;
+        Utils.slimeRatio *= (Utils.assetsYScale / Utils.assetsXScale);
         ballSprite = new BallSprite(getResizedBitmap(ballBitmap,
                 (int)(Utils.assetsYScale * ballBitmap.getWidth()),
                 (int)(Utils.assetsYScale * ballBitmap.getHeight())));
