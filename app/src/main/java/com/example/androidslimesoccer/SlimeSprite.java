@@ -104,7 +104,8 @@ public class SlimeSprite {
             specialCountDown--;
             if (!slimeType.isImmediate() && specialButtonIsHold) {
                 specialLevel -= slimeType.getEnableDecrease();
-                specialCountDown++;
+                if (specialLevel >= slimeType.getSpecialThreshold())
+                    specialCountDown++;
             }
             if (specialCountDown == 0)
                 specialIsActive = false;
