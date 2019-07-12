@@ -41,7 +41,7 @@ public class Utils {
     static int ballRatio;
     static final int slimeRatio = screenWidth / 20;
     static int slimeNumbers = SlimeType.values().length;
-    static double halfCircleConverter = 0.05;
+    static double halfCircleConverter = 0.04;
     static int slimeJumpTime =  2 * Utils.initialYVelocity / -Utils.gravityAcceleration;
-    static final int netxVelocityIncrease = screenWidth / 200;
+    static final int netXVelocityIncrease = screenWidth / 200;
 }

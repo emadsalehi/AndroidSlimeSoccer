@@ -147,8 +147,8 @@ public class PracticeLogicProvider {
             double alpha = Math.atan2(relativeXVelocity, relativeYVelocity);
             double finalAngle = 2 * theta - alpha - Math.PI / 2;
 
-            ballSprite.xVelocity = (int) (slimeSprite.xVelocity * 9 / 10 + totalVelocity * Math.cos(finalAngle));
-            ballSprite.yVelocity = (int) (slimeSprite.yVelocity * 9 / 10 - totalVelocity * Math.sin(finalAngle));
+            ballSprite.xVelocity = (int) (slimeSprite.xVelocity + totalVelocity * Math.cos(finalAngle));
+            ballSprite.yVelocity = (int) (slimeSprite.yVelocity - totalVelocity * Math.sin(finalAngle));
 
             if (ballSprite.y >= Utils.slimeStartY - 2 * ballRatio - 1) {
                 ballSprite.yVelocity += 5 * Utils.gravityAcceleration;
