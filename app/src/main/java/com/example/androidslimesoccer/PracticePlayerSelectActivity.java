@@ -4,24 +4,20 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.*;
+
 import static android.view.View.VISIBLE;
 
-//TODO Will Be Completed By "ASHKAN"
-
 public class PracticePlayerSelectActivity extends Activity {
-
 
     Intent practiceIntent;
     String slimeText;
     TextView slimeName;
-    Boolean isPlayerSelect = false;
+    Boolean isPlayerSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +26,7 @@ public class PracticePlayerSelectActivity extends Activity {
     }
 
     public void onSlimeClick(View v) {
-        isPlayerSelect = true;
+        isPlayerSelected = true;
         ImageView selector = findViewById(R.id.selector);
         selector.setX(v.getX() - 10);
         selector.setY(v.getY() - 10);
@@ -41,15 +37,24 @@ public class PracticePlayerSelectActivity extends Activity {
                 "fonts/Magenta.ttf");
         slimeName.setTypeface(face);
         slimeName.setText(slimeText);
+        if (slimeText.equals("Random")) {
+            String[] slimes = {"Classic", "Traffic", "Runner", "Alien", "Indian"};
+            Random random = new Random();
+            int randomNumber = random.nextInt(slimes.length);
+            slimeText = slimes[randomNumber];
+        }
     }
 
     public void onPlayClick(View v) {
-        if (isPlayerSelect) {
+        if (isPlayerSelected) {
             practiceIntent = new Intent(this, PracticeActivity.class);
             practiceIntent.putExtra("SLIME_NAME", slimeText.toLowerCase());
             startActivity(practiceIntent);
-        }
-        else {
+        } else {
+            slimeName = findViewById(R.id.slime_name);
+            Typeface face = Typeface.createFromAsset(getAssets(),
+                    "fonts/Magenta.ttf");
+            slimeName.setTypeface(face);
             slimeName.setText("Please Choose a Slime");
         }
     }
