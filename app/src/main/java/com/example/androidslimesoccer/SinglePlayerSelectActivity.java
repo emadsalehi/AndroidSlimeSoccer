@@ -9,6 +9,4 @@ public class SinglePlayerSelectActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_player_select);
     }
-
-
 }
