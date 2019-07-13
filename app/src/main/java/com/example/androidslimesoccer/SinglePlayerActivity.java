@@ -35,6 +35,7 @@ public class SinglePlayerActivity extends Activity {
         builder.setMessage("Do you want to leave the game? ");
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                singlePlayerGameView.thread.setRunning(false);
                 SinglePlayerActivity.super.onBackPressed();
             }
         });

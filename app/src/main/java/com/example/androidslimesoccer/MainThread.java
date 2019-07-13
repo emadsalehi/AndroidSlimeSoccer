@@ -12,6 +12,11 @@ public class MainThread extends Thread {
     public static Canvas canvas;
     private int targetFPS = Utils.targetFPS;
     private long averageFPS;
+
+    public boolean isPaused() {
+        return paused;
+    }
+
     private boolean paused;
 
     public void setPaused(boolean paused) {
