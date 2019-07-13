@@ -71,7 +71,6 @@ public class MainThread extends Thread {
 
             timeMillis = (System.nanoTime() - startTime) / 1000000;
             waitTime = targetTime - timeMillis;
-
             try {
                 this.sleep(waitTime);
             } catch (Exception e) {}
@@ -86,6 +85,4 @@ public class MainThread extends Thread {
             }
         }
     }
-
-
 }
