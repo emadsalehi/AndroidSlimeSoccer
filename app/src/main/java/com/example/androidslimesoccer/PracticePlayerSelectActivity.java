@@ -20,6 +20,8 @@ public class PracticePlayerSelectActivity extends Activity {
 
     Intent practiceIntent;
     String slimeText;
+    TextView slimeName;
+    Boolean isPlayerSelect = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +30,12 @@ public class PracticePlayerSelectActivity extends Activity {
     }
 
     public void onSlimeClick(View v) {
+        isPlayerSelect = true;
         ImageView selector = findViewById(R.id.selector);
         selector.setX(v.getX() - 10);
         selector.setY(v.getY() - 10);
         selector.setVisibility(VISIBLE);
-        TextView slimeName = findViewById(R.id.slime_name);
+        slimeName = findViewById(R.id.slime_name);
         slimeText = (String) v.getTag();
         Typeface face = Typeface.createFromAsset(getAssets(),
                 "fonts/Magenta.ttf");
@@ -41,8 +44,13 @@ public class PracticePlayerSelectActivity extends Activity {
     }
 
     public void onPlayClick(View v) {
-        practiceIntent = new Intent(this, PracticeActivity.class);
-        practiceIntent.putExtra("SLIME_NAME", slimeText.toLowerCase());
-        startActivity(practiceIntent);
+        if (isPlayerSelect) {
+            practiceIntent = new Intent(this, PracticeActivity.class);
+            practiceIntent.putExtra("SLIME_NAME", slimeText.toLowerCase());
+            startActivity(practiceIntent);
+        }
+        else {
+            slimeName.setText("Please Choose a Slime");
+        }
     }
 }
