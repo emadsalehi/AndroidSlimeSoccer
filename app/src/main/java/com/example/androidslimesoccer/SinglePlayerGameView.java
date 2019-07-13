@@ -32,6 +32,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     int goalLimit;
     int leftGoalNumber;
     int rightGoalNumber;
+    int downX;
 
     public SinglePlayerGameView(Context context, String leftSlimeName, String rightSlimeName
                 ,int goalLimit) {
@@ -167,29 +168,36 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
                 if (leftSlimeSprite.y == Utils.slimeStartY - leftSlimeSprite.slimeImage.getHeight()) {
                     leftSlimeSprite.yVelocity = -Utils.initialYVelocity;
                 }
-            }
-            else if (event.getX(index) <= Utils.leftRightBorderX) {
-                if (leftSlimeSprite.isLookRight) {
-                    leftSlimeSprite.isLookRight = false;
-                    leftSlimeSprite.slimeImage = flipBitmap(leftSlimeSprite.slimeImage);
-                }
-                leftSlimeSprite.isMoveLeft = true;
             } else {
-                if (!leftSlimeSprite.isLookRight) {
-                    leftSlimeSprite.isLookRight = true;
-                    leftSlimeSprite.slimeImage = flipBitmap(leftSlimeSprite.slimeImage);
-                }
-                leftSlimeSprite.isMoveRight = true;
+                downX = (int) event.getX(index);
             }
             return true;
+        } else if (action == MotionEvent.ACTION_MOVE) {
+            if (event.getX(index) > Utils.leftUpBorderX) {
+                int x = (int) event.getX(index);
+                if (x < downX) {
+                    if (leftSlimeSprite.isLookRight) {
+                        leftSlimeSprite.isLookRight = false;
+                        leftSlimeSprite.slimeImage = flipBitmap(leftSlimeSprite.slimeImage);
+                    }
+                    leftSlimeSprite.isMoveRight = false;
+                    leftSlimeSprite.isMoveLeft = true;
+                } else {
+                    if (!leftSlimeSprite.isLookRight) {
+                        leftSlimeSprite.isLookRight = true;
+                        leftSlimeSprite.slimeImage = flipBitmap(leftSlimeSprite.slimeImage);
+                    }
+                    leftSlimeSprite.isMoveLeft = false;
+                    leftSlimeSprite.isMoveRight = true;
+                }
+            }
         } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP) {
             if (((event.getX(index) > (Utils.leftSpecialButtonX - Utils.specialButtonHalfSide)) &&
                     (event.getX(index) < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
                     (((event.getY(index) < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
                             (event.getY(index) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide)))) {
                 leftSlimeSprite.specialButtonIsHold = false;
-            }
-            else if (event.getX(index) > Utils.leftUpBorderX) {
+            } else if (event.getX(index) > Utils.leftUpBorderX) {
                 if (leftSlimeSprite.isMoveLeft)
                     leftSlimeSprite.isMoveLeft = false;
                 else if (leftSlimeSprite.isMoveRight)

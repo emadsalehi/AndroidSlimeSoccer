@@ -26,6 +26,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
     Bitmap rightGoal;
     Resources resources = getResources();
     PracticeLogicProvider logicProvider;
+    int downX;
 
 
     public PracticeGameView(Context context, String slimeName) {
@@ -138,20 +139,29 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
                 if (slimeSprite.y == Utils.slimeStartY - slimeSprite.slimeImage.getHeight()) {
                     slimeSprite.yVelocity = -Utils.initialYVelocity;
                 }
-            } else if (event.getX(index) <= Utils.leftRightBorderX) {
-                if (slimeSprite.isLookRight) {
-                    slimeSprite.isLookRight = false;
-                    slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
-                }
-                slimeSprite.isMoveLeft = true;
             } else {
-                if (!slimeSprite.isLookRight) {
-                    slimeSprite.isLookRight = true;
-                    slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
-                }
-                slimeSprite.isMoveRight = true;
+                downX = (int) event.getX(index);
             }
             return true;
+        } else if (action == MotionEvent.ACTION_MOVE) {
+            if (event.getX(index) > Utils.leftUpBorderX) {
+                int x = (int) event.getX(index);
+                if (x < downX) {
+                    if (slimeSprite.isLookRight) {
+                        slimeSprite.isLookRight = false;
+                        slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
+                    }
+                    slimeSprite.isMoveRight = false;
+                    slimeSprite.isMoveLeft = true;
+                } else {
+                    if (!slimeSprite.isLookRight) {
+                        slimeSprite.isLookRight = true;
+                        slimeSprite.slimeImage = flipBitmap(slimeSprite.slimeImage);
+                    }
+                    slimeSprite.isMoveLeft = false;
+                    slimeSprite.isMoveRight = true;
+                }
+            }
         } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP) {
             if (((event.getX(index) > (Utils.leftSpecialButtonX - Utils.specialButtonHalfSide)) &&
                     (event.getX(index) < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&

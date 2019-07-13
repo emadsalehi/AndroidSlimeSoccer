@@ -19,8 +19,7 @@ public class Utils {
     static final int slowInitialIncrease = 1;
     static final int fastInitialIncrease = 3;
     static final int initialSpecialLevel = 200;
-    static final int leftRightBorderX = (int) (0.7f * screenWidth);
-    static final int leftUpBorderX = (int) (0.5f * screenWidth);
+    static final int leftUpBorderX = (int) (0.3f * screenWidth);
     static final int leftSpecialButtonX = screenWidth * 7 / 40;
     static final int leftSpecialButtonY = screenHeight / 5;
     static final int rightSpecialButtonX = screenWidth * 33 / 40;
