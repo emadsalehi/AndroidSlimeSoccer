@@ -2,6 +2,8 @@ package com.example.androidslimesoccer;
 
 import android.content.res.Resources;
 
+import java.net.InetAddress;
+
 public class Utils {
     static final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     static final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -43,4 +45,6 @@ public class Utils {
     static double halfCircleConverter = 0.05;
     static int slimeJumpTime =  2 * Utils.initialYVelocity / -Utils.gravityAcceleration;
     static final int netXVelocityIncrease = screenWidth / 200;
+    static final int serverPort = 8000;
+    static InetAddress IPAddress;
 }
