@@ -178,7 +178,6 @@ public class SinglePlayerLogicProvider {
         int xProjection = (slimeCenterX - ballCenterX);
         out: if (dis < (ballRatio + (Utils.halfCircleConverter + 1) * slimeRatio) && yProjection >= 0) {
             Log.i("collision", "1");
-
             yProjection += Utils.halfCircleConverter * slimeRatio;
             double relativeXVelocity = ballSprite.xVelocity - slimeSprite.xVelocity;
             double relativeYVelocity = ballSprite.yVelocity - slimeSprite.yVelocity;
@@ -194,10 +193,10 @@ public class SinglePlayerLogicProvider {
                 }
                 break out;
             }
-
             if (relativeYVelocity < -1 && yProjection <= 1.5 * ballRatio) {
                 break out;
             }
+
 
             double theta = Math.atan2(yProjection, -xProjection);
             double alpha = Math.atan2(relativeXVelocity, relativeYVelocity);
@@ -221,7 +220,6 @@ public class SinglePlayerLogicProvider {
             if (ballSprite.y == Utils.slimeStartY - ballSprite.getBallImage().getHeight()) {
                 slimeSprite.y = Utils.slimeStartY - ballSprite.getBallImage().getHeight()
                         - slimeSprite.slimeImage.getHeight();
-                slimeSprite.yVelocity *= 0.8;
                 if (xProjection >= 0)
                     ballSprite.xVelocity -= Utils.screenWidth / 200;
                 else
