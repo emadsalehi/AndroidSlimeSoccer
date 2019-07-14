@@ -13,7 +13,7 @@ public class MenuActivity extends Activity {
     Intent practicePlayerSelect;
     //    Intent practiceIntent;
     Intent singlePlayerIntent;
-//    Intent multiPlayerIntent;
+    Intent multiPlayerIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +39,15 @@ public class MenuActivity extends Activity {
         startActivity(singlePlayerIntent);
     }
 
-//    public void onMultiPlayerClick(View v) {
+    public void onMultiPlayerClick(View v) {
 //        multiPlayerIntent = new Intent(this, MultiPlayerActivity.class);
 //        multiPlayerIntent.putExtra("LEFT_SLIME_NAME", "classic");
 //        multiPlayerIntent.putExtra("RIGHT_SLIME_NAME", "classic");
 //        multiPlayerIntent.putExtra("GOAL_LIMIT", 5);
 //        startActivity(multiPlayerIntent);
-//    }
+        multiPlayerIntent = new Intent(this, HostJoinSelectActivity.class);
+        startActivity(multiPlayerIntent);
+    }
 
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
         return Bitmap.createScaledBitmap(bm, newWidth, newHeight, true);
