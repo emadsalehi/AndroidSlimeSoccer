@@ -53,14 +53,13 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         leftSlimeSprite = new SlimeSprite(SlimeType.valueOf(leftSlimeName.toUpperCase()),
                 getResizedBitmap(leftSlimeBitmap, (int)(Utils.assetsYScale * leftSlimeBitmap.getWidth()),
                         (int)(Utils.assetsYScale * leftSlimeBitmap.getHeight())), true);
-        leftSlimeSprite.initializeFirstState();
+
 
         Bitmap rightSlimeBitmap = BitmapFactory.decodeResource(resources,
                 resources.getIdentifier(rightSlimeName, "drawable", context.getPackageName()));
         rightSlimeSprite = new SlimeSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()),
                 getResizedBitmap(rightSlimeBitmap, (int)(Utils.assetsYScale * rightSlimeBitmap.getWidth()),
                         (int)(Utils.assetsYScale * rightSlimeBitmap.getHeight())), false);
-        rightSlimeSprite.initializeFirstState();
 
         this.goalLimit = goalLimit;
         Utils.ballRatio = (int)(Utils.assetsYScale * ballBitmap.getWidth() / 2);
@@ -70,6 +69,9 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
                 (int)(Utils.assetsYScale * ballBitmap.getWidth()),
                 (int)(Utils.assetsYScale * ballBitmap.getHeight())));
         ballSprite.initializeFirstState();
+        leftSlimeSprite.initializeFirstState();
+        rightSlimeSprite.initializeFirstState();
+
         leftSpecialSprite = new SpecialSprite(SlimeType.valueOf(leftSlimeName.toUpperCase()), resources);
         rightSpecialSprite = new SpecialSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()), resources);
         singlePlayerLogicProvider = new SinglePlayerLogicProvider(leftSlimeSprite, rightSlimeSprite

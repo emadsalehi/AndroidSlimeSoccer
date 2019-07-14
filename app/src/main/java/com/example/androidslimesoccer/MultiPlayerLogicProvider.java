@@ -27,12 +27,12 @@ public class MultiPlayerLogicProvider {
     public void update() {
         slimeSprite1.update();
         slimeSprite2.update();
+        slimeAndWallCollisionChecker(slimeSprite1);
+        slimeAndWallCollisionChecker(slimeSprite2);
         slimeAndBallCollisionChecker(slimeSprite1);
         slimeAndBallCollisionChecker(slimeSprite2);
         ballSprite.update();
         ballAndWallCollisionChecker();
-        slimeAndWallCollisionChecker(slimeSprite1);
-        slimeAndWallCollisionChecker(slimeSprite2);
         if (slimeSprite1.specialIsActive)
             doSpecial(slimeSprite1, specialSprite1, slimeSprite2);
         else

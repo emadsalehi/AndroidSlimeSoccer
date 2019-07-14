@@ -27,12 +27,12 @@ public class SinglePlayerLogicProvider {
         aiUpdateAction();
         slimeSprite1.update();
         slimeSprite2.update();
+        slimeAndWallCollisionChecker(slimeSprite1);
+        slimeAndWallCollisionChecker(slimeSprite2);
         slimeAndBallCollisionChecker(slimeSprite1);
         slimeAndBallCollisionChecker(slimeSprite2);
         ballSprite.update();
         ballAndWallCollisionChecker();
-        slimeAndWallCollisionChecker(slimeSprite1);
-        slimeAndWallCollisionChecker(slimeSprite2);
         if (slimeSprite1.specialIsActive)
             doSpecial(slimeSprite1, specialSprite1, slimeSprite2);
         else
@@ -204,7 +204,6 @@ public class SinglePlayerLogicProvider {
 
             ballSprite.xVelocity = (int) (slimeSprite.xVelocity + totalVelocity * Math.cos(finalAngle));
             ballSprite.yVelocity = (int) (slimeSprite.yVelocity - totalVelocity * Math.sin(finalAngle));
-
             if (ballSprite.y >= Utils.slimeStartY - 2 * ballRatio - 1) {
                 ballSprite.yVelocity += 5 * Utils.gravityAcceleration;
                 ballSprite.xVelocity += Utils.gravityAcceleration;
@@ -256,18 +255,12 @@ public class SinglePlayerLogicProvider {
             ballSprite.y = Utils.gameUpperBorder;
             ballSprite.yVelocity = (int) ((double)(-ballSprite.yVelocity) * Utils.ballSpeedReductionFactor);
         }
-        if ((ballSprite.y > Utils.netUpperWallHeight - ballSprite.getBallImage().getWidth()
-                && ballSprite.y < Utils.netUpperWallHeight + 2 * ballSprite.getBallImage().getWidth())
+        if ((ballSprite.y > Utils.netUpperWallHeight
+                && ballSprite.y < Utils.netUpperWallHeight + ballSprite.getBallImage().getWidth())
                 && (ballSprite.x < Utils.leftGoalLine + Utils.netUpperWallWidth ||
                 ballSprite.x > (Utils.rightGoalLine - Utils.netUpperWallWidth)) ) {
             ballSprite.y = Utils.netUpperWallHeight;
-            ballSprite.yVelocity = (-ballSprite.yVelocity) ;
-            if (ballSprite.x < Utils.leftGoalLine + Utils.netUpperWallWidth ) {
-                ballSprite.xVelocity += Utils.netXVelocityIncrease;
-            }
-            else {
-                ballSprite.yVelocity -= Utils.netXVelocityIncrease;
-            }
+            ballSprite.yVelocity = (int) ((double)(-ballSprite.yVelocity) );
         }
 
         if ( ballSprite.yVelocity <= 0 && ballSprite.yVelocity >= Utils.ballSpeedThreshold )  {
@@ -380,9 +373,8 @@ public class SinglePlayerLogicProvider {
     public int distance(SlimeSprite slimeSprite, BallSprite ballSprite) {
         return (int)(Math.sqrt(Math.pow(((ballSprite.x + Utils.ballRatio) - (slimeSprite.x + Utils.slimeRatio)), 2) +
                 Math.pow(((ballSprite.y + Utils.ballRatio) -
-                        (slimeSprite.y + (slimeSprite.y + slimeSprite.slimeImage.getHeight() +
-                                Utils.halfCircleConverter * Utils.slimeRatio))), 2))
-                + Utils.ballRatio / 2);
+                        (slimeSprite.y + slimeSprite.slimeImage.getHeight() +
+                                Utils.halfCircleConverter * Utils.slimeRatio)), 2)) + Utils.ballRatio / 2);
     }
     public Bitmap flipBitmap (Bitmap bm) {
         Matrix matrix = new Matrix();

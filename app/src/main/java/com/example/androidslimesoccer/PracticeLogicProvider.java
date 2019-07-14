@@ -160,7 +160,6 @@ public class PracticeLogicProvider {
 
             ballSprite.xVelocity = (int) (slimeSprite.xVelocity + totalVelocity * Math.cos(finalAngle));
             ballSprite.yVelocity = (int) (slimeSprite.yVelocity - totalVelocity * Math.sin(finalAngle));
-
             if (ballSprite.y >= Utils.slimeStartY - 2 * ballRatio - 1) {
                 ballSprite.yVelocity += 5 * Utils.gravityAcceleration;
                 ballSprite.xVelocity += Utils.gravityAcceleration;
