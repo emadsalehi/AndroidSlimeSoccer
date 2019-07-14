@@ -5,13 +5,13 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-public class ServerReceiver extends Thread {
+public class ServerReader extends Thread {
 
     SlimeSprite slimeSprite;
     DatagramSocket serverSocket;
     boolean isRunning = true;
 
-    public ServerReceiver(SlimeSprite slimeSprite, DatagramSocket serverSocket) {
+    public ServerReader(SlimeSprite slimeSprite, DatagramSocket serverSocket) {
         this.slimeSprite = slimeSprite;
         this.serverSocket = serverSocket;
     }

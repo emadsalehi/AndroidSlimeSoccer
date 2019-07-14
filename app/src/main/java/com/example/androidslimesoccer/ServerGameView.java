@@ -18,7 +18,7 @@ import java.net.SocketException;
 public class ServerGameView extends GameView implements SurfaceHolder.Callback {
 
     MainThread thread;
-    ServerReceiver serverReceiver;
+    ServerReader serverReader;
     DatagramSocket serverSocket;
     Context context;
     SpecialSprite leftSpecialSprite;
@@ -80,7 +80,7 @@ public class ServerGameView extends GameView implements SurfaceHolder.Callback {
                 , ballSprite, leftSpecialSprite, rightSpecialSprite, serverSocket);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
-        serverReceiver = new ServerReceiver(rightSlimeSprite, serverSocket);
+        serverReader = new ServerReader(rightSlimeSprite, serverSocket);
         setFocusable(true);
     }
 
@@ -88,7 +88,8 @@ public class ServerGameView extends GameView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         thread.setRunning(true);
         thread.start();
-        serverReceiver.start();
+        serverReader.setRunning(true);
+        serverReader.start();
     }
 
     @Override
@@ -103,8 +104,8 @@ public class ServerGameView extends GameView implements SurfaceHolder.Callback {
             try {
                 thread.setRunning(false);
                 thread.join();
-                serverReceiver.setRunning(false);
-                serverReceiver.join();
+                serverReader.setRunning(false);
+                serverReader.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
