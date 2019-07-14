@@ -29,7 +29,7 @@ public class ServerReader extends Thread {
                 if (data.equals("j")) {
                     if (slimeSprite.y == Utils.slimeStartY - slimeSprite.slimeImage.getHeight()
                             && slimeSprite.yVelocity == 0) {
-                        slimeSprite.yVelocity = Utils.initialYVelocity;
+                        slimeSprite.yVelocity = -Utils.initialYVelocity;
                     }
                 } else if (data.equals("s")) {
                     slimeSprite.enableSpecial();
@@ -39,8 +39,10 @@ public class ServerReader extends Thread {
                     boolean value = info[1].equals("t") ? true : false;
                     if (metaData.equals("r"))
                         slimeSprite.isMoveRight = value;
-                    else
+                    else if (metaData.equals("l"))
                         slimeSprite.isMoveLeft = value;
+                    else
+                        slimeSprite.specialButtonIsHold = value;
                 }
             }
         } catch (SocketException e) {
