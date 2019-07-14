@@ -12,15 +12,10 @@ import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
 
 public class ClientGameView extends GameView implements SurfaceHolder.Callback {
     MainThread thread;
     ClientReader clientReader;
-    DatagramSocket socket;
     Context context;
     SpecialSprite leftSpecialSprite;
     SpecialSprite rightSpecialSprite;
@@ -41,6 +36,7 @@ public class ClientGameView extends GameView implements SurfaceHolder.Callback {
         this.context = context;
         Utils.assetsXScale = (double)Utils.screenWidth / background.getWidth();
         Utils.assetsYScale = (double)Utils.screenHeight / background.getHeight();
+        background = getResizedBitmap(background, Utils.screenWidth, Utils.screenHeight);
         leftGoal = getResizedBitmap(goal, (int)(Utils.assetsXScale * goal.getWidth()),
                 (int)(Utils.assetsYScale * goal.getHeight()));
         rightGoal = flipBitmap(leftGoal);
@@ -68,17 +64,9 @@ public class ClientGameView extends GameView implements SurfaceHolder.Callback {
         ballSprite.initializeFirstState();
         leftSpecialSprite = new SpecialSprite(SlimeType.valueOf(leftSlimeName.toUpperCase()), resources);
         rightSpecialSprite = new SpecialSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()), resources);
-
-        try {
-            socket = new DatagramSocket();
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-
-
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
-        clientReader = new ClientReader(socket, leftSlimeSprite, rightSlimeSprite, leftSpecialSprite,
+        clientReader = new ClientReader(leftSlimeSprite, rightSlimeSprite, leftSpecialSprite,
                 rightSpecialSprite, ballSprite);
         setFocusable(true);
     }
@@ -218,12 +206,7 @@ public class ClientGameView extends GameView implements SurfaceHolder.Callback {
 
     public void writer(String sendData) {
         sendDataBytes = sendData.getBytes();
-        DatagramPacket sendPacket = new DatagramPacket(sendDataBytes, sendDataBytes.length);
-        try {
-            socket.send(sendPacket);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new ClientWriter(sendDataBytes).start();
     }
 
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {

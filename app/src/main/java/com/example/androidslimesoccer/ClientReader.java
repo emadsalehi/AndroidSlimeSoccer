@@ -15,9 +15,8 @@ public class ClientReader extends Thread {
     BallSprite ballSprite;
     int leftGoal = 0, rightGoal = 0;
 
-    public ClientReader (DatagramSocket clientSocket, SlimeSprite leftSlimeSprite, SlimeSprite rightSlimeSprite,
+    public ClientReader (SlimeSprite leftSlimeSprite, SlimeSprite rightSlimeSprite,
                          SpecialSprite leftSpecialSprite, SpecialSprite rightSpecialSprite, BallSprite ballSprite) {
-        this.clientSocket = clientSocket;
         this.leftSlimeSprite = leftSlimeSprite;
         this.rightSlimeSprite = rightSlimeSprite;
         this.leftSpecialSprite = leftSpecialSprite;
@@ -29,6 +28,7 @@ public class ClientReader extends Thread {
     public void run() {
         try {
             byte[] receiveData = new byte[128];
+            clientSocket = new DatagramSocket();
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 
             while (isRunning) {

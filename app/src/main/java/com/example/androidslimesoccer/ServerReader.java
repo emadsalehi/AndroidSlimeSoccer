@@ -3,6 +3,7 @@ package com.example.androidslimesoccer;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
 import java.net.SocketException;
 
 public class ServerReader extends Thread {
@@ -20,6 +21,9 @@ public class ServerReader extends Thread {
     public void run() {
         try {
             byte [] receiveData = new byte[8];
+//            serverSocket = new DatagramSocket();
+//            serverSocket.setReuseAddress(true);
+//            serverSocket.bind(new InetSocketAddress(Utils.serverPort));
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 
             while (isRunning) {

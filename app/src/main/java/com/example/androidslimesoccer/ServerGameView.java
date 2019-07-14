@@ -9,10 +9,12 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
 import java.net.SocketException;
 
 public class ServerGameView extends GameView implements SurfaceHolder.Callback {
@@ -32,7 +34,6 @@ public class ServerGameView extends GameView implements SurfaceHolder.Callback {
     Bitmap leftGoal; Bitmap rightGoal;
     Resources resources = getResources();
     int goalLimit = 5;
-    int leftGoalNumber = 0, rightGoalNumebr = 0;
     int downX;
 
 
@@ -42,6 +43,7 @@ public class ServerGameView extends GameView implements SurfaceHolder.Callback {
         this.context = context;
         Utils.assetsXScale = (double)Utils.screenWidth / background.getWidth();
         Utils.assetsYScale = (double)Utils.screenHeight / background.getHeight();
+        background = getResizedBitmap(background, Utils.screenWidth, Utils.screenHeight);
         leftGoal = getResizedBitmap(goal, (int)(Utils.assetsXScale * goal.getWidth()),
                 (int)(Utils.assetsYScale * goal.getHeight()));
         rightGoal = flipBitmap(leftGoal);
@@ -71,16 +73,18 @@ public class ServerGameView extends GameView implements SurfaceHolder.Callback {
         rightSpecialSprite = new SpecialSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()), resources);
 
         try {
-            serverSocket = new DatagramSocket(Utils.serverPort);
+            serverSocket = new DatagramSocket(null);
+            serverSocket.setReuseAddress(true);
+            serverSocket.bind(new InetSocketAddress(Utils.serverPort));
         } catch (SocketException e) {
             e.printStackTrace();
         }
 
         multiPlayerLogicProvider = new MultiPlayerLogicProvider(leftSlimeSprite, rightSlimeSprite
                 , ballSprite, leftSpecialSprite, rightSpecialSprite, serverSocket);
-        serverReader = new ServerReader(rightSlimeSprite, serverSocket);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
+        serverReader = new ServerReader(rightSlimeSprite, serverSocket);
         setFocusable(true);
     }
 

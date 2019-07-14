@@ -2,6 +2,7 @@ package com.example.androidslimesoccer;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 

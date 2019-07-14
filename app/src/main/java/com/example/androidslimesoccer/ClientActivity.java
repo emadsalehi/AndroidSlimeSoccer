@@ -8,6 +8,7 @@ import android.view.WindowManager;
 public class ClientActivity extends Activity {
 
     ClientGameView clientGameView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
