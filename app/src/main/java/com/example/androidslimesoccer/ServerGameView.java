@@ -78,9 +78,9 @@ public class ServerGameView extends GameView implements SurfaceHolder.Callback {
 
         multiPlayerLogicProvider = new MultiPlayerLogicProvider(leftSlimeSprite, rightSlimeSprite
                 , ballSprite, leftSpecialSprite, rightSpecialSprite, serverSocket);
+        serverReader = new ServerReader(rightSlimeSprite, serverSocket);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
-        serverReader = new ServerReader(rightSlimeSprite, serverSocket);
         setFocusable(true);
     }
 

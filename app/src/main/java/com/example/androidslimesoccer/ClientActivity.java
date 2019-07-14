@@ -18,5 +18,6 @@ public class ClientActivity extends Activity {
         String rightSlimeName = getIntent().getStringExtra("RIGHT_SLIME_NAME");
         int goalLimit = getIntent().getIntExtra("GOAL_LIMIT", 5);
         clientGameView = new ClientGameView(this, leftSlimeName, rightSlimeName);
+        setContentView(clientGameView);
     }
 }

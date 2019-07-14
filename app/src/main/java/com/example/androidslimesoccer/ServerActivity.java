@@ -19,5 +19,6 @@ public class ServerActivity extends Activity {
         String rightSlimeName = getIntent().getStringExtra("RIGHT_SLIME_NAME");
         int goalLimit = getIntent().getIntExtra("GOAL_LIMIT", 5);
         serverGameView = new ServerGameView(this, leftSlimeName, rightSlimeName);
+        setContentView(serverGameView);
     }
 }
