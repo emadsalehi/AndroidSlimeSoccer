@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.util.Log;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 public class MultiPlayerLogicProvider {
@@ -11,7 +13,7 @@ public class MultiPlayerLogicProvider {
     SpecialSprite specialSprite1, specialSprite2;
     BallSprite ballSprite;
     DatagramSocket serverSocket;
-    byte[] sendData = new byte[32];
+    byte[] sendData = new byte[128];
     int slime1Goals = 0, slime2Goals = 0;
 
     public MultiPlayerLogicProvider(SlimeSprite slimeSprite1, SlimeSprite slimeSprite2, BallSprite ballSprite
@@ -309,16 +311,58 @@ public class MultiPlayerLogicProvider {
 
     public void writer() {
         StringBuilder sb = new StringBuilder();
-        sb.append(slime1Goals);
+        sb.append(slime2Goals);
         sb.append(",");
         sb.append(slime1Goals);
         sb.append(",");
-        //To Be Continued...
-    }
 
-    public Bitmap flipBitmap (Bitmap bm) {
-        Matrix matrix = new Matrix();
-        matrix.preScale(-1.0f, 1.0f);
-        return Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+        sb.append((double)Utils.screenWidth / (double)(Utils.screenWidth - ballSprite.x
+                - ballSprite.getBallImage().getWidth()));
+        sb.append(",");
+        sb.append((double)Utils.screenHeight / (double)ballSprite.y);
+        sb.append(",");
+
+        sb.append((double)Utils.screenWidth / (double)(Utils.screenWidth - slimeSprite2.x
+                - slimeSprite2.slimeImage.getWidth()));
+        sb.append(",");
+        sb.append((double)Utils.screenHeight / (double)slimeSprite2.y);
+        sb.append(",");
+        sb.append(slimeSprite2.specialLevel);
+        sb.append(",");
+        sb.append(!slimeSprite2.isLookRight);
+        sb.append(",");
+
+        sb.append((double)Utils.screenWidth / (double)(Utils.screenWidth - slimeSprite1.x
+                - slimeSprite1.slimeImage.getWidth()));
+        sb.append(",");
+        sb.append((double)Utils.screenHeight / (double)slimeSprite1.y);
+        sb.append(",");
+        sb.append(slimeSprite1.specialLevel);
+        sb.append(",");
+        sb.append(!slimeSprite1.isLookRight);
+        sb.append(",");
+
+        sb.append(specialSprite2.isOnDraw);
+        sb.append(",");
+        sb.append((double)Utils.screenWidth / (double)(Utils.screenWidth - specialSprite1.x
+                - specialSprite2.specialImage1.getWidth()));
+        sb.append(",");
+        sb.append((double)Utils.screenHeight / (double)(specialSprite2.y));
+
+        sb.append(specialSprite1.isOnDraw);
+        sb.append(",");
+        sb.append((double)Utils.screenWidth / (double)(Utils.screenWidth - specialSprite1.x
+                - specialSprite1.specialImage1.getWidth()));
+        sb.append(",");
+        sb.append((double)Utils.screenHeight / (double)(specialSprite1.y));
+
+        sendData = sb.toString().getBytes();
+        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length
+                , Utils.IPAddress, Utils.serverPort);
+        try {
+            serverSocket.send(sendPacket);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
