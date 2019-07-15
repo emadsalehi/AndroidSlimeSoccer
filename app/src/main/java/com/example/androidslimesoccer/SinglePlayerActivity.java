@@ -28,6 +28,30 @@ public class SinglePlayerActivity extends Activity {
     }
 
     @Override
+    public void onDestroy() {
+        Log.i("destroy ac","called");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        Log.i("pause","called");
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.i("stop","called");
+        singlePlayerGameView.thread.setRunning(false);
+        try {
+            singlePlayerGameView.thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        super.onStop();
+    }
+
+    @Override
     public void onBackPressed(){
         singlePlayerGameView.thread.setPaused(true);
 
