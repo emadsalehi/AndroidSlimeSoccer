@@ -27,8 +27,4 @@ public class ClientWriter extends Thread {
             e.printStackTrace();
         }
     }
-
-    public void setSendData(byte[] sendData) {
-        this.sendData = sendData;
-    }
 }

@@ -3,7 +3,6 @@ package com.example.androidslimesoccer;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
 import java.net.SocketException;
 
 public class ServerReader extends Thread {
@@ -21,32 +20,30 @@ public class ServerReader extends Thread {
     public void run() {
         try {
             byte [] receiveData = new byte[8];
-//            serverSocket = new DatagramSocket();
-//            serverSocket.setReuseAddress(true);
-//            serverSocket.bind(new InetSocketAddress(Utils.serverPort));
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 
             while (isRunning) {
                 serverSocket.receive(receivePacket);
-                String data = String.valueOf(receivePacket.getData());
+                String[] data = new String(receivePacket.getData()).split(",");
                 Utils.IPAddress = receivePacket.getAddress();
-                if (data.equals("j")) {
-                    if (slimeSprite.y == Utils.slimeStartY - slimeSprite.slimeImage.getHeight()
-                            && slimeSprite.yVelocity == 0) {
-                        slimeSprite.yVelocity = -Utils.initialYVelocity;
+                if (data[0].equals("c")) {
+                    if (data[1].equals("j")) {
+                        if (slimeSprite.y == Utils.slimeStartY - slimeSprite.slimeImage.getHeight()
+                                && slimeSprite.yVelocity == 0) {
+                            slimeSprite.yVelocity = -Utils.initialYVelocity;
+                        }
+                    } else if (data[1].equals("s")) {
+                        slimeSprite.enableSpecial();
+                    } else {
+                        String metaData = data[1];
+                        boolean value = data[2].equals("t") ? true : false;
+                        if (metaData.equals("r"))
+                            slimeSprite.isMoveRight = value;
+                        else if (metaData.equals("l"))
+                            slimeSprite.isMoveLeft = value;
+                        else
+                            slimeSprite.specialButtonIsHold = value;
                     }
-                } else if (data.equals("s")) {
-                    slimeSprite.enableSpecial();
-                } else {
-                    String [] info = data.split(",");
-                    String metaData = info[0];
-                    boolean value = info[1].equals("t") ? true : false;
-                    if (metaData.equals("r"))
-                        slimeSprite.isMoveRight = value;
-                    else if (metaData.equals("l"))
-                        slimeSprite.isMoveLeft = value;
-                    else
-                        slimeSprite.specialButtonIsHold = value;
                 }
             }
         } catch (SocketException e) {

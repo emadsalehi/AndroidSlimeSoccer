@@ -3,6 +3,7 @@ package com.example.androidslimesoccer;
 //TODO Will Be Completed By "SINA"
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 public class MainThread extends Thread {
@@ -60,7 +61,9 @@ public class MainThread extends Thread {
                     this.gameView.update();
                     this.gameView.draw(canvas);
                 }
-            } catch (Exception e) {       }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             finally {
                 if (canvas != null)            {
                     try {
