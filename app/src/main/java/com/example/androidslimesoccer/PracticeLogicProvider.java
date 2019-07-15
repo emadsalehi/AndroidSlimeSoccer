@@ -1,5 +1,6 @@
 package com.example.androidslimesoccer;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -7,11 +8,14 @@ public class PracticeLogicProvider {
     SlimeSprite slimeSprite;
     BallSprite ballSprite;
     SpecialSprite specialSprite;
+    Context context;
 
-    public PracticeLogicProvider(SlimeSprite slimeSprite, BallSprite ballSprite, SpecialSprite specialSprite) {
+    public PracticeLogicProvider(SlimeSprite slimeSprite, BallSprite ballSprite, SpecialSprite specialSprite, Context context) {
         this.slimeSprite = slimeSprite;
         this.ballSprite = ballSprite;
         this.specialSprite = specialSprite;
+        this.context = context;
+        SoundManager.InitSound(context);
     }
 
     public void update() {
@@ -217,6 +221,7 @@ public class PracticeLogicProvider {
                 ballSprite.x > (Utils.rightGoalLine - Utils.netUpperWallWidth)) ) {
             ballSprite.y = Utils.netUpperWallHeight;
             ballSprite.yVelocity = (int) ((double)(-ballSprite.yVelocity) );
+            SoundManager.playSound(0);
         }
 
         if ( ballSprite.yVelocity <= 0 && ballSprite.yVelocity >= Utils.ballSpeedThreshold )  {

@@ -3,9 +3,11 @@ package com.example.androidslimesoccer;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 //TODO Will Be Completed By "ASHKAN"
 
@@ -51,9 +53,15 @@ public class MenuActivity extends Activity {
 
     public void onSoundClick(View v) {
         if (mediaPlayer.isPlaying()){
+            Bitmap muteImageBitmap = BitmapFactory.decodeResource(getResources(),
+                    getResources().getIdentifier("mute", "drawable", this.getPackageName()));
+            ((ImageView)v).setImageBitmap(muteImageBitmap);
             mediaPlayer.pause();
         }
         else {
+            Bitmap unMuteImageBitmap =  BitmapFactory.decodeResource(getResources(),
+                    getResources().getIdentifier("speaker", "drawable", this.getPackageName()));
+            ((ImageView)v).setImageBitmap(unMuteImageBitmap);
             mediaPlayer.start();
         }
     }

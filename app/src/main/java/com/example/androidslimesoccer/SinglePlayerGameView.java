@@ -76,7 +76,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         leftSpecialSprite = new SpecialSprite(SlimeType.valueOf(leftSlimeName.toUpperCase()), resources);
         rightSpecialSprite = new SpecialSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()), resources);
         singlePlayerLogicProvider = new SinglePlayerLogicProvider(leftSlimeSprite, rightSlimeSprite
-                , ballSprite, leftSpecialSprite, rightSpecialSprite);
+                , ballSprite, leftSpecialSprite, rightSpecialSprite, context);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
