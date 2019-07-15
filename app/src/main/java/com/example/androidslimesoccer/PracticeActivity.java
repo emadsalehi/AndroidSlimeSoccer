@@ -67,7 +67,7 @@ public class PracticeActivity extends Activity {
         if (!gameView.thread.isPaused()) {
             int pauseMenuWidth = (int) (Utils.screenWidth / 1.5);
             int pauseMenuHeight = pauseMenuWidth * 10 / 16;
-            int pauseMenuIconSize =(int) (Utils.screenWidth / 6 );
+            int pauseMenuIconSize = (int) (Utils.screenWidth / 6);
             ViewGroup viewGroup = findViewById(android.R.id.content);
             View dialogView = LayoutInflater.from(context).inflate(R.layout.pause_dialog, viewGroup, false);
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -77,27 +77,27 @@ public class PracticeActivity extends Activity {
                     getResources().getIdentifier("pause_menu_resume", "drawable", this.getPackageName()));
             resumeImage.setImageBitmap(Bitmap.createScaledBitmap(resumeBitmap, pauseMenuIconSize,
                     pauseMenuIconSize, true));
-            resumeImage.setX(Utils.screenWidth/ 40);
-            resumeImage.setY(Utils.screenHeight/ 7);
+            resumeImage.setX(Utils.screenWidth / 40);
+            resumeImage.setY(Utils.screenHeight / 7);
 
             ImageView muteImage = new ImageView(this);
             Bitmap muteBitmap = BitmapFactory.decodeResource(getResources(),
                     getResources().getIdentifier("pause_menu_sound_on", "drawable", this.getPackageName()));
             muteImage.setImageBitmap(Bitmap.createScaledBitmap(muteBitmap, pauseMenuIconSize,
                     pauseMenuIconSize, true));
-            muteImage.setX(Utils.screenWidth/ 100 + (float)(pauseMenuIconSize * 0.3));
-            muteImage.setY(Utils.screenHeight/ 7);
+            muteImage.setX(Utils.screenWidth / 100 + (float) (pauseMenuIconSize * 0.3));
+            muteImage.setY(Utils.screenHeight / 7);
 
             ImageView exitImage = new ImageView(this);
             Bitmap exitBitmap = BitmapFactory.decodeResource(getResources(),
                     getResources().getIdentifier("pause_menu_exit", "drawable", this.getPackageName()));
             exitImage.setImageBitmap(Bitmap.createScaledBitmap(exitBitmap, pauseMenuIconSize,
                     pauseMenuIconSize, true));
-            exitImage.setX(Utils.screenWidth/ 100 +(float) (1.35 *  (pauseMenuIconSize * 0.4)));
-            exitImage.setY(Utils.screenHeight/ 7);
-            ((LinearLayout)dialogView).addView(resumeImage);
-            ((LinearLayout)dialogView).addView(muteImage);
-            ((LinearLayout)dialogView).addView(exitImage);
+            exitImage.setX(Utils.screenWidth / 100 + (float) (1.35 * (pauseMenuIconSize * 0.4)));
+            exitImage.setY(Utils.screenHeight / 7);
+            ((LinearLayout) dialogView).addView(resumeImage);
+            ((LinearLayout) dialogView).addView(muteImage);
+            ((LinearLayout) dialogView).addView(exitImage);
 
             builder.setView(dialogView);
             final AlertDialog alertDialog = builder.create();
@@ -107,7 +107,7 @@ public class PracticeActivity extends Activity {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     gameView.thread.setPaused(false);
-                    pauseImage.setAlpha((float)0.5);
+                    pauseImage.setAlpha((float) 0.5);
                     alertDialog.dismiss();
                     return false;
                 }
@@ -134,8 +134,39 @@ public class PracticeActivity extends Activity {
 
     @Override
     public void onDestroy() {
+        Log.i("destroy ac","called");
         super.onDestroy();
     }
+
+    @Override
+    public void onPause() {
+        Log.i("pause","called");
+        onPausePressed(pauseImage);
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        Log.i("stop","called");
+//        onPausePressed(pauseImage);
+        gameView.thread.setRunning(false);
+        try {
+            gameView.thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        Log.i("resume","called");
+        super.onResume();
+        if (gameView.thread.isPaused()) {
+            onPausePressed(pauseImage);
+        }
+    }
+
     @Override
     public void onBackPressed() {
         gameView.thread.setRunning(false);

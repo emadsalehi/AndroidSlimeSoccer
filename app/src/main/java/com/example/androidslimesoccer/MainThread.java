@@ -23,6 +23,10 @@ public class MainThread extends Thread {
         this.paused = paused;
     }
 
+    public boolean isRunning() {
+        return running;
+    }
+
     public MainThread(SurfaceHolder surfaceHolder, GameView gameView) {
         super();
         this.surfaceHolder = surfaceHolder;
