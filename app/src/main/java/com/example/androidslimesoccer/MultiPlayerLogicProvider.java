@@ -1,11 +1,7 @@
 package com.example.androidslimesoccer;
 
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.util.Log;
-
-import java.io.IOException;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 public class MultiPlayerLogicProvider {
@@ -304,13 +300,13 @@ public class MultiPlayerLogicProvider {
     public int distance(SlimeSprite slimeSprite, BallSprite ballSprite) {
         return (int)(Math.sqrt(Math.pow(((ballSprite.x + Utils.ballRatio) - (slimeSprite.x + Utils.slimeRatio)), 2) +
                 Math.pow(((ballSprite.y + Utils.ballRatio) -
-                        (slimeSprite.y + (slimeSprite.y + slimeSprite.slimeImage.getHeight() +
-                                Utils.halfCircleConverter * Utils.slimeRatio))), 2))
-                + Utils.ballRatio / 2);
+                        (slimeSprite.y + slimeSprite.slimeImage.getHeight() +
+                                Utils.halfCircleConverter * Utils.slimeRatio)), 2)) + Utils.ballRatio / 2);
     }
 
     public void writer() {
         StringBuilder sb = new StringBuilder();
+        sb.append("s,");
         sb.append(slime2Goals);
         sb.append(",");
         sb.append(slime1Goals);
@@ -344,25 +340,23 @@ public class MultiPlayerLogicProvider {
 
         sb.append(specialSprite2.isOnDraw);
         sb.append(",");
-        sb.append((double)Utils.screenWidth / (double)(Utils.screenWidth - specialSprite1.x
-                - specialSprite2.specialImage1.getWidth()));
-        sb.append(",");
-        sb.append((double)Utils.screenHeight / (double)(specialSprite2.y));
+        if(specialSprite2.isOnDraw) {
+            sb.append((double) Utils.screenWidth / (double) (Utils.screenWidth - specialSprite1.x
+                    - specialSprite2.specialImage1.getWidth()));
+            sb.append(",");
+            sb.append((double) Utils.screenHeight / (double) (specialSprite2.y));
+        }
 
         sb.append(specialSprite1.isOnDraw);
         sb.append(",");
-        sb.append((double)Utils.screenWidth / (double)(Utils.screenWidth - specialSprite1.x
-                - specialSprite1.specialImage1.getWidth()));
-        sb.append(",");
-        sb.append((double)Utils.screenHeight / (double)(specialSprite1.y));
+        if (specialSprite1.isOnDraw) {
+            sb.append((double) Utils.screenWidth / (double) (Utils.screenWidth - specialSprite1.x
+                    - specialSprite1.specialImage1.getWidth()));
+            sb.append(",");
+            sb.append((double) Utils.screenHeight / (double) (specialSprite1.y));
+        }
 
         sendData = sb.toString().getBytes();
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length
-                , Utils.IPAddress, Utils.serverPort);
-        try {
-            serverSocket.send(sendPacket);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new ServerWriter(sendData, serverSocket).start();
     }
 }

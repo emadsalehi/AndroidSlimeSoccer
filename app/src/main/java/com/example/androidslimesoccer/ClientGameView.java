@@ -166,11 +166,11 @@ public class ClientGameView extends GameView implements SurfaceHolder.Callback {
                     (event.getX(index) < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
                     (((event.getY(index) < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
                             (event.getY(index) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide)))) {
-                writer("s");
-                writer("h,t");
+                writer("c,s");
+                writer("c,h,t");
             } else if (event.getX(index) < Utils.leftUpBorderX) {
                 if (leftSlimeSprite.y == Utils.slimeStartY - leftSlimeSprite.slimeImage.getHeight()) {
-                    writer("j");
+                    writer("c,j");
                 }
             } else {
                 downX = (int) event.getX(index);
@@ -180,11 +180,11 @@ public class ClientGameView extends GameView implements SurfaceHolder.Callback {
             if (event.getX(index) > Utils.leftUpBorderX) {
                 int x = (int) event.getX(index);
                 if (x < downX) {
-                    writer("l,f");
-                    writer("r,t");
+                    writer("c,l,f");
+                    writer("c,r,t");
                 } else {
-                    writer("r,f");
-                    writer("l,t");
+                    writer("c,r,f");
+                    writer("c,l,t");
                 }
             }
         } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP) {
@@ -192,12 +192,12 @@ public class ClientGameView extends GameView implements SurfaceHolder.Callback {
                     (event.getX(index) < (Utils.leftSpecialButtonX + Utils.specialButtonHalfSide))) &&
                     (((event.getY(index) < (Utils.leftSpecialButtonY + Utils.specialButtonHalfSide))) &&
                             (event.getY(index) > (Utils.leftSpecialButtonY - Utils.specialButtonHalfSide)))) {
-                writer("h,f");
+                writer("c,h,f");
             } else if (event.getX(index) > Utils.leftUpBorderX) {
                 if (leftSlimeSprite.isMoveLeft)
-                    writer("r,f");
+                    writer("c,r,f");
                 else if (leftSlimeSprite.isMoveRight)
-                    writer("l,f");
+                    writer("c,l,f");
             }
             return true;
         }

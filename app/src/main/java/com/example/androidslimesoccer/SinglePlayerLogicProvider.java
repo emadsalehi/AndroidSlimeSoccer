@@ -376,6 +376,7 @@ public class SinglePlayerLogicProvider {
                         (slimeSprite.y + slimeSprite.slimeImage.getHeight() +
                                 Utils.halfCircleConverter * Utils.slimeRatio)), 2)) + Utils.ballRatio / 2);
     }
+
     public Bitmap flipBitmap (Bitmap bm) {
         Matrix matrix = new Matrix();
         matrix.preScale(-1.0f, 1.0f);
