@@ -72,4 +72,8 @@ public class Slimology extends Activity {
 
         slimeSuper.setGravity(Gravity.CENTER);
     }
+
+    public void onBackClick(View v) {
+        super.onBackPressed();
+    }
 }

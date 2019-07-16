@@ -109,7 +109,7 @@ public class SinglePlayerSelectActivity extends Activity {
             singlePlayerIntent = new Intent(this, SinglePlayerActivity.class);
             singlePlayerIntent.putExtra("LEFT_SLIME_NAME", firstSlimeText.toLowerCase());
             singlePlayerIntent.putExtra("RIGHT_SLIME_NAME", secondSlimeText.toLowerCase());
-            singlePlayerIntent.putExtra("GOAL_LIMIT", 5);
+            singlePlayerIntent.putExtra("GOAL_LIMIT", 1);
             startActivity(singlePlayerIntent);
         } else {
             slimeName = findViewById(R.id.slime_name);
