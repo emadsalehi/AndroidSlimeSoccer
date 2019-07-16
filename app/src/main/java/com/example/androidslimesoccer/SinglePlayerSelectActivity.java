@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,18 +18,20 @@ public class SinglePlayerSelectActivity extends Activity {
     Intent singlePlayerIntent;
     String firstSlimeText, secondSlimeText;
     TextView slimeName;
-    Boolean isFirstPlayerSelected = false;
-    Boolean isSecondPlayerSelected = false;
+    Boolean isFirstPlayerSelected;
+    Boolean isSecondPlayerSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_player_select);
+        isFirstPlayerSelected = false;
+        isSecondPlayerSelected = false;
     }
 
     public void onSlimeClick(View v) {
         if (!isFirstPlayerSelected && !isSecondPlayerSelected) {
-            isFirstPlayerSelected = true;
+            Log.i("I'm in", "hooo");
             ImageView firstSelector = findViewById(R.id.first_selector);
             firstSelector.setX(v.getX() - 10);
             firstSelector.setY(v.getY() - 10);
@@ -45,9 +48,8 @@ public class SinglePlayerSelectActivity extends Activity {
                 int randomNumber = random.nextInt(slimes.length);
                 firstSlimeText = slimes[randomNumber];
             }
-        }
-        if (isFirstPlayerSelected && !isSecondPlayerSelected) {
-            isSecondPlayerSelected = true;
+            isFirstPlayerSelected = true;
+        } else if (isFirstPlayerSelected && !isSecondPlayerSelected) {
             ImageView secondSelector = findViewById(R.id.second_selector);
             secondSelector.setX(v.getX() - 10);
             secondSelector.setY(v.getY() - 10);
@@ -64,6 +66,7 @@ public class SinglePlayerSelectActivity extends Activity {
                 int randomNumber = random.nextInt(slimes.length);
                 secondSlimeText = slimes[randomNumber];
             }
+            isSecondPlayerSelected = true;
         }
     }
 

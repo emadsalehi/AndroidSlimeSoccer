@@ -153,7 +153,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         Paint p12 = new Paint();
         p12.setColor(rightSlimeSprite.slimeType.getColor());
         canvas.drawCircle(Utils.rightSpecialButtonX, Utils.rightSpecialButtonY,
-                (int)((double)rightSlimeSprite.specialLevel / 1000 * Utils.specialButtonHalfSide - 7), p2);
+                (int)((double)rightSlimeSprite.specialLevel / 1000 * Utils.specialButtonHalfSide - 7), p12);
 
         leftSlimeSprite.draw(canvas);
         rightSlimeSprite.draw(canvas);

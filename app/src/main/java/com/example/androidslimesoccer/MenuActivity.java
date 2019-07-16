@@ -14,7 +14,7 @@ import android.widget.ImageView;
 public class MenuActivity extends Activity {
     MediaPlayer mediaPlayer;
     Intent practicePlayerSelect;
-    //    Intent practiceIntent;
+    Intent singlePlayerSelect;
     Intent singlePlayerIntent;
     Intent multiPlayerIntent;
     Intent slimologyIntent;
@@ -45,11 +45,11 @@ public class MenuActivity extends Activity {
     }
 
     public void onSinglePlayerClick(View v) {
-        singlePlayerIntent = new Intent(this, SinglePlayerActivity.class);
-        singlePlayerIntent.putExtra("LEFT_SLIME_NAME", "indian");
-        singlePlayerIntent.putExtra("RIGHT_SLIME_NAME", "classic");
-        singlePlayerIntent.putExtra("GOAL_LIMIT", 5);
-        startActivity(singlePlayerIntent);
+        singlePlayerSelect = new Intent(this, SinglePlayerSelectActivity.class);
+//        singlePlayerIntent.putExtra("LEFT_SLIME_NAME", "indian");
+//        singlePlayerIntent.putExtra("RIGHT_SLIME_NAME", "classic");
+//        singlePlayerIntent.putExtra("GOAL_LIMIT", 5);
+        startActivity(singlePlayerSelect);
     }
 
     public void onSoundClick(View v) {
