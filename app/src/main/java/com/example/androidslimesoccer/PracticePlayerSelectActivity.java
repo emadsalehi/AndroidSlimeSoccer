@@ -12,32 +12,33 @@ import android.widget.TextView;
 
 import java.util.*;
 
-import static android.view.View.VISIBLE;
+import static android.view.View.*;
 
 public class PracticePlayerSelectActivity extends Activity {
 
     Intent practiceIntent;
     String slimeText;
     TextView slimeName;
+    ImageView selector;
     Boolean isPlayerSelected = false;
+    Bitmap bitmapSelector;
+    Typeface face;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.practice_player_select);
+        selector = findViewById(R.id.first_selector);
+        slimeName = findViewById(R.id.slime_name);
+        face = Typeface.createFromAsset(getAssets(),
+                "fonts/Magenta.ttf");
     }
 
     public void onSlimeClick(View v) {
-        isPlayerSelected = true;
-        ImageView selector = findViewById(R.id.first_selector);
-        getResizedBitmap(((BitmapDrawable) selector.getDrawable()).getBitmap(), v.getWidth(), v.getHeight());
-        selector.setX(v.getX() - 15);
-        selector.setY(v.getY() - 10);
+        selector.setX(v.getX() - 10);
+        selector.setY(v.getY() - 7);
         selector.setVisibility(VISIBLE);
-        slimeName = findViewById(R.id.slime_name);
         slimeText = (String) v.getTag();
-        Typeface face = Typeface.createFromAsset(getAssets(),
-                "fonts/Magenta.ttf");
         slimeName.setTypeface(face);
         slimeName.setText(slimeText);
         if (slimeText.equals("Random")) {
@@ -45,6 +46,17 @@ public class PracticePlayerSelectActivity extends Activity {
             Random random = new Random();
             int randomNumber = random.nextInt(slimes.length);
             slimeText = slimes[randomNumber];
+        }
+        isPlayerSelected = true;
+    }
+
+    public void onBackClick(View v) {
+        if (!isPlayerSelected)
+            super.onBackPressed();
+        else if (isPlayerSelected) {
+            isPlayerSelected = false;
+            selector.setVisibility(INVISIBLE);
+            slimeName.setText("");
         }
     }
 
