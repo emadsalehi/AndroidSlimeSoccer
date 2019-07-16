@@ -14,7 +14,7 @@ import java.util.*;
 
 import static android.view.View.VISIBLE;
 
-public class SinglePlayerSelectActivity extends AppCompatActivity {
+public class SinglePlayerSelectActivity extends Activity {
 
     Intent singlePlayerIntent;
     String firstSlimeText, secondSlimeText;
@@ -76,6 +76,7 @@ public class SinglePlayerSelectActivity extends AppCompatActivity {
             singlePlayerIntent = new Intent(this, SinglePlayerActivity.class);
             singlePlayerIntent.putExtra("LEFT_SLIME_NAME", firstSlimeText.toLowerCase());
             singlePlayerIntent.putExtra("RIGHT_SLIME_NAME", secondSlimeText.toLowerCase());
+            singlePlayerIntent.putExtra("GOAL_LIMIT", 5);
             startActivity(singlePlayerIntent);
         } else {
             slimeName = findViewById(R.id.slime_name);

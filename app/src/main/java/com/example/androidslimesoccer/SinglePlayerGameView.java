@@ -177,26 +177,16 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         if (singlePlayerLogicProvider.slime1Goals == goalLimit) {
             Intent intent = new Intent(context, ResultActivity.class);
             intent.putExtra("IS_WON", true);
+            thread.setRunning(false);
             context.startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             context.startActivity(intent);
-            thread.setRunning(false);
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }else if (singlePlayerLogicProvider.slime2Goals == goalLimit) {
 
             Intent intent = new Intent(context, ResultActivity.class);
             intent.putExtra("IS_WON", false);
+            thread.setRunning(false);
             context.startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             context.startActivity(intent);
-            thread.setRunning(false);
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 
