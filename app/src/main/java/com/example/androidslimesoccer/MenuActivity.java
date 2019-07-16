@@ -77,7 +77,8 @@ public class MenuActivity extends Activity {
 //        multiPlayerIntent.putExtra("RIGHT_SLIME_NAME", "classic");
 //        multiPlayerIntent.putExtra("GOAL_LIMIT", 5);
 //        startActivity(multiPlayerIntent);
-        multiPlayerIntent = new Intent(this, HostJoinSelectActivity.class);
+//        multiPlayerIntent = new Intent(this, HostJoinSelectActivity.class);
+        multiPlayerIntent = new Intent(this, MultiPlayerComingSoon.class);
         startActivity(multiPlayerIntent);
     }
 

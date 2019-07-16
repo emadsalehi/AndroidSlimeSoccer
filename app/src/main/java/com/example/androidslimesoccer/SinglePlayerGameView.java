@@ -164,7 +164,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         leftSpecialSprite.draw(canvas);
         rightSpecialSprite.draw(canvas);
         Typeface numberTypeface = Typeface.createFromAsset(this.context.getAssets(),
-                        "fonts/Courier-BoldRegular.ttf");
+                "fonts/Zekton.ttf");
         Paint numberPaint = new Paint();
         numberPaint.setTypeface(numberTypeface);
         numberPaint.setTextSize(Utils.screenHeight / 9);

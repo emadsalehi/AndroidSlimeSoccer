@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import static android.view.Gravity.CENTER;
-import static android.view.View.VISIBLE;
+import static android.view.View.*;
 
 public class ResultActivity extends Activity {
 
@@ -39,10 +39,11 @@ public class ResultActivity extends Activity {
         isWon = getIntent().getBooleanExtra("IS_WON", false);
         Typeface menuTypeface = Typeface.createFromAsset(this.getAssets(), "fonts/Magenta.ttf");
         resultTextView.setTypeface(menuTypeface);
-        if (isWon)
-            resultTextView.setText("You Won");
-        else {
-            resultTextView.setText("You Lost");
+        if (isWon) {
+            resultTextView.setText("YOU WON");
+            cross.setVisibility(INVISIBLE);
+        } else {
+            resultTextView.setText("YOU LOST");
             cross.setVisibility(VISIBLE);
         }
         resultTextView.setGravity(CENTER);
