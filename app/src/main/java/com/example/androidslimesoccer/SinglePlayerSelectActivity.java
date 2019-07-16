@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,7 +18,7 @@ import java.util.*;
 import static android.view.View.VISIBLE;
 
 public class SinglePlayerSelectActivity extends Activity {
-
+    MediaPlayer mediaPlayer;
     Intent singlePlayerIntent;
     String firstSlimeText, secondSlimeText;
     TextView slimeName;
@@ -26,10 +27,24 @@ public class SinglePlayerSelectActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
+        mediaPlayer.start();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_player_select);
         isFirstPlayerSelected = false;
         isSecondPlayerSelected = false;
+    }
+
+    @Override
+    protected void onResume() {
+        mediaPlayer.start();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        mediaPlayer.pause();
+        super.onPause();
     }
 
     public void onSlimeClick(View v) {

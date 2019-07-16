@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -179,7 +180,10 @@ public class SinglePlayerActivity extends Activity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                SinglePlayerActivity.super.onBackPressed();
+//        super.onBackPressed();
+                Intent intent = new Intent(context, MenuActivity.class);
+                startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                startActivity(intent);
             }
         });
         builder.setNegativeButton("NOPE", new DialogInterface.OnClickListener() {
