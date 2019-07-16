@@ -2,27 +2,27 @@ package com.example.androidslimesoccer;
 
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.net.SocketException;
 
 public class ServerWriter extends Thread {
     byte[] sendData;
-    DatagramSocket serverSocket;
+    Socket socket;
 
-    public ServerWriter (byte[] sendData, DatagramSocket serverSocket) {
+    public ServerWriter (byte[] sendData, Socket socket) {
         this.sendData = sendData;
-        this.serverSocket = serverSocket;
+        this.socket = socket;
     }
 
     @Override
     public void run() {
         try {
-            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length
-                    , InetAddress.getLocalHost(), Utils.serverPort);
-            serverSocket.send(sendPacket);
+            socket.getOutputStream().write(sendData);
         } catch (SocketException e) {
             e.printStackTrace();
         } catch (IOException e) {
