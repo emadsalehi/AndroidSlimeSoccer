@@ -34,8 +34,8 @@ public class SinglePlayerSelectActivity extends AppCompatActivity {
         if (!isFirstPlayerSelected && !isSecondPlayerSelected) {
             Log.i("I'm in", "hooo");
             ImageView firstSelector = findViewById(R.id.first_selector);
-            firstSelector.setX(v.getX() - 10);
-            firstSelector.setY(v.getY() - 10);
+            firstSelector.setX(v.getX() - 7);
+            firstSelector.setY(v.getY() - 7);
             firstSelector.setVisibility(VISIBLE);
             slimeName = findViewById(R.id.slime_name);
             firstSlimeText = (String) v.getTag();
@@ -52,8 +52,8 @@ public class SinglePlayerSelectActivity extends AppCompatActivity {
             isFirstPlayerSelected = true;
         } else if (isFirstPlayerSelected && !isSecondPlayerSelected) {
             ImageView secondSelector = findViewById(R.id.second_selector);
-            secondSelector.setX(v.getX() - 10);
-            secondSelector.setY(v.getY() - 10);
+            secondSelector.setX(v.getX() - 7);
+            secondSelector.setY(v.getY() - 7);
             secondSelector.setVisibility(VISIBLE);
             slimeName = findViewById(R.id.slime_name);
             secondSlimeText = (String) v.getTag();
