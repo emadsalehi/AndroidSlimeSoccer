@@ -9,6 +9,15 @@ public class PracticeLogicProvider {
     BallSprite ballSprite;
     SpecialSprite specialSprite;
     Context context;
+    float soundVolume;
+
+    public float getSoundVolume() {
+        return soundVolume;
+    }
+
+    public void setSoundVolume(float soundVolume) {
+        this.soundVolume = soundVolume;
+    }
 
     public PracticeLogicProvider(SlimeSprite slimeSprite, BallSprite ballSprite, SpecialSprite specialSprite, Context context) {
         this.slimeSprite = slimeSprite;
@@ -221,7 +230,7 @@ public class PracticeLogicProvider {
                 ballSprite.x > (Utils.rightGoalLine - Utils.netUpperWallWidth)) ) {
             ballSprite.y = Utils.netUpperWallHeight;
             ballSprite.yVelocity = (int) ((double)(-ballSprite.yVelocity) );
-            SoundManager.playSound(0);
+            SoundManager.playSound(0, soundVolume);
         }
 
         if ( ballSprite.yVelocity <= 0 && ballSprite.yVelocity >= Utils.ballSpeedThreshold )  {

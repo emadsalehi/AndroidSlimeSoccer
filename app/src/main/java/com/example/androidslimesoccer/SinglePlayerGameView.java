@@ -36,6 +36,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     int leftGoalNumber;
     int rightGoalNumber;
     int downX;
+    boolean isMute = false;
 
     public SinglePlayerGameView(Activity context, String leftSlimeName, String rightSlimeName
                 ,int goalLimit) {
@@ -253,5 +254,18 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         Matrix matrix = new Matrix();
         matrix.preScale(-1.0f, 1.0f);
         return Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
+    }
+
+
+    public boolean muteSound (){
+        if(isMute) {
+            isMute = false;
+            singlePlayerLogicProvider.setSoundVolume(1);
+            return false;
+        } else {
+            isMute = true;
+            singlePlayerLogicProvider.setSoundVolume(0);
+            return true;
+        }
     }
 }

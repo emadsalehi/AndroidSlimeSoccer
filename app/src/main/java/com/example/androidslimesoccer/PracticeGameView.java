@@ -28,6 +28,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
     Resources resources = getResources();
     PracticeLogicProvider logicProvider;
     int downX;
+    boolean isMute = false;
 
 
     public PracticeGameView(Context context, String slimeName) {
@@ -187,5 +188,18 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
             return true;
         }
         return false;
+    }
+
+
+    public boolean muteSound (){
+        if(isMute) {
+            isMute = false;
+            logicProvider.setSoundVolume(1);
+            return false;
+        } else {
+            isMute = true;
+            logicProvider.setSoundVolume(0);
+            return true;
+        }
     }
 }

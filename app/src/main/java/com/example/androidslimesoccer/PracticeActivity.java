@@ -111,6 +111,13 @@ public class PracticeActivity extends Activity {
                     return false;
                 }
             });
+            muteImage.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    gameView.muteSound();
+                    return false;
+                }
+            });
             exitImage.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {

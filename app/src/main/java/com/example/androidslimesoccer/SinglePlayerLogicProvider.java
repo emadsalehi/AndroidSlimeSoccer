@@ -15,6 +15,16 @@ public class SinglePlayerLogicProvider {
     int slime1Goals = 0, slime2Goals = 0;
     Context context;
 
+    public float getSoundVolume() {
+        return soundVolume;
+    }
+
+    public void setSoundVolume(float soundVolume) {
+        this.soundVolume = soundVolume;
+    }
+
+    float soundVolume;
+
     public SinglePlayerLogicProvider(SlimeSprite slimeSprite1, SlimeSprite slimeSprite2
             , BallSprite ballSprite, SpecialSprite specialSprite1, SpecialSprite specialSprite2, Context context) {
         this.slimeSprite1 = slimeSprite1;
@@ -265,7 +275,7 @@ public class SinglePlayerLogicProvider {
                 ballSprite.x > (Utils.rightGoalLine - Utils.netUpperWallWidth)) ) {
             ballSprite.y = Utils.netUpperWallHeight;
             ballSprite.yVelocity = (int) ((double)(-ballSprite.yVelocity) );
-            SoundManager.playSound(0);
+            SoundManager.playSound(0, soundVolume);
         }
 
         if ( ballSprite.yVelocity <= 0 && ballSprite.yVelocity >= Utils.ballSpeedThreshold )  {
