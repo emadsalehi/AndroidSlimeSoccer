@@ -2,7 +2,9 @@ package com.example.androidslimesoccer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,8 +30,9 @@ public class PracticePlayerSelectActivity extends Activity {
     public void onSlimeClick(View v) {
         isPlayerSelected = true;
         ImageView selector = findViewById(R.id.first_selector);
-        selector.setX(v.getX() - 7);
-        selector.setY(v.getY() - 7);
+        getResizedBitmap(((BitmapDrawable) selector.getDrawable()).getBitmap(), v.getWidth(), v.getHeight());
+        selector.setX(v.getX() - 15);
+        selector.setY(v.getY() - 10);
         selector.setVisibility(VISIBLE);
         slimeName = findViewById(R.id.slime_name);
         slimeText = (String) v.getTag();
@@ -57,5 +60,9 @@ public class PracticePlayerSelectActivity extends Activity {
             slimeName.setTypeface(face);
             slimeName.setText("Please Choose a Slime");
         }
+    }
+
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        return Bitmap.createScaledBitmap(bm, newWidth, newHeight, true);
     }
 }

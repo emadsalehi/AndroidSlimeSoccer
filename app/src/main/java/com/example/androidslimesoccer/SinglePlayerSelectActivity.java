@@ -2,7 +2,9 @@ package com.example.androidslimesoccer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -32,10 +34,10 @@ public class SinglePlayerSelectActivity extends Activity {
 
     public void onSlimeClick(View v) {
         if (!isFirstPlayerSelected && !isSecondPlayerSelected) {
-            Log.i("I'm in", "hooo");
             ImageView firstSelector = findViewById(R.id.first_selector);
-            firstSelector.setX(v.getX() - 7);
-            firstSelector.setY(v.getY() - 7);
+            getResizedBitmap(((BitmapDrawable) firstSelector.getDrawable()).getBitmap(), v.getWidth(), v.getHeight());
+            firstSelector.setX(v.getX() - 15);
+            firstSelector.setY(v.getY() - 10);
             firstSelector.setVisibility(VISIBLE);
             slimeName = findViewById(R.id.slime_name);
             firstSlimeText = (String) v.getTag();
@@ -52,8 +54,9 @@ public class SinglePlayerSelectActivity extends Activity {
             isFirstPlayerSelected = true;
         } else if (isFirstPlayerSelected && !isSecondPlayerSelected) {
             ImageView secondSelector = findViewById(R.id.second_selector);
-            secondSelector.setX(v.getX() - 7);
-            secondSelector.setY(v.getY() - 7);
+            getResizedBitmap(((BitmapDrawable) secondSelector.getDrawable()).getBitmap(), v.getWidth(), v.getHeight());
+            secondSelector.setX(v.getX() - 15);
+            secondSelector.setY(v.getY() - 10);
             secondSelector.setVisibility(VISIBLE);
             slimeName = findViewById(R.id.slime_name);
             secondSlimeText = (String) v.getTag();
@@ -85,5 +88,9 @@ public class SinglePlayerSelectActivity extends Activity {
             slimeName.setTypeface(face);
             slimeName.setText("Please Choose a Slime");
         }
+    }
+
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        return Bitmap.createScaledBitmap(bm, newWidth, newHeight, true);
     }
 }
