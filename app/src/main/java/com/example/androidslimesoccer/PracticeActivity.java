@@ -141,14 +141,12 @@ public class PracticeActivity extends Activity {
     @Override
     public void onPause() {
         Log.i("pause","called");
-        onPausePressed(pauseImage);
         super.onPause();
     }
 
     @Override
     public void onStop() {
         Log.i("stop","called");
-//        onPausePressed(pauseImage);
         gameView.thread.setRunning(false);
         try {
             gameView.thread.join();
@@ -162,9 +160,6 @@ public class PracticeActivity extends Activity {
     public void onResume() {
         Log.i("resume","called");
         super.onResume();
-        if (gameView.thread.isPaused()) {
-            onPausePressed(pauseImage);
-        }
     }
 
     @Override

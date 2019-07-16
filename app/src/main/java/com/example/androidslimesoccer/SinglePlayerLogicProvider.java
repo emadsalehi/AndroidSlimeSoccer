@@ -3,6 +3,7 @@ package com.example.androidslimesoccer;
 
 //TODO Will Be Completed By ALL
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.util.Log;
@@ -12,14 +13,17 @@ public class SinglePlayerLogicProvider {
     SpecialSprite specialSprite1, specialSprite2;
     BallSprite ballSprite;
     int slime1Goals = 0, slime2Goals = 0;
+    Context context;
 
     public SinglePlayerLogicProvider(SlimeSprite slimeSprite1, SlimeSprite slimeSprite2
-            , BallSprite ballSprite, SpecialSprite specialSprite1, SpecialSprite specialSprite2) {
+            , BallSprite ballSprite, SpecialSprite specialSprite1, SpecialSprite specialSprite2, Context context) {
         this.slimeSprite1 = slimeSprite1;
         this.slimeSprite2 = slimeSprite2;
         this.ballSprite = ballSprite;
         this.specialSprite1 = specialSprite1;
         this.specialSprite2 = specialSprite2;
+        this.context = context;
+        SoundManager.InitSound(context);
     }
 
 
@@ -261,6 +265,7 @@ public class SinglePlayerLogicProvider {
                 ballSprite.x > (Utils.rightGoalLine - Utils.netUpperWallWidth)) ) {
             ballSprite.y = Utils.netUpperWallHeight;
             ballSprite.yVelocity = (int) ((double)(-ballSprite.yVelocity) );
+            SoundManager.playSound(0);
         }
 
         if ( ballSprite.yVelocity <= 0 && ballSprite.yVelocity >= Utils.ballSpeedThreshold )  {

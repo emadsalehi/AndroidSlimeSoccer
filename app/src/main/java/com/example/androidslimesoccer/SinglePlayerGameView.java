@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
@@ -75,7 +76,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         leftSpecialSprite = new SpecialSprite(SlimeType.valueOf(leftSlimeName.toUpperCase()), resources);
         rightSpecialSprite = new SpecialSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()), resources);
         singlePlayerLogicProvider = new SinglePlayerLogicProvider(leftSlimeSprite, rightSlimeSprite
-                , ballSprite, leftSpecialSprite, rightSpecialSprite);
+                , ballSprite, leftSpecialSprite, rightSpecialSprite, context);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
@@ -83,8 +84,16 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        thread.setRunning(true);
-        thread.start();
+        Log.i("created","called");
+        thread = new MainThread(getHolder(), this);
+        if (!thread.isRunning()) {
+            thread.setRunning(true);
+            if (!thread.isPaused()) {
+                thread.start();
+            } else {
+                Log.i("thread", Boolean.toString(thread.isPaused()));
+            }
+        }
     }
 
     @Override
@@ -94,6 +103,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        Log.i("destroyed","called");
         boolean retry = true;
         while (retry) {
             try {

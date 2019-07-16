@@ -27,7 +27,7 @@ public class PracticePlayerSelectActivity extends Activity {
 
     public void onSlimeClick(View v) {
         isPlayerSelected = true;
-        ImageView selector = findViewById(R.id.selector);
+        ImageView selector = findViewById(R.id.first_selector);
         selector.setX(v.getX() - 10);
         selector.setY(v.getY() - 10);
         selector.setVisibility(VISIBLE);

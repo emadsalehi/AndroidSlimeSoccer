@@ -15,6 +15,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="300dp"
+        android:onClick="onSlimeClick"
         android:src="@drawable/classic"
         android:tag="Classic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,6 +31,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="600dp"
         android:layout_marginBottom="300dp"
+        android:onClick="onSlimeClick"
         android:src="@drawable/indian"
         android:tag="Indian"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,6 +48,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="600dp"
         android:layout_marginBottom="300dp"
+        android:onClick="onSlimeClick"
         android:src="@drawable/alien"
         android:tag="Alien"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -61,6 +64,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="350dp"
         android:layout_marginBottom="300dp"
+        android:onClick="onSlimeClick"
         android:src="@drawable/traffic"
         android:tag="Traffic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -81,7 +85,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:onClick="onSlimeClick" />
 
     <ImageView
         android:id="@+id/random"
@@ -91,6 +96,7 @@
         android:layout_marginTop="300dp"
         android:layout_marginEnd="600dp"
         android:layout_marginBottom="300dp"
+        android:onClick="onSlimeClick"
         android:src="@drawable/random"
         android:tag="Random"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -392,6 +398,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="5dp"
+        android:onClick="onPlayClick"
         android:src="@drawable/play"
         android:tag="play"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -415,14 +422,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/selector"
+        android:id="@+id/first_selector"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:src="@drawable/selector"
+        android:src="@drawable/first_selector"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/second_selector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/second_selector"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

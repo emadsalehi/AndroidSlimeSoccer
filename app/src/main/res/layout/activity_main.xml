@@ -8,7 +8,7 @@
     tools:context=".MenuActivity">
 
     <ImageView
-        android:id="@+id/singlePlayer"
+        android:id="@+id/single_player"
         android:layout_width="300dp"
         android:layout_height="35dp"
         android:layout_marginStart="40dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/multiPlayer"
+        android:id="@+id/multi_player"
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
@@ -31,7 +31,7 @@
         android:src="@drawable/multi_player"
         app:layout_constraintBottom_toTopOf="@+id/practice"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/singlePlayer" />
+        app:layout_constraintTop_toBottomOf="@+id/single_player" />
 
     <ImageView
         android:id="@+id/practice"
@@ -56,6 +56,17 @@
         android:onClick="onSoundClick"
         android:src="@drawable/speaker"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/slimology"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:onClick="onSlimologyClick"
+        android:src="@drawable/slimology"
+        app:layout_constraintEnd_toStartOf="@+id/sound"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

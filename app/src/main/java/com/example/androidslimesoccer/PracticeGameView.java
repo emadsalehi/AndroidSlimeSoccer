@@ -52,7 +52,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
         slimeSprite.initializeFirstState();
         ballSprite.initializeFirstState();
         specialSprite = new SpecialSprite(SlimeType.valueOf(slimeName.toUpperCase()), resources);
-        logicProvider = new PracticeLogicProvider(slimeSprite, ballSprite, specialSprite);
+        logicProvider = new PracticeLogicProvider(slimeSprite, ballSprite, specialSprite, context);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
