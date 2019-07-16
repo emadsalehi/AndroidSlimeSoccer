@@ -12,10 +12,14 @@ import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
+import java.io.IOException;
+import java.net.Socket;
+
 
 public class ClientGameView extends GameView implements SurfaceHolder.Callback {
     MainThread thread;
     ClientReader clientReader;
+    Socket socket;
     Context context;
     SpecialSprite leftSpecialSprite;
     SpecialSprite rightSpecialSprite;
@@ -31,7 +35,7 @@ public class ClientGameView extends GameView implements SurfaceHolder.Callback {
     int downX;
     byte[] sendDataBytes = new byte[8];
 
-    public ClientGameView(Context context, String leftSlimeName, String rightSlimeName) {
+    public ClientGameView(Context context, String leftSlimeName, String rightSlimeName, Socket socket) {
         super(context);
         this.context = context;
         Utils.assetsXScale = (double)Utils.screenWidth / background.getWidth();
@@ -66,8 +70,9 @@ public class ClientGameView extends GameView implements SurfaceHolder.Callback {
         rightSpecialSprite = new SpecialSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()), resources);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
+        this.socket = socket;
         clientReader = new ClientReader(leftSlimeSprite, rightSlimeSprite, leftSpecialSprite,
-                rightSpecialSprite, ballSprite);
+                rightSpecialSprite, ballSprite, socket);
         setFocusable(true);
     }
 
@@ -206,7 +211,7 @@ public class ClientGameView extends GameView implements SurfaceHolder.Callback {
 
     public void writer(String sendData) {
         sendDataBytes = sendData.getBytes();
-        new ClientWriter(sendDataBytes).start();
+        new ClientWriter(sendDataBytes, socket).start();
     }
 
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
