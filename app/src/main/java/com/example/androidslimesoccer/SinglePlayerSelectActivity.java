@@ -15,13 +15,14 @@ import android.widget.TextView;
 
 import java.util.*;
 
-import static android.view.View.VISIBLE;
+import static android.view.View.*;
 
 public class SinglePlayerSelectActivity extends Activity {
     MediaPlayer mediaPlayer;
     Intent singlePlayerIntent;
     String firstSlimeText, secondSlimeText;
     TextView slimeName;
+    ImageView firstSelector, secondSelector;
     Boolean isFirstPlayerSelected;
     Boolean isSecondPlayerSelected;
 
@@ -33,6 +34,9 @@ public class SinglePlayerSelectActivity extends Activity {
         setContentView(R.layout.single_player_select);
         isFirstPlayerSelected = false;
         isSecondPlayerSelected = false;
+        firstSelector = findViewById(R.id.first_selector);
+        secondSelector = findViewById(R.id.second_selector);
+        slimeName = findViewById(R.id.slime_name);
     }
 
     @Override
@@ -49,12 +53,9 @@ public class SinglePlayerSelectActivity extends Activity {
 
     public void onSlimeClick(View v) {
         if (!isFirstPlayerSelected && !isSecondPlayerSelected) {
-            ImageView firstSelector = findViewById(R.id.first_selector);
-            getResizedBitmap(((BitmapDrawable) firstSelector.getDrawable()).getBitmap(), v.getWidth(), v.getHeight());
-            firstSelector.setX(v.getX() - 15);
-            firstSelector.setY(v.getY() - 10);
+            firstSelector.setX(v.getX() - 10);
+            firstSelector.setY(v.getY() - 7);
             firstSelector.setVisibility(VISIBLE);
-            slimeName = findViewById(R.id.slime_name);
             firstSlimeText = (String) v.getTag();
             Typeface face = Typeface.createFromAsset(getAssets(),
                     "fonts/Magenta.ttf");
@@ -68,10 +69,11 @@ public class SinglePlayerSelectActivity extends Activity {
             }
             isFirstPlayerSelected = true;
         } else if (isFirstPlayerSelected && !isSecondPlayerSelected) {
-            ImageView secondSelector = findViewById(R.id.second_selector);
-            getResizedBitmap(((BitmapDrawable) secondSelector.getDrawable()).getBitmap(), v.getWidth(), v.getHeight());
-            secondSelector.setX(v.getX() - 15);
-            secondSelector.setY(v.getY() - 10);
+//            Bitmap bitmap = getResizedBitmap(((BitmapDrawable) secondSelector.getDrawable()).getBitmap(), v.getWidth(), v.getHeight());
+//            Drawable drawble = new BitmapDrawable(getResources(), bitmap);
+//            secondSelector.setImageDrawable(drawble);
+            secondSelector.setX(v.getX() - 10);
+            secondSelector.setY(v.getY() - 7);
             secondSelector.setVisibility(VISIBLE);
             slimeName = findViewById(R.id.slime_name);
             secondSlimeText = (String) v.getTag();
@@ -86,6 +88,20 @@ public class SinglePlayerSelectActivity extends Activity {
                 secondSlimeText = slimes[randomNumber];
             }
             isSecondPlayerSelected = true;
+        }
+    }
+
+    public void onBackClick(View v) {
+        if (!isFirstPlayerSelected && !isSecondPlayerSelected) {
+            super.onBackPressed();
+        } else if (isFirstPlayerSelected && !isSecondPlayerSelected) {
+            isFirstPlayerSelected = false;
+            firstSelector.setVisibility(INVISIBLE);
+            slimeName.setText("");
+        } else if (isFirstPlayerSelected && isSecondPlayerSelected) {
+            isSecondPlayerSelected = false;
+            secondSelector.setVisibility(INVISIBLE);
+            slimeName.setText(firstSlimeText);
         }
     }
 
