@@ -14,7 +14,7 @@ import java.util.*;
 
 import static android.view.View.VISIBLE;
 
-public class SinglePlayerSelectActivity extends AppCompatActivity {
+public class SinglePlayerSelectActivity extends Activity {
 
     Intent singlePlayerIntent;
     String firstSlimeText, secondSlimeText;
