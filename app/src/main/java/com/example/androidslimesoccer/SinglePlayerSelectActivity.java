@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,7 +14,7 @@ import java.util.*;
 
 import static android.view.View.VISIBLE;
 
-public class SinglePlayerSelectActivity extends Activity {
+public class SinglePlayerSelectActivity extends AppCompatActivity {
 
     Intent singlePlayerIntent;
     String firstSlimeText, secondSlimeText;

@@ -1,6 +1,8 @@
 package com.example.androidslimesoccer;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,7 +24,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     SlimeSprite rightSlimeSprite;
     SpecialSprite leftSpecialSprite;
     SpecialSprite rightSpecialSprite;
-    Context context;
+    Activity context;
     Bitmap ballBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ball);
     BallSprite ballSprite;
     Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
@@ -35,7 +37,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     int rightGoalNumber;
     int downX;
 
-    public SinglePlayerGameView(Context context, String leftSlimeName, String rightSlimeName
+    public SinglePlayerGameView(Activity context, String leftSlimeName, String rightSlimeName
                 ,int goalLimit) {
         super(context);
         this.context = context;
@@ -171,6 +173,31 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
                 Utils.leftGoalX, Utils.goalLimitY, numberPaint);
         canvas.drawText(Integer.toString(singlePlayerLogicProvider.slime2Goals),
                 Utils.rightGoalX, Utils.goalLimitY, numberPaint);
+
+        if (singlePlayerLogicProvider.slime1Goals == goalLimit) {
+            Intent intent = new Intent(context, ResultActivity.class);
+            intent.putExtra("IS_WON", true);
+            context.startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            context.startActivity(intent);
+            thread.setRunning(false);
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }else if (singlePlayerLogicProvider.slime2Goals == goalLimit) {
+
+            Intent intent = new Intent(context, ResultActivity.class);
+            intent.putExtra("IS_WON", false);
+            context.startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+            context.startActivity(intent);
+            thread.setRunning(false);
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
