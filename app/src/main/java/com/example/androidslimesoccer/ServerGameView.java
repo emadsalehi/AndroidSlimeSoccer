@@ -13,15 +13,18 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
+import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.SocketException;
 
 public class ServerGameView extends GameView implements SurfaceHolder.Callback {
 
     MainThread thread;
     ServerReader serverReader;
-    DatagramSocket serverSocket;
+    Socket socket;
     Context context;
     SpecialSprite leftSpecialSprite;
     SpecialSprite rightSpecialSprite;
@@ -38,7 +41,7 @@ public class ServerGameView extends GameView implements SurfaceHolder.Callback {
 
 
 
-    public ServerGameView(Context context, String leftSlimeName, String rightSlimeName) {
+    public ServerGameView(Context context, String leftSlimeName, String rightSlimeName, Socket socket) {
         super(context);
         this.context = context;
         Utils.assetsXScale = (double)Utils.screenWidth / background.getWidth();
@@ -72,19 +75,13 @@ public class ServerGameView extends GameView implements SurfaceHolder.Callback {
         leftSpecialSprite = new SpecialSprite(SlimeType.valueOf(leftSlimeName.toUpperCase()), resources);
         rightSpecialSprite = new SpecialSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()), resources);
 
-        try {
-            serverSocket = new DatagramSocket(null);
-            serverSocket.setReuseAddress(true);
-            serverSocket.bind(new InetSocketAddress(Utils.serverPort));
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-
+        this.socket = socket;
         multiPlayerLogicProvider = new MultiPlayerLogicProvider(leftSlimeSprite, rightSlimeSprite
-                , ballSprite, leftSpecialSprite, rightSpecialSprite, serverSocket);
+                , ballSprite, leftSpecialSprite, rightSpecialSprite, socket);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
-        serverReader = new ServerReader(rightSlimeSprite, serverSocket);
+        serverReader = new ServerReader(rightSlimeSprite, socket);
+
         setFocusable(true);
     }
 
