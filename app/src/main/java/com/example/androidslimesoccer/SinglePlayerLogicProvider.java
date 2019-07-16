@@ -314,7 +314,7 @@ public class SinglePlayerLogicProvider {
                 slime2SpriteY += slime2YVelocity;
                 slime2YVelocity = (slime2YVelocity == 0) ? 0 : slime2YVelocity - Utils.gravityAcceleration;
                 if (aiDistance(slime2SpriteY, slime2SpriteX, ballSpriteY, ballSpriteX) <=
-                        (Utils.ballRatio + Utils.slimeRatio)) {
+                        (Utils.ballRatio + Utils.slimeRatio) && ballSprite.y <= Utils.slimeStartY - ballSprite.getBallImage().getHeight() ){
                     slimeSprite2.yVelocity -= Utils.initialYVelocity;
                     break;
                 }
