@@ -1,25 +1,25 @@
 package com.example.androidslimesoccer;
-
 import android.graphics.Bitmap;
 import android.util.Log;
-import java.net.DatagramSocket;
+import java.io.OutputStream;
+import java.net.Socket;
 
 public class MultiPlayerLogicProvider {
     SlimeSprite slimeSprite1, slimeSprite2;
     SpecialSprite specialSprite1, specialSprite2;
     BallSprite ballSprite;
-    DatagramSocket serverSocket;
+    Socket socket;
     byte[] sendData = new byte[128];
     int slime1Goals = 0, slime2Goals = 0;
 
     public MultiPlayerLogicProvider(SlimeSprite slimeSprite1, SlimeSprite slimeSprite2, BallSprite ballSprite
-            , SpecialSprite specialSprite1, SpecialSprite specialSprite2, DatagramSocket serverSocket) {
+            , SpecialSprite specialSprite1, SpecialSprite specialSprite2, Socket socket) {
         this.slimeSprite1 = slimeSprite1;
         this.slimeSprite2 = slimeSprite2;
         this.ballSprite = ballSprite;
         this.specialSprite1 = specialSprite1;
         this.specialSprite2 = specialSprite2;
-        this.serverSocket = serverSocket;
+        this.socket = socket;
     }
 
     public void update() {
@@ -357,6 +357,6 @@ public class MultiPlayerLogicProvider {
         }
 
         sendData = sb.toString().getBytes();
-        new ServerWriter(sendData, serverSocket).start();
+        new ServerWriter(sendData, socket);
     }
 }
