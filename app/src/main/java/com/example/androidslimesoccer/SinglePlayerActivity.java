@@ -56,7 +56,10 @@ public class SinglePlayerActivity extends Activity {
         });
         Log.i("singleplayer", "activity");
         singlePlayerGameView = new SinglePlayerGameView(this, leftSlimeName, rightSlimeName, goalLimit);
-        setContentView(singlePlayerGameView);
+        gameWidgets.addView(pauseImage);
+        game.addView(singlePlayerGameView);
+        game.addView(gameWidgets);
+        setContentView(game);
         Log.i("singleplayer", "activity");
     }
 
