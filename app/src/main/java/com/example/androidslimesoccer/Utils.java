@@ -45,6 +45,6 @@ public class Utils {
     static double halfCircleConverter = 0.05;
     static int slimeJumpTime =  2 * Utils.initialYVelocity / -Utils.gravityAcceleration;
     static final int netXVelocityIncrease = screenWidth / 200;
-    static final int serverPort = 8000;
+    static final int serverPort = 48277;
     static InetAddress IPAddress;
 }
