@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,33 +11,32 @@ import android.widget.TextView;
 
 import java.util.*;
 
-import static android.view.View.*;
-
 public class PracticePlayerSelectActivity extends Activity {
 
     Intent practiceIntent;
-    String slimeText;
+    ImageView selectedSlime;
+    String slimeText, slimeTextPrime = "";
     TextView slimeName;
-    ImageView selector;
     Boolean isPlayerSelected = false;
-    Bitmap bitmapSelector;
     Typeface face;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.practice_player_select);
-        selector = findViewById(R.id.first_selector);
         slimeName = findViewById(R.id.slime_name);
         face = Typeface.createFromAsset(getAssets(),
                 "fonts/Magenta.ttf");
     }
 
     public void onSlimeClick(View v) {
-        selector.setX(v.getX() - 10);
-        selector.setY(v.getY() - 7);
-        selector.setVisibility(VISIBLE);
+        if (!slimeTextPrime.equals("")) {
+            selectedSlime = findViewById(R.id.practice_player_select).findViewWithTag(slimeTextPrime);
+            selectedSlime.setScaleX((float) 1);
+            selectedSlime.setScaleY((float) 1);
+        }
         slimeText = (String) v.getTag();
+        slimeTextPrime = slimeText;
         slimeName.setTypeface(face);
         slimeName.setText(slimeText);
         if (slimeText.equals("Random")) {
@@ -47,6 +45,8 @@ public class PracticePlayerSelectActivity extends Activity {
             int randomNumber = random.nextInt(slimes.length);
             slimeText = slimes[randomNumber];
         }
+        v.setScaleX((float) 1.5);
+        v.setScaleY((float) 1.5);
         isPlayerSelected = true;
     }
 
@@ -55,8 +55,10 @@ public class PracticePlayerSelectActivity extends Activity {
             super.onBackPressed();
         else if (isPlayerSelected) {
             isPlayerSelected = false;
-            selector.setVisibility(INVISIBLE);
             slimeName.setText("");
+            selectedSlime = findViewById(R.id.practice_player_select).findViewWithTag(slimeTextPrime);
+            selectedSlime.setScaleX((float) 1);
+            selectedSlime.setScaleY((float) 1);
         }
     }
 
