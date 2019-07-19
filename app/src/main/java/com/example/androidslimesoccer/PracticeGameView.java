@@ -28,10 +28,10 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
     Resources resources = getResources();
     PracticeLogicProvider logicProvider;
     int downX;
-    boolean isMute = false;
+    boolean isMute;
 
 
-    public PracticeGameView(Context context, String slimeName) {
+    public PracticeGameView(Context context, String slimeName, boolean isMute) {
         super(context);
         Utils.assetsXScale = (double) Utils.screenWidth / background.getWidth();
         Utils.assetsYScale = (double) Utils.screenHeight / background.getHeight();
@@ -39,6 +39,7 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
         leftGoal = getResizedBitmap(goal, (int) (Utils.assetsXScale * goal.getWidth()),
                 (int) (Utils.assetsYScale * goal.getHeight()));
         rightGoal = flipBitmap(leftGoal);
+        this.isMute = isMute;
         Bitmap slimeBitmap = BitmapFactory.decodeResource(resources,
                 resources.getIdentifier(slimeName, "drawable", context.getPackageName()));
         slimeSprite = new SlimeSprite(SlimeType.valueOf(slimeName.toUpperCase()),
@@ -63,6 +64,12 @@ public class PracticeGameView extends GameView implements SurfaceHolder.Callback
     public void surfaceCreated(SurfaceHolder holder) {
         Log.i("created","called");
         thread = new MainThread(getHolder(), this);
+        if(isMute) {
+            logicProvider.setSoundVolume(0);
+        }
+        else {
+            logicProvider.setSoundVolume(1);
+        }
         if (!thread.isRunning()) {
             thread.setRunning(true);
             if (!thread.isPaused()) {

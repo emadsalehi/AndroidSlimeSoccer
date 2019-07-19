@@ -29,7 +29,7 @@ public class MenuActivity extends Activity {
 //        mediaPlayer.start();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        isPaused = false;
+        isPaused = getIntent().getBooleanExtra("isPaused", false);
     }
 
     @Override
@@ -68,6 +68,7 @@ public class MenuActivity extends Activity {
     public void onSinglePlayerClick(View v) {
         mediaPlayer.stop();
         singlePlayerSelect = new Intent(this, SinglePlayerSelectActivity.class);
+        singlePlayerSelect.putExtra("isPaused", isPaused);
 //        singlePlayerIntent.putExtra("LEFT_SLIME_NAME", "indian");
 //        singlePlayerIntent.putExtra("RIGHT_SLIME_NAME", "classic");
 //        singlePlayerIntent.putExtra("GOAL_LIMIT", 5);
@@ -93,6 +94,7 @@ public class MenuActivity extends Activity {
     public void onSlimologyClick(View v) {
         mediaPlayer.stop();
         slimologyIntent = new Intent(this, Slimology.class);
+        slimologyIntent.putExtra("isPaused", isPaused);
         startActivity(slimologyIntent);
     }
 
@@ -105,6 +107,7 @@ public class MenuActivity extends Activity {
 //        startActivity(multiPlayerIntent);
 //        multiPlayerIntent = new Intent(this, HostJoinSelectActivity.class);
         multiPlayerIntent = new Intent(this, MultiPlayerComingSoon.class);
+        multiPlayerIntent.putExtra("isPaused", isPaused);
         startActivity(multiPlayerIntent);
     }
 

@@ -37,6 +37,12 @@ public class SinglePlayerSelectActivity extends Activity {
     }
 
     @Override
+    protected void onDestroy() {
+        mediaPlayer.stop();
+        super.onDestroy();
+    }
+
+    @Override
     protected void onResume() {
         mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
         mediaPlayer.setLooping(true);
@@ -86,7 +92,7 @@ public class SinglePlayerSelectActivity extends Activity {
 
     public void onBackClick(View v) {
         if (!isFirstPlayerSelected && !isSecondPlayerSelected) {
-            super.onBackPressed();
+            onBackPressed();
         } else if (isFirstPlayerSelected && !isSecondPlayerSelected) {
             isFirstPlayerSelected = false;
             firstSelector = findViewById(R.id.single_player_select).findViewWithTag(firstSlimeTextPrime);
@@ -104,12 +110,14 @@ public class SinglePlayerSelectActivity extends Activity {
         }
     }
 
+
     public void onPlayClick(View v) {
         if (isFirstPlayerSelected && isSecondPlayerSelected) {
             singlePlayerIntent = new Intent(this, SinglePlayerActivity.class);
             singlePlayerIntent.putExtra("LEFT_SLIME_NAME", firstSlimeText.toLowerCase());
             singlePlayerIntent.putExtra("RIGHT_SLIME_NAME", secondSlimeText.toLowerCase());
-            singlePlayerIntent.putExtra("GOAL_LIMIT", 1);
+            singlePlayerIntent.putExtra("GOAL_LIMIT", 5);
+            singlePlayerIntent.putExtra("isPaused", isPaused);
             mediaPlayer.stop();
             startActivity(singlePlayerIntent);
         } else {
@@ -119,5 +127,11 @@ public class SinglePlayerSelectActivity extends Activity {
             slimeName1.setTypeface(face);
             slimeName1.setText("Please Choose a Slime");
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        mediaPlayer.stop();
+        super.onBackPressed();
     }
 }

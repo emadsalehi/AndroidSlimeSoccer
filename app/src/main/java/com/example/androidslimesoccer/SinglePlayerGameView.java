@@ -39,11 +39,12 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     boolean isMute = false;
 
     public SinglePlayerGameView(Activity context, String leftSlimeName, String rightSlimeName
-                ,int goalLimit) {
+                ,int goalLimit, boolean isMute) {
         super(context);
         this.context = context;
         leftGoalNumber = 0;
         rightGoalNumber = 0;
+        this.isMute = isMute;
         Utils.assetsXScale = (double)Utils.screenWidth / background.getWidth();
         Utils.assetsYScale = (double)Utils.screenHeight / background.getHeight();
         background = getResizedBitmap(background, Utils.screenWidth, Utils.screenHeight);
@@ -89,6 +90,12 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     public void surfaceCreated(SurfaceHolder holder) {
         Log.i("created","called");
         thread = new MainThread(getHolder(), this);
+        if(isMute) {
+            singlePlayerLogicProvider.setSoundVolume(0);
+        }
+        else {
+            singlePlayerLogicProvider.setSoundVolume(1);
+        }
         if (!thread.isRunning()) {
             thread.setRunning(true);
             if (!thread.isPaused()) {
@@ -178,12 +185,14 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         if (singlePlayerLogicProvider.slime1Goals == goalLimit) {
             Intent intent = new Intent(context, ResultActivity.class);
             intent.putExtra("IS_WON", true);
+            intent.putExtra("isPaused", isMute);
             thread.setRunning(false);
             context.startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             context.startActivity(intent);
         }else if (singlePlayerLogicProvider.slime2Goals == goalLimit) {
 
             Intent intent = new Intent(context, ResultActivity.class);
+            intent.putExtra("isPaused", isMute);
             intent.putExtra("IS_WON", false);
             thread.setRunning(false);
             context.startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));

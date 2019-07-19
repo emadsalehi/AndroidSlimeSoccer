@@ -25,6 +25,7 @@ public class PracticeActivity extends Activity {
     PracticeGameView gameView;
     Context context = this;
     ImageView pauseImage;
+    Boolean isMute;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -35,7 +36,8 @@ public class PracticeActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         final FrameLayout game = new FrameLayout(this);
         String slimeName = getIntent().getStringExtra("SLIME_NAME");
-        gameView = new PracticeGameView(this, slimeName);
+        isMute = getIntent().getBooleanExtra("isPaused", false);
+        gameView = new PracticeGameView(this, slimeName, isMute);
 
         LinearLayout gameWidgets = new LinearLayout(this);
         pauseImage = new ImageView(this);
@@ -80,8 +82,14 @@ public class PracticeActivity extends Activity {
             resumeImage.setY(Utils.screenHeight / 7);
 
             ImageView muteImage = new ImageView(this);
-            Bitmap muteBitmap = BitmapFactory.decodeResource(getResources(),
-                    getResources().getIdentifier("pause_menu_sound_on", "drawable", this.getPackageName()));
+            Bitmap muteBitmap;
+            if (isMute){
+                muteBitmap = BitmapFactory.decodeResource(getResources(),
+                        getResources().getIdentifier("pause_menu_sound_off", "drawable", this.getPackageName()));
+            } else {
+                muteBitmap = BitmapFactory.decodeResource(getResources(),
+                        getResources().getIdentifier("pause_menu_sound_on", "drawable", this.getPackageName()));
+            }
             muteImage.setImageBitmap(Bitmap.createScaledBitmap(muteBitmap, pauseMenuIconSize,
                     pauseMenuIconSize, true));
             muteImage.setX(Utils.screenWidth / 100 + (float) (pauseMenuIconSize * 0.3));
@@ -114,7 +122,22 @@ public class PracticeActivity extends Activity {
             muteImage.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    gameView.muteSound();
+                    if (!gameView.muteSound()) {
+                        isMute = false;
+                        int pauseMenuIconSize = (int) (Utils.screenWidth / 6);
+                        Bitmap muteBitmap = BitmapFactory.decodeResource(getResources(),
+                                getResources().getIdentifier("pause_menu_sound_on", "drawable", getPackageName()));
+                        ((ImageView) v).setImageBitmap(Bitmap.createScaledBitmap(muteBitmap, pauseMenuIconSize,
+                                pauseMenuIconSize, true));
+                    }
+                    else {
+                        isMute = true;
+                        int pauseMenuIconSize = (int) (Utils.screenWidth / 6);
+                        Bitmap muteBitmap = BitmapFactory.decodeResource(getResources(),
+                                getResources().getIdentifier("pause_menu_sound_off", "drawable", getPackageName()));
+                        ((ImageView) v).setImageBitmap(Bitmap.createScaledBitmap(muteBitmap, pauseMenuIconSize,
+                                pauseMenuIconSize, true));
+                    }
                     return false;
                 }
             });
@@ -179,6 +202,7 @@ public class PracticeActivity extends Activity {
         this.onDestroy();
 //        super.onBackPressed();
         Intent intent = new Intent(this, MenuActivity.class);
+        intent.putExtra("isPaused", isMute);
         startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         startActivity(intent);
     }

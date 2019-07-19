@@ -71,8 +71,9 @@ public class PracticePlayerSelectActivity extends Activity {
     }
 
     public void onBackClick(View v) {
-        if (!isPlayerSelected)
-            super.onBackPressed();
+        if (!isPlayerSelected) {
+            onBackPressed();
+        }
         else if (isPlayerSelected) {
             isPlayerSelected = false;
             slimeName.setText("");
@@ -86,6 +87,8 @@ public class PracticePlayerSelectActivity extends Activity {
         if (isPlayerSelected) {
             practiceIntent = new Intent(this, PracticeActivity.class);
             practiceIntent.putExtra("SLIME_NAME", slimeText.toLowerCase());
+            practiceIntent.putExtra("isPaused", isPaused);
+            mediaPlayer.stop();
             startActivity(practiceIntent);
         } else {
             slimeName = findViewById(R.id.slime_name_1);
@@ -94,5 +97,17 @@ public class PracticePlayerSelectActivity extends Activity {
             slimeName.setTypeface(face);
             slimeName.setText("Please Choose a Slime");
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mediaPlayer.stop();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        mediaPlayer.stop();
+        super.onBackPressed();
     }
 }

@@ -29,6 +29,7 @@ public class ResultActivity extends Activity {
     boolean isWon;
     TextView resultTextView;
     ImageView cross;
+    Boolean isPaused;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class ResultActivity extends Activity {
         resultTextView = findViewById(R.id.result);
         cross = findViewById(R.id.cross);
         isWon = getIntent().getBooleanExtra("IS_WON", false);
+        isPaused =getIntent().getBooleanExtra("isPaused", false);
         Typeface menuTypeface = Typeface.createFromAsset(this.getAssets(), "fonts/Magenta.ttf");
         resultTextView.setTypeface(menuTypeface);
         if (isWon) {
@@ -53,6 +55,7 @@ public class ResultActivity extends Activity {
     public void onBackPressed() {
         this.onDestroy();
         Intent intent = new Intent(this, MenuActivity.class);
+        intent.putExtra("isPaused", isPaused);
         startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         startActivity(intent);
     }
@@ -60,6 +63,7 @@ public class ResultActivity extends Activity {
     public void onMainMenuClick(View v) {
         this.onDestroy();
         Intent intent = new Intent(this, MenuActivity.class);
+        intent.putExtra("isPaused", isPaused);
         startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         startActivity(intent);
     }

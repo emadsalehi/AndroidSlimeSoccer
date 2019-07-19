@@ -37,6 +37,7 @@ public class SinglePlayerActivity extends Activity {
         String leftSlimeName = getIntent().getStringExtra("LEFT_SLIME_NAME");
         String rightSlimeName = getIntent().getStringExtra("RIGHT_SLIME_NAME");
         int goalLimit = getIntent().getIntExtra("GOAL_LIMIT", 0);
+        isMute = getIntent().getBooleanExtra("isPaused", false);
         final FrameLayout game = new FrameLayout(this);
 
         LinearLayout gameWidgets = new LinearLayout(this);
@@ -55,7 +56,7 @@ public class SinglePlayerActivity extends Activity {
             }
         });
         Log.i("singleplayer", "activity");
-        singlePlayerGameView = new SinglePlayerGameView(this, leftSlimeName, rightSlimeName, goalLimit);
+        singlePlayerGameView = new SinglePlayerGameView(this, leftSlimeName, rightSlimeName, goalLimit, isMute);
         gameWidgets.addView(pauseImage);
         game.addView(singlePlayerGameView);
         game.addView(gameWidgets);
@@ -106,8 +107,14 @@ public class SinglePlayerActivity extends Activity {
             resumeImage.setY(Utils.screenHeight / 7);
 
             final ImageView muteImage = new ImageView(this);
-            Bitmap muteBitmap = BitmapFactory.decodeResource(getResources(),
-                    getResources().getIdentifier("pause_menu_sound_on", "drawable", this.getPackageName()));
+            Bitmap muteBitmap;
+            if (isMute){
+                muteBitmap = BitmapFactory.decodeResource(getResources(),
+                        getResources().getIdentifier("pause_menu_sound_off", "drawable", this.getPackageName()));
+            } else {
+                muteBitmap = BitmapFactory.decodeResource(getResources(),
+                        getResources().getIdentifier("pause_menu_sound_on", "drawable", this.getPackageName()));
+            }
             muteImage.setImageBitmap(Bitmap.createScaledBitmap(muteBitmap, pauseMenuIconSize,
                     pauseMenuIconSize, true));
             muteImage.setX(Utils.screenWidth / 100 + (float) (pauseMenuIconSize * 0.3));
@@ -140,7 +147,22 @@ public class SinglePlayerActivity extends Activity {
             muteImage.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    singlePlayerGameView.muteSound();
+                    if (!singlePlayerGameView.muteSound()) {
+                        isMute = false;
+                        int pauseMenuIconSize = (int) (Utils.screenWidth / 6);
+                        Bitmap muteBitmap = BitmapFactory.decodeResource(getResources(),
+                                getResources().getIdentifier("pause_menu_sound_on", "drawable", getPackageName()));
+                        ((ImageView) v).setImageBitmap(Bitmap.createScaledBitmap(muteBitmap, pauseMenuIconSize,
+                                pauseMenuIconSize, true));
+                    }
+                    else {
+                        isMute = true;
+                        int pauseMenuIconSize = (int) (Utils.screenWidth / 6);
+                        Bitmap muteBitmap = BitmapFactory.decodeResource(getResources(),
+                                getResources().getIdentifier("pause_menu_sound_off", "drawable", getPackageName()));
+                        ((ImageView) v).setImageBitmap(Bitmap.createScaledBitmap(muteBitmap, pauseMenuIconSize,
+                                pauseMenuIconSize, true));
+                    }
                     return false;
                 }
             });
@@ -185,6 +207,7 @@ public class SinglePlayerActivity extends Activity {
                 }
 //        super.onBackPressed();
                 Intent intent = new Intent(context, MenuActivity.class);
+                intent.putExtra("isPaused", isMute);
                 startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 startActivity(intent);
             }

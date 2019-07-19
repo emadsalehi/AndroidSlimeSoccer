@@ -36,7 +36,18 @@ public class MultiPlayerComingSoon extends Activity {
     }
 
     public void onBackClick(View v) {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
         mediaPlayer.stop();
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mediaPlayer.stop();
+        super.onDestroy();
     }
 }

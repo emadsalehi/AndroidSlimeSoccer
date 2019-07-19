@@ -24,6 +24,7 @@ public class Slimology extends Activity {
             "\tAfter retiring from \"Police department\", \"Traffic\" is here to help you.\nIt stops the ball for a few moments.",
             "\tWanna fight without hurting anyone? So, do it with empty hands.\n\"Classic\" has no weapon, more classic than this?",
             "\tFind out what the world has in its sleeve for you by choosing a random slime."};
+    Boolean isPaused;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class Slimology extends Activity {
         slimeSuper = findViewById(R.id.slime_super);
         slimeName = findViewById(R.id.slimology_name);
         slime = findViewById(R.id.slimology);
+        isPaused = getIntent().getBooleanExtra("isPaused", false);
 
         headerFace = Typeface.createFromAsset(getAssets(),
                 "fonts/Magenta.ttf");
@@ -52,8 +54,16 @@ public class Slimology extends Activity {
     protected void onResume() {
         mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
         mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+        if (!isPaused) {
+            mediaPlayer.start();
+        }
         super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        mediaPlayer.pause();
+        super.onPause();
     }
 
     public void onRightArrowClick(View v) {
@@ -83,7 +93,18 @@ public class Slimology extends Activity {
     }
 
     public void onBackClick(View v) {
+        onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
         mediaPlayer.stop();
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mediaPlayer.stop();
+        super.onDestroy();
     }
 }
