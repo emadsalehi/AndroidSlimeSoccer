@@ -11,6 +11,8 @@ import static android.view.View.INVISIBLE;
 
 public class MultiPlayerComingSoon extends Activity {
 
+    MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +24,16 @@ public class MultiPlayerComingSoon extends Activity {
         comingSoon.setText("Coming Soon...");
     }
 
+    @Override
+    protected void onResume() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+        super.onResume();
+    }
+
     public void onBackClick(View v) {
+        mediaPlayer.stop();
         super.onBackPressed();
     }
 }

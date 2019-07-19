@@ -24,8 +24,6 @@ public class PracticePlayerSelectActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
-        mediaPlayer.start();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.practice_player_select);
         slimeName = findViewById(R.id.slime_name_1);
@@ -35,6 +33,8 @@ public class PracticePlayerSelectActivity extends Activity {
 
     @Override
     protected void onResume() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
+        mediaPlayer.setLooping(true);
         mediaPlayer.start();
         super.onResume();
     }

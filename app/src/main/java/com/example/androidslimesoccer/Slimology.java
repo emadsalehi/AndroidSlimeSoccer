@@ -2,6 +2,7 @@ package com.example.androidslimesoccer;
 
 import android.app.Activity;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -12,6 +13,7 @@ public class Slimology extends Activity {
 
     int i = 0;
     TextView slimeSuper, slimeName;
+    MediaPlayer mediaPlayer;
     ImageView slime;
     Typeface headerFace, bodyFace;
     int[] slimeAddress = {R.drawable.runner, R.drawable.indian, R.drawable.alien, R.drawable.traffic, R.drawable.classic, R.drawable.random};
@@ -27,7 +29,6 @@ public class Slimology extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.slimology);
-
         slimeSuper = findViewById(R.id.slime_super);
         slimeName = findViewById(R.id.slimology_name);
         slime = findViewById(R.id.slimology);
@@ -45,6 +46,14 @@ public class Slimology extends Activity {
         slimeSuper.setText(slimeSupers[i]);
 
         slimeSuper.setGravity(Gravity.CENTER);
+    }
+
+    @Override
+    protected void onResume() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+        super.onResume();
     }
 
     public void onRightArrowClick(View v) {
@@ -74,6 +83,7 @@ public class Slimology extends Activity {
     }
 
     public void onBackClick(View v) {
+        mediaPlayer.stop();
         super.onBackPressed();
     }
 }

@@ -24,8 +24,6 @@ public class SinglePlayerSelectActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
-        mediaPlayer.start();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_player_select);
         isFirstPlayerSelected = false;
@@ -38,6 +36,8 @@ public class SinglePlayerSelectActivity extends Activity {
 
     @Override
     protected void onResume() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
+        mediaPlayer.setLooping(true);
         mediaPlayer.start();
         super.onResume();
     }
@@ -106,6 +106,7 @@ public class SinglePlayerSelectActivity extends Activity {
             singlePlayerIntent.putExtra("LEFT_SLIME_NAME", firstSlimeText.toLowerCase());
             singlePlayerIntent.putExtra("RIGHT_SLIME_NAME", secondSlimeText.toLowerCase());
             singlePlayerIntent.putExtra("GOAL_LIMIT", 1);
+            mediaPlayer.stop();
             startActivity(singlePlayerIntent);
         } else {
             slimeName1 = findViewById(R.id.slime_name_1);
