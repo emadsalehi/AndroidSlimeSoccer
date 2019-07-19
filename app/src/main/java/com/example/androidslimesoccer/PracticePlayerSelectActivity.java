@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import java.util.*;
 
 public class PracticePlayerSelectActivity extends Activity {
 
+    MediaPlayer mediaPlayer;
     Intent practiceIntent;
     ImageView selectedSlime;
     String slimeText, slimeTextPrime = "";
@@ -22,11 +24,25 @@ public class PracticePlayerSelectActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
+        mediaPlayer.start();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.practice_player_select);
-        slimeName = findViewById(R.id.slime_name);
+        slimeName = findViewById(R.id.slime_name_1);
         face = Typeface.createFromAsset(getAssets(),
                 "fonts/Magenta.ttf");
+    }
+
+    @Override
+    protected void onResume() {
+        mediaPlayer.start();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        mediaPlayer.pause();
+        super.onPause();
     }
 
     public void onSlimeClick(View v) {
@@ -68,15 +84,11 @@ public class PracticePlayerSelectActivity extends Activity {
             practiceIntent.putExtra("SLIME_NAME", slimeText.toLowerCase());
             startActivity(practiceIntent);
         } else {
-            slimeName = findViewById(R.id.slime_name);
+            slimeName = findViewById(R.id.slime_name_1);
             Typeface face = Typeface.createFromAsset(getAssets(),
                     "fonts/Magenta.ttf");
             slimeName.setTypeface(face);
             slimeName.setText("Please Choose a Slime");
         }
-    }
-
-    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
-        return Bitmap.createScaledBitmap(bm, newWidth, newHeight, true);
     }
 }
