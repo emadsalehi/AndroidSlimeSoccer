@@ -123,6 +123,8 @@ public class SinglePlayerSelectActivity extends Activity {
     public void onNextClick(View v) {
         if (isFirstPlayerSelected && isSecondPlayerSelected) {
             attributeSelectIntent = new Intent(this, AttributeSelectActivity.class);
+            attributeSelectIntent.putExtra("LEFT_SLIME_NAME", firstSlimeText.toLowerCase());
+            attributeSelectIntent.putExtra("RIGHT_SLIME_NAME", secondSlimeText.toLowerCase());
             startActivity(attributeSelectIntent);
         } else if (isFirstPlayerSelected && !isSecondPlayerSelected) {
             chooseSlime.setVisibility(VISIBLE);
@@ -139,13 +141,5 @@ public class SinglePlayerSelectActivity extends Activity {
     public void onBackPressed() {
         mediaPlayer.stop();
         super.onBackPressed();
-    }
-
-    public String getFirstSlimeText() {
-        return firstSlimeText;
-    }
-
-    public String getSecondSlimeText() {
-        return secondSlimeText;
     }
 }

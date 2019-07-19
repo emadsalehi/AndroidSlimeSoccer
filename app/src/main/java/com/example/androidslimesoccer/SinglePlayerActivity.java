@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 //TODO Will Be Completed By "SINA"
 
 public class SinglePlayerActivity extends Activity {
+
     SinglePlayerGameView singlePlayerGameView;
     ImageView pauseImage;
     Context context = this;
@@ -66,19 +67,19 @@ public class SinglePlayerActivity extends Activity {
 
     @Override
     public void onDestroy() {
-        Log.i("destroy ac","called");
+        Log.i("destroy ac", "called");
         super.onDestroy();
     }
 
     @Override
     public void onPause() {
-        Log.i("pause","called");
+        Log.i("pause", "called");
         super.onPause();
     }
 
     @Override
     public void onStop() {
-        Log.i("stop","called");
+        Log.i("stop", "called");
         singlePlayerGameView.thread.setRunning(false);
         try {
             singlePlayerGameView.thread.join();
@@ -108,7 +109,7 @@ public class SinglePlayerActivity extends Activity {
 
             final ImageView muteImage = new ImageView(this);
             Bitmap muteBitmap;
-            if (isMute){
+            if (isMute) {
                 muteBitmap = BitmapFactory.decodeResource(getResources(),
                         getResources().getIdentifier("pause_menu_sound_off", "drawable", this.getPackageName()));
             } else {
@@ -154,8 +155,7 @@ public class SinglePlayerActivity extends Activity {
                                 getResources().getIdentifier("pause_menu_sound_on", "drawable", getPackageName()));
                         ((ImageView) v).setImageBitmap(Bitmap.createScaledBitmap(muteBitmap, pauseMenuIconSize,
                                 pauseMenuIconSize, true));
-                    }
-                    else {
+                    } else {
                         isMute = true;
                         int pauseMenuIconSize = (int) (Utils.screenWidth / 6);
                         Bitmap muteBitmap = BitmapFactory.decodeResource(getResources(),
@@ -192,7 +192,7 @@ public class SinglePlayerActivity extends Activity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         singlePlayerGameView.thread.setPaused(true);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT);

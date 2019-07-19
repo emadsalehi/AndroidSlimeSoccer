@@ -16,14 +16,17 @@ public class AttributeSelectActivity extends Activity {
     Typeface typeface;
     TextView goalLimit, goalNumber, selectField;
     ImageView selectArrow;
-    SinglePlayerSelectActivity singlePlayerSelectActivity = new SinglePlayerSelectActivity();
     int field = 0;
     int goal = 5;
+    String leftSlimeName;
+    String rightSlimeName;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.attribute_select);
+        leftSlimeName = getIntent().getStringExtra("LEFT_SLIME_NAME");
+        rightSlimeName = getIntent().getStringExtra("RIGHT_SLIME_NAME");
         selectField = findViewById(R.id.select_field);
         typeface = Typeface.createFromAsset(getAssets(),
                 "fonts/Magenta.ttf");
@@ -98,9 +101,10 @@ public class AttributeSelectActivity extends Activity {
             selectField.setVisibility(VISIBLE);
         } else {
             singlePlayerIntent = new Intent(this, SinglePlayerActivity.class);
-            singlePlayerIntent.putExtra("LEFT_SLIME_NAME", singlePlayerSelectActivity.getFirstSlimeText().toLowerCase());
-            singlePlayerIntent.putExtra("RIGHT_SLIME_NAME", singlePlayerSelectActivity.getSecondSlimeText().toLowerCase());
+            singlePlayerIntent.putExtra("LEFT_SLIME_NAME", leftSlimeName);
+            singlePlayerIntent.putExtra("RIGHT_SLIME_NAME", rightSlimeName);
             singlePlayerIntent.putExtra("GOAL_LIMIT", goal);
+            singlePlayerIntent.putExtra("FIELD", field);
             startActivity(singlePlayerIntent);
         }
     }
