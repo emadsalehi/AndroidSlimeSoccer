@@ -9,16 +9,10 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
-import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 
 public class ServerGameView extends GameView implements SurfaceHolder.Callback {
 
@@ -32,7 +26,7 @@ public class ServerGameView extends GameView implements SurfaceHolder.Callback {
     BallSprite ballSprite;
     MultiPlayerLogicProvider multiPlayerLogicProvider;
     Bitmap ballBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ball);
-    Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+    Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.bg_soccerfield);
     Bitmap goal = BitmapFactory.decodeResource(getResources(), R.drawable.goal);
     Bitmap leftGoal; Bitmap rightGoal;
     Resources resources = getResources();

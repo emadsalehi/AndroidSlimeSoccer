@@ -12,15 +12,18 @@ import android.widget.TextView;
 
 import java.util.*;
 
+import static android.view.View.*;
+
 public class SinglePlayerSelectActivity extends Activity {
 
     MediaPlayer mediaPlayer;
     Intent singlePlayerIntent;
+    Intent attributeSelectIntent;
     String firstSlimeText, firstSlimeTextPrime, secondSlimeText, secondSlimeTextPrime = "";
-    TextView slimeName1, slimeName2;
+    TextView slimeName1, slimeName2, chooseSlime;
     ImageView firstSelector, secondSelector;
     Boolean isFirstPlayerSelected, isSecondPlayerSelected;
-    Typeface face;
+    Typeface typeface;
     Boolean isPaused;
 
     @Override
@@ -32,8 +35,12 @@ public class SinglePlayerSelectActivity extends Activity {
         isPaused = getIntent().getBooleanExtra("isPaused", false);
         slimeName1 = findViewById(R.id.slime_name_1);
         slimeName2 = findViewById(R.id.slime_name_2);
-        face = Typeface.createFromAsset(getAssets(),
+        typeface = Typeface.createFromAsset(getAssets(),
                 "fonts/Magenta.ttf");
+        chooseSlime = findViewById(R.id.choose_slime);
+        chooseSlime.setTypeface(typeface);
+        chooseSlime.setText("Please choose your slimes");
+        chooseSlime.setVisibility(INVISIBLE);
     }
 
     @Override
@@ -59,10 +66,13 @@ public class SinglePlayerSelectActivity extends Activity {
     }
 
     public void onSlimeClick(View v) {
+        chooseSlime.setVisibility(INVISIBLE);
+        slimeName1.setVisibility(VISIBLE);
+        slimeName2.setVisibility(VISIBLE);
         if (!isFirstPlayerSelected && !isSecondPlayerSelected) {
             firstSlimeText = (String) v.getTag();
             firstSlimeTextPrime = firstSlimeText;
-            slimeName1.setTypeface(face);
+            slimeName1.setTypeface(typeface);
             slimeName1.setText(firstSlimeText);
             if (firstSlimeText.equals("Random")) {
                 String[] slimes = {"Classic", "Traffic", "Runner", "Alien", "Indian"};
@@ -76,7 +86,7 @@ public class SinglePlayerSelectActivity extends Activity {
         } else if (isFirstPlayerSelected && !isSecondPlayerSelected) {
             secondSlimeText = (String) v.getTag();
             secondSlimeTextPrime = secondSlimeText;
-            slimeName2.setTypeface(face);
+            slimeName2.setTypeface(typeface);
             slimeName2.setText(secondSlimeText);
             if (secondSlimeText.equals("Random")) {
                 String[] slimes = {"Classic", "Traffic", "Runner", "Alien", "Indian"};
@@ -110,22 +120,18 @@ public class SinglePlayerSelectActivity extends Activity {
         }
     }
 
-
-    public void onPlayClick(View v) {
+    public void onNextClick(View v) {
         if (isFirstPlayerSelected && isSecondPlayerSelected) {
-            singlePlayerIntent = new Intent(this, SinglePlayerActivity.class);
-            singlePlayerIntent.putExtra("LEFT_SLIME_NAME", firstSlimeText.toLowerCase());
-            singlePlayerIntent.putExtra("RIGHT_SLIME_NAME", secondSlimeText.toLowerCase());
-            singlePlayerIntent.putExtra("GOAL_LIMIT", 5);
-            singlePlayerIntent.putExtra("isPaused", isPaused);
-            mediaPlayer.stop();
-            startActivity(singlePlayerIntent);
-        } else {
-            slimeName1 = findViewById(R.id.slime_name_1);
-            Typeface face = Typeface.createFromAsset(getAssets(),
-                    "fonts/Magenta.ttf");
-            slimeName1.setTypeface(face);
-            slimeName1.setText("Please Choose a Slime");
+            attributeSelectIntent = new Intent(this, AttributeSelectActivity.class);
+            startActivity(attributeSelectIntent);
+        } else if (isFirstPlayerSelected && !isSecondPlayerSelected) {
+            chooseSlime.setVisibility(VISIBLE);
+            slimeName1.setVisibility(INVISIBLE);
+            slimeName2.setVisibility(INVISIBLE);
+        } else if (!isFirstPlayerSelected && !isSecondPlayerSelected) {
+            chooseSlime.setVisibility(VISIBLE);
+            slimeName1.setVisibility(INVISIBLE);
+            slimeName2.setVisibility(INVISIBLE);
         }
     }
 
@@ -133,5 +139,13 @@ public class SinglePlayerSelectActivity extends Activity {
     public void onBackPressed() {
         mediaPlayer.stop();
         super.onBackPressed();
+    }
+
+    public String getFirstSlimeText() {
+        return firstSlimeText;
+    }
+
+    public String getSecondSlimeText() {
+        return secondSlimeText;
     }
 }

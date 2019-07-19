@@ -1,7 +1,6 @@
 package com.example.androidslimesoccer;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -20,6 +19,7 @@ import android.view.SurfaceHolder;
 public class SinglePlayerGameView extends GameView implements SurfaceHolder.Callback {
 
     MainThread thread;
+    AttributeSelectActivity attributeSelectActivity = new AttributeSelectActivity();
     SlimeSprite leftSlimeSprite;
     SlimeSprite rightSlimeSprite;
     SpecialSprite leftSpecialSprite;
@@ -27,9 +27,10 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     Activity context;
     Bitmap ballBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ball);
     BallSprite ballSprite;
-    Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+    Bitmap background = BitmapFactory.decodeResource(getResources(), attributeSelectActivity.getField());
     Bitmap goal = BitmapFactory.decodeResource(getResources(), R.drawable.goal);
-    Bitmap leftGoal; Bitmap rightGoal;
+    Bitmap leftGoal;
+    Bitmap rightGoal;
     Resources resources = getResources();
     SinglePlayerLogicProvider singlePlayerLogicProvider;
     int goalLimit;
@@ -39,40 +40,40 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     boolean isMute = false;
 
     public SinglePlayerGameView(Activity context, String leftSlimeName, String rightSlimeName
-                ,int goalLimit, boolean isMute) {
+            , int goalLimit, boolean isMute) {
         super(context);
         this.context = context;
         leftGoalNumber = 0;
         rightGoalNumber = 0;
         this.isMute = isMute;
-        Utils.assetsXScale = (double)Utils.screenWidth / background.getWidth();
-        Utils.assetsYScale = (double)Utils.screenHeight / background.getHeight();
+        Utils.assetsXScale = (double) Utils.screenWidth / background.getWidth();
+        Utils.assetsYScale = (double) Utils.screenHeight / background.getHeight();
         background = getResizedBitmap(background, Utils.screenWidth, Utils.screenHeight);
-        leftGoal = getResizedBitmap(goal, (int)(Utils.assetsXScale * goal.getWidth()),
-                (int)(Utils.assetsYScale * goal.getHeight()));
+        leftGoal = getResizedBitmap(goal, (int) (Utils.assetsXScale * goal.getWidth()),
+                (int) (Utils.assetsYScale * goal.getHeight()));
         rightGoal = flipBitmap(leftGoal);
 
 
         Bitmap leftSlimeBitmap = BitmapFactory.decodeResource(resources,
                 resources.getIdentifier(leftSlimeName, "drawable", context.getPackageName()));
         leftSlimeSprite = new SlimeSprite(SlimeType.valueOf(leftSlimeName.toUpperCase()),
-                getResizedBitmap(leftSlimeBitmap, (int)(Utils.assetsYScale * leftSlimeBitmap.getWidth()),
-                        (int)(Utils.assetsYScale * leftSlimeBitmap.getHeight())), true);
+                getResizedBitmap(leftSlimeBitmap, (int) (Utils.assetsYScale * leftSlimeBitmap.getWidth()),
+                        (int) (Utils.assetsYScale * leftSlimeBitmap.getHeight())), true);
 
 
         Bitmap rightSlimeBitmap = BitmapFactory.decodeResource(resources,
                 resources.getIdentifier(rightSlimeName, "drawable", context.getPackageName()));
         rightSlimeSprite = new SlimeSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()),
-                getResizedBitmap(rightSlimeBitmap, (int)(Utils.assetsYScale * rightSlimeBitmap.getWidth()),
-                        (int)(Utils.assetsYScale * rightSlimeBitmap.getHeight())), false);
+                getResizedBitmap(rightSlimeBitmap, (int) (Utils.assetsYScale * rightSlimeBitmap.getWidth()),
+                        (int) (Utils.assetsYScale * rightSlimeBitmap.getHeight())), false);
 
         this.goalLimit = goalLimit;
-        Utils.ballRatio = (int)(Utils.assetsYScale * ballBitmap.getWidth() / 2);
+        Utils.ballRatio = (int) (Utils.assetsYScale * ballBitmap.getWidth() / 2);
         Utils.ballStartX = Utils.screenWidth / 2 - Utils.ballRatio;
         Utils.slimeRatio = (int) (Utils.screenWidth / 20 * (Utils.assetsYScale / Utils.assetsXScale));
         ballSprite = new BallSprite(getResizedBitmap(ballBitmap,
-                (int)(Utils.assetsYScale * ballBitmap.getWidth()),
-                (int)(Utils.assetsYScale * ballBitmap.getHeight())));
+                (int) (Utils.assetsYScale * ballBitmap.getWidth()),
+                (int) (Utils.assetsYScale * ballBitmap.getHeight())));
         ballSprite.initializeFirstState();
         leftSlimeSprite.initializeFirstState();
         rightSlimeSprite.initializeFirstState();
@@ -88,12 +89,11 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        Log.i("created","called");
+        Log.i("created", "called");
         thread = new MainThread(getHolder(), this);
-        if(isMute) {
+        if (isMute) {
             singlePlayerLogicProvider.setSoundVolume(0);
-        }
-        else {
+        } else {
             singlePlayerLogicProvider.setSoundVolume(1);
         }
         if (!thread.isRunning()) {
@@ -113,7 +113,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.i("destroyed","called");
+        Log.i("destroyed", "called");
         boolean retry = true;
         while (retry) {
             try {
@@ -126,7 +126,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         }
     }
 
-    public void update () {
+    public void update() {
         singlePlayerLogicProvider.update();
     }
 
@@ -140,7 +140,8 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         canvas.drawBitmap(rightGoal, Utils.screenWidth * 39 / 40 - rightGoal.getWidth(),
                 Utils.screenHeight * 14 / 20, null);
         Paint p = new Paint();
-        p.setStyle(Paint.Style.STROKE); p.setColor(Color.BLACK);
+        p.setStyle(Paint.Style.STROKE);
+        p.setColor(Color.BLACK);
         if (leftSlimeSprite.specialLevel > leftSlimeSprite.slimeType.getSpecialThreshold())
             p.setStrokeWidth(15);
         else
@@ -150,10 +151,11 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         Paint p2 = new Paint();
         p2.setColor(leftSlimeSprite.slimeType.getColor());
         canvas.drawCircle(Utils.leftSpecialButtonX, Utils.leftSpecialButtonY,
-                (int)((double)leftSlimeSprite.specialLevel / 1000 * Utils.specialButtonHalfSide - 7), p2);
+                (int) ((double) leftSlimeSprite.specialLevel / 1000 * Utils.specialButtonHalfSide - 7), p2);
 
         Paint p1 = new Paint();
-        p1.setStyle(Paint.Style.STROKE); p.setColor(Color.BLACK);
+        p1.setStyle(Paint.Style.STROKE);
+        p.setColor(Color.BLACK);
         if (rightSlimeSprite.specialLevel > rightSlimeSprite.slimeType.getSpecialThreshold())
             p1.setStrokeWidth(15);
         else
@@ -163,7 +165,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         Paint p12 = new Paint();
         p12.setColor(rightSlimeSprite.slimeType.getColor());
         canvas.drawCircle(Utils.rightSpecialButtonX, Utils.rightSpecialButtonY,
-                (int)((double)rightSlimeSprite.specialLevel / 1000 * Utils.specialButtonHalfSide - 7), p12);
+                (int) ((double) rightSlimeSprite.specialLevel / 1000 * Utils.specialButtonHalfSide - 7), p12);
 
         leftSlimeSprite.draw(canvas);
         rightSlimeSprite.draw(canvas);
@@ -189,7 +191,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
             thread.setRunning(false);
             context.startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             context.startActivity(intent);
-        }else if (singlePlayerLogicProvider.slime2Goals == goalLimit) {
+        } else if (singlePlayerLogicProvider.slime2Goals == goalLimit) {
 
             Intent intent = new Intent(context, ResultActivity.class);
             intent.putExtra("isPaused", isMute);
@@ -259,15 +261,15 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         return Bitmap.createScaledBitmap(bm, newWidth, newHeight, true);
     }
 
-    public Bitmap flipBitmap (Bitmap bm) {
+    public Bitmap flipBitmap(Bitmap bm) {
         Matrix matrix = new Matrix();
         matrix.preScale(-1.0f, 1.0f);
         return Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
     }
 
 
-    public boolean muteSound (){
-        if(isMute) {
+    public boolean muteSound() {
+        if (isMute) {
             isMute = false;
             singlePlayerLogicProvider.setSoundVolume(1);
             return false;

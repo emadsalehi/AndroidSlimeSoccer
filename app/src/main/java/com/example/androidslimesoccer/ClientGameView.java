@@ -12,7 +12,6 @@ import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
-import java.io.IOException;
 import java.net.Socket;
 
 
@@ -26,7 +25,7 @@ public class ClientGameView extends GameView implements SurfaceHolder.Callback {
     SlimeSprite leftSlimeSprite, rightSlimeSprite;
     BallSprite ballSprite;
     Bitmap ballBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ball);
-    Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+    Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.bg_soccerfield);
     Bitmap goal = BitmapFactory.decodeResource(getResources(), R.drawable.goal);
     Bitmap leftGoal; Bitmap rightGoal;
     Resources resources = getResources();

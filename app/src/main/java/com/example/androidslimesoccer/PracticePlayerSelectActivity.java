@@ -20,16 +20,19 @@ public class PracticePlayerSelectActivity extends Activity {
     String slimeText, slimeTextPrime = "";
     TextView slimeName;
     Boolean isPlayerSelected = false;
+    Typeface typeface;
     Typeface face;
     Boolean isPaused;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
+        mediaPlayer.start();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.practice_player_select);
         slimeName = findViewById(R.id.slime_name_1);
         isPaused = getIntent().getBooleanExtra("isPaused", false);
-        face = Typeface.createFromAsset(getAssets(),
+        typeface = Typeface.createFromAsset(getAssets(),
                 "fonts/Magenta.ttf");
     }
 
@@ -57,7 +60,7 @@ public class PracticePlayerSelectActivity extends Activity {
         }
         slimeText = (String) v.getTag();
         slimeTextPrime = slimeText;
-        slimeName.setTypeface(face);
+        slimeName.setTypeface(typeface);
         slimeName.setText(slimeText);
         if (slimeText.equals("Random")) {
             String[] slimes = {"Classic", "Traffic", "Runner", "Alien", "Indian"};
@@ -73,8 +76,7 @@ public class PracticePlayerSelectActivity extends Activity {
     public void onBackClick(View v) {
         if (!isPlayerSelected) {
             onBackPressed();
-        }
-        else if (isPlayerSelected) {
+        } else if (isPlayerSelected) {
             isPlayerSelected = false;
             slimeName.setText("");
             selectedSlime = findViewById(R.id.practice_player_select).findViewWithTag(slimeTextPrime);
@@ -83,7 +85,7 @@ public class PracticePlayerSelectActivity extends Activity {
         }
     }
 
-    public void onPlayClick(View v) {
+    public void onNextClick(View v) {
         if (isPlayerSelected) {
             practiceIntent = new Intent(this, PracticeActivity.class);
             practiceIntent.putExtra("SLIME_NAME", slimeText.toLowerCase());
