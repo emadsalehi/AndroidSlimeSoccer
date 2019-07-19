@@ -10,8 +10,8 @@ import android.widget.TextView;
 import static android.view.View.INVISIBLE;
 
 public class MultiPlayerComingSoon extends Activity {
-
     MediaPlayer mediaPlayer;
+    Boolean isPaused;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +20,7 @@ public class MultiPlayerComingSoon extends Activity {
         TextView comingSoon = findViewById(R.id.coming_soon);
         Typeface face = Typeface.createFromAsset(getAssets(),
                 "fonts/Magenta.ttf");
+        isPaused = getIntent().getBooleanExtra("isPaused", false);
         comingSoon.setTypeface(face);
         comingSoon.setText("Coming Soon...");
     }
@@ -28,7 +29,9 @@ public class MultiPlayerComingSoon extends Activity {
     protected void onResume() {
         mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
         mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+        if (!isPaused) {
+            mediaPlayer.start();
+        }
         super.onResume();
     }
 

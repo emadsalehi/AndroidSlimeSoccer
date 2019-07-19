@@ -21,6 +21,7 @@ public class SinglePlayerSelectActivity extends Activity {
     ImageView firstSelector, secondSelector;
     Boolean isFirstPlayerSelected, isSecondPlayerSelected;
     Typeface face;
+    Boolean isPaused;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class SinglePlayerSelectActivity extends Activity {
         setContentView(R.layout.single_player_select);
         isFirstPlayerSelected = false;
         isSecondPlayerSelected = false;
+        isPaused = getIntent().getBooleanExtra("isPaused", false);
         slimeName1 = findViewById(R.id.slime_name_1);
         slimeName2 = findViewById(R.id.slime_name_2);
         face = Typeface.createFromAsset(getAssets(),
@@ -38,7 +40,9 @@ public class SinglePlayerSelectActivity extends Activity {
     protected void onResume() {
         mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
         mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+        if (!isPaused) {
+            mediaPlayer.start();
+        }
         super.onResume();
     }
 

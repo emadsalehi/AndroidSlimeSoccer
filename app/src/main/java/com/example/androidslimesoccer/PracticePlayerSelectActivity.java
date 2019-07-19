@@ -21,12 +21,14 @@ public class PracticePlayerSelectActivity extends Activity {
     TextView slimeName;
     Boolean isPlayerSelected = false;
     Typeface face;
+    Boolean isPaused;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.practice_player_select);
         slimeName = findViewById(R.id.slime_name_1);
+        isPaused = getIntent().getBooleanExtra("isPaused", false);
         face = Typeface.createFromAsset(getAssets(),
                 "fonts/Magenta.ttf");
     }
@@ -35,7 +37,9 @@ public class PracticePlayerSelectActivity extends Activity {
     protected void onResume() {
         mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
         mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+        if (!isPaused) {
+            mediaPlayer.start();
+        }
         super.onResume();
     }
 
