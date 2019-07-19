@@ -27,7 +27,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     Activity context;
     Bitmap ballBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ball);
     BallSprite ballSprite;
-    Bitmap background = BitmapFactory.decodeResource(getResources(), attributeSelectActivity.getField());
+    Bitmap background;
     Bitmap goal = BitmapFactory.decodeResource(getResources(), R.drawable.goal);
     Bitmap leftGoal;
     Bitmap rightGoal;
@@ -38,14 +38,17 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     int rightGoalNumber;
     int downX;
     boolean isMute = false;
+    int baclgroundId;
 
     public SinglePlayerGameView(Activity context, String leftSlimeName, String rightSlimeName
-            , int goalLimit, boolean isMute) {
+            , int goalLimit, boolean isMute, int backgroundId) {
         super(context);
         this.context = context;
         leftGoalNumber = 0;
         rightGoalNumber = 0;
         this.isMute = isMute;
+        this.baclgroundId = backgroundId;
+        background = BitmapFactory.decodeResource(getResources(), backgroundId);
         Utils.assetsXScale = (double) Utils.screenWidth / background.getWidth();
         Utils.assetsYScale = (double) Utils.screenHeight / background.getHeight();
         background = getResizedBitmap(background, Utils.screenWidth, Utils.screenHeight);

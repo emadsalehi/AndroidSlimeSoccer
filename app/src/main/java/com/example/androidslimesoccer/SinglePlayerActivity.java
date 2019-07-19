@@ -38,6 +38,7 @@ public class SinglePlayerActivity extends Activity {
         String leftSlimeName = getIntent().getStringExtra("LEFT_SLIME_NAME");
         String rightSlimeName = getIntent().getStringExtra("RIGHT_SLIME_NAME");
         int goalLimit = getIntent().getIntExtra("GOAL_LIMIT", 0);
+        int backgroundId = getIntent().getIntExtra("FIELD", R.drawable.bg_soccerfield);
         isMute = getIntent().getBooleanExtra("isPaused", false);
         final FrameLayout game = new FrameLayout(this);
 
@@ -57,7 +58,7 @@ public class SinglePlayerActivity extends Activity {
             }
         });
         Log.i("singleplayer", "activity");
-        singlePlayerGameView = new SinglePlayerGameView(this, leftSlimeName, rightSlimeName, goalLimit, isMute);
+        singlePlayerGameView = new SinglePlayerGameView(this, leftSlimeName, rightSlimeName, goalLimit, isMute, backgroundId);
         gameWidgets.addView(pauseImage);
         game.addView(singlePlayerGameView);
         game.addView(gameWidgets);

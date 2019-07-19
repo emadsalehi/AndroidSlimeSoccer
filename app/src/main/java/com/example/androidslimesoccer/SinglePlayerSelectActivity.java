@@ -125,6 +125,7 @@ public class SinglePlayerSelectActivity extends Activity {
             attributeSelectIntent = new Intent(this, AttributeSelectActivity.class);
             attributeSelectIntent.putExtra("LEFT_SLIME_NAME", firstSlimeText.toLowerCase());
             attributeSelectIntent.putExtra("RIGHT_SLIME_NAME", secondSlimeText.toLowerCase());
+            attributeSelectIntent.putExtra("isPaused", isPaused);
             startActivity(attributeSelectIntent);
         } else if (isFirstPlayerSelected && !isSecondPlayerSelected) {
             chooseSlime.setVisibility(VISIBLE);

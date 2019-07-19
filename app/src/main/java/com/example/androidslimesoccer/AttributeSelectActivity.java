@@ -3,6 +3,7 @@ package com.example.androidslimesoccer;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import static android.view.View.*;
 
 public class AttributeSelectActivity extends Activity {
 
+    MediaPlayer mediaPlayer;
     Intent singlePlayerIntent;
     Typeface typeface;
     TextView goalLimit, goalNumber, selectField;
@@ -20,6 +22,7 @@ public class AttributeSelectActivity extends Activity {
     int goal = 5;
     String leftSlimeName;
     String rightSlimeName;
+    Boolean isPaused;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,7 @@ public class AttributeSelectActivity extends Activity {
         setContentView(R.layout.attribute_select);
         leftSlimeName = getIntent().getStringExtra("LEFT_SLIME_NAME");
         rightSlimeName = getIntent().getStringExtra("RIGHT_SLIME_NAME");
+        isPaused = getIntent().getBooleanExtra("isPaused", false);
         selectField = findViewById(R.id.select_field);
         typeface = Typeface.createFromAsset(getAssets(),
                 "fonts/Magenta.ttf");
@@ -45,11 +49,33 @@ public class AttributeSelectActivity extends Activity {
 
     public void onBackClick(View v) {
         if (field == 0) {
-            super.onBackPressed();
+            onBackPressed();
         } else {
             field = 0;
             selectArrow.setVisibility(INVISIBLE);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mediaPlayer.stop();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.practice_song);
+        mediaPlayer.setLooping(true);
+        if (!isPaused) {
+            mediaPlayer.start();
+        }
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        mediaPlayer.pause();
+        super.onPause();
     }
 
     public void onArrowUpClick(View v) {
@@ -104,9 +130,16 @@ public class AttributeSelectActivity extends Activity {
             singlePlayerIntent.putExtra("LEFT_SLIME_NAME", leftSlimeName);
             singlePlayerIntent.putExtra("RIGHT_SLIME_NAME", rightSlimeName);
             singlePlayerIntent.putExtra("GOAL_LIMIT", goal);
+            singlePlayerIntent.putExtra("isPaused", isPaused);
             singlePlayerIntent.putExtra("FIELD", field);
             startActivity(singlePlayerIntent);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        mediaPlayer.stop();
+        super.onBackPressed();
     }
 
     public Integer getField() {
