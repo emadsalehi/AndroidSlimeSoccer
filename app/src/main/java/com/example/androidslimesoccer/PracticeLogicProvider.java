@@ -230,6 +230,11 @@ public class PracticeLogicProvider {
                 ballSprite.x > (Utils.rightGoalLine - Utils.netUpperWallWidth)) ) {
             ballSprite.y = Utils.netUpperWallHeight;
             ballSprite.yVelocity = (int) ((double)(-ballSprite.yVelocity) );
+            if (ballSprite.x < Utils.leftGoalLine + Utils.netUpperWallWidth) {
+                ballSprite.xVelocity += Utils.netXVelocityIncrease;
+            } else {
+                ballSprite.xVelocity -= Utils.netXVelocityIncrease;
+            }
             SoundManager.playSound(0, soundVolume);
         }
 
