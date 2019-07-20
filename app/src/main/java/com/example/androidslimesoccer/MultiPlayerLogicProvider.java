@@ -355,7 +355,7 @@ public class MultiPlayerLogicProvider {
             sb.append(",");
             sb.append((double) Utils.screenHeight / (double) (specialSprite1.y));
         }
-
+        sb.append("\n");
         sendData = sb.toString().getBytes();
         new ServerWriter(sendData, socket);
     }
