@@ -11,7 +11,6 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-
 import java.net.Socket;
 
 
@@ -33,8 +32,9 @@ public class ClientGameView extends GameView implements SurfaceHolder.Callback {
     int leftGoalNumber = 0, rightGoalNumber = 0;
     int downX;
     byte[] sendDataBytes = new byte[8];
+    boolean isStarted = false;
 
-    public ClientGameView(Context context, String leftSlimeName, String rightSlimeName, Socket socket) {
+    public ClientGameView(Context context, String leftSlimeName, String rightSlimeName) {
         super(context);
         this.context = context;
         Utils.assetsXScale = (double)Utils.screenWidth / background.getWidth();
@@ -69,18 +69,23 @@ public class ClientGameView extends GameView implements SurfaceHolder.Callback {
         rightSpecialSprite = new SpecialSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()), resources);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
-        this.socket = socket;
-        clientReader = new ClientReader(leftSlimeSprite, rightSlimeSprite, leftSpecialSprite,
-                rightSpecialSprite, ballSprite, socket);
         setFocusable(true);
     }
 
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
+    public void startGame(Socket socket) {
+        this.socket = socket;
+        isStarted = true;
+        clientReader = new ClientReader(leftSlimeSprite, rightSlimeSprite, leftSpecialSprite,
+                rightSpecialSprite, ballSprite, socket);
         thread.setRunning(true);
         thread.start();
         clientReader.setRunning(true);
         clientReader.start();
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+
     }
 
     @Override
@@ -209,8 +214,10 @@ public class ClientGameView extends GameView implements SurfaceHolder.Callback {
     }
 
     public void writer(String sendData) {
-        sendDataBytes = sendData.getBytes();
-        new ClientWriter(sendDataBytes, socket).start();
+        if (isStarted) {
+            sendDataBytes = sendData.getBytes();
+            new ClientWriter(sendDataBytes, socket).start();
+        }
     }
 
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
