@@ -32,10 +32,10 @@ public class ServerGameView extends GameView implements SurfaceHolder.Callback {
     Resources resources = getResources();
     int goalLimit = 5;
     int downX;
+    boolean isStarted;
 
 
-
-    public ServerGameView(Context context, String leftSlimeName, String rightSlimeName, Socket socket) {
+    public ServerGameView(Context context, String leftSlimeName, String rightSlimeName) {
         super(context);
         this.context = context;
         Utils.assetsXScale = (double)Utils.screenWidth / background.getWidth();
@@ -68,23 +68,27 @@ public class ServerGameView extends GameView implements SurfaceHolder.Callback {
         ballSprite.initializeFirstState();
         leftSpecialSprite = new SpecialSprite(SlimeType.valueOf(leftSlimeName.toUpperCase()), resources);
         rightSpecialSprite = new SpecialSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()), resources);
-
-        this.socket = socket;
-        multiPlayerLogicProvider = new MultiPlayerLogicProvider(leftSlimeSprite, rightSlimeSprite
-                , ballSprite, leftSpecialSprite, rightSpecialSprite, socket);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
-        serverReader = new ServerReader(rightSlimeSprite, socket);
 
         setFocusable(true);
     }
 
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
+    public void startGame(Socket socket) {
+        this.socket = socket;
+        isStarted = true;
+        serverReader = new ServerReader(rightSlimeSprite, socket);
+        multiPlayerLogicProvider = new MultiPlayerLogicProvider(leftSlimeSprite, rightSlimeSprite
+                , ballSprite, leftSpecialSprite, rightSpecialSprite, socket);
         thread.setRunning(true);
         thread.start();
         serverReader.setRunning(true);
         serverReader.start();
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+
     }
 
     @Override
