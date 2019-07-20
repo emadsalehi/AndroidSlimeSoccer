@@ -42,11 +42,11 @@ public class ClientReader extends Thread {
                 leftGoal = Integer.valueOf(data[1]);
                 rightGoal = Integer.valueOf(data[2]);
 
-                ballSprite.x = Utils.screenWidth / Integer.valueOf(data[3]);
-                ballSprite.y = Utils.screenHeight / Integer.valueOf(data[4]);
+                ballSprite.x = (int) (Utils.screenWidth / Double.valueOf(data[3]));
+                ballSprite.y = (int) (Utils.screenHeight / Double.valueOf(data[4]));
 
-                leftSlimeSprite.x = Utils.screenWidth / Integer.valueOf(data[5]);
-                leftSlimeSprite.y = Utils.screenHeight / Integer.valueOf(data[6]);
+                leftSlimeSprite.x = (int) (Utils.screenWidth / Double.valueOf(data[5]));
+                leftSlimeSprite.y = (int) (Utils.screenHeight / Double.valueOf(data[6]));
                 leftSlimeSprite.specialLevel = Integer.valueOf(data[7]);
                 boolean isLookRight = data[8].equals("true") ? true : false;
                 if (isLookRight && !leftSlimeSprite.isLookRight) {
@@ -57,8 +57,8 @@ public class ClientReader extends Thread {
                     leftSlimeSprite.slimeImage = flipBitmap(leftSlimeSprite.slimeImage);
                 }
 
-                rightSlimeSprite.x = Utils.screenWidth / Integer.valueOf(data[9]);
-                rightSlimeSprite.y = Utils.screenHeight / Integer.valueOf(data[10]);
+                rightSlimeSprite.x = (int) (Utils.screenWidth / Double.valueOf(data[9]));
+                rightSlimeSprite.y = (int) (Utils.screenHeight / Double.valueOf(data[10]));
                 rightSlimeSprite.specialLevel = Integer.valueOf(data[11]);
                 isLookRight = data[12].equals("true") ? true : false;
                 if (isLookRight && !rightSlimeSprite.isLookRight) {
@@ -73,18 +73,18 @@ public class ClientReader extends Thread {
                 leftSpecialSprite.isOnDraw = onDraw;
                 int indexCounter = 14;
                 if(onDraw) {
-                    leftSpecialSprite.x = Utils.screenWidth / Integer.valueOf(data[indexCounter]);
+                    leftSpecialSprite.x = (int) (Utils.screenWidth / Double.valueOf(data[indexCounter]));
                     indexCounter++;
-                    leftSpecialSprite.y = Utils.screenHeight / Integer.valueOf(data[indexCounter]);
+                    leftSpecialSprite.y = (int) (Utils.screenHeight / Double.valueOf(data[indexCounter]));
                     indexCounter++;
                 }
                 onDraw = data[indexCounter].equals("true") ? true : false;
                 indexCounter++;
                 rightSpecialSprite.isOnDraw = onDraw;
                 if(onDraw) {
-                    rightSpecialSprite.x = Utils.screenWidth / Integer.valueOf(data[17]);
+                    rightSpecialSprite.x = (int) (Utils.screenWidth / Double.valueOf(data[17]));
                     indexCounter++;
-                    rightSpecialSprite.y = Utils.screenHeight / Integer.valueOf(data[18]);
+                    rightSpecialSprite.y = (int) (Utils.screenHeight / Double.valueOf(data[18]));
                 }
             }
          }

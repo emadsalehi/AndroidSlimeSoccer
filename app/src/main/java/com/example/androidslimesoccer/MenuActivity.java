@@ -105,8 +105,8 @@ public class MenuActivity extends Activity {
 //        multiPlayerIntent.putExtra("RIGHT_SLIME_NAME", "classic");
 //        multiPlayerIntent.putExtra("GOAL_LIMIT", 5);
 //        startActivity(multiPlayerIntent);
-//        multiPlayerIntent = new Intent(this, HostJoinSelectActivity.class);
-        multiPlayerIntent = new Intent(this, MultiPlayerComingSoon.class);
+        multiPlayerIntent = new Intent(this, BroadcastReceiverActivity.class);
+//        multiPlayerIntent = new Intent(this, MultiPlayerComingSoon.class);
         multiPlayerIntent.putExtra("isPaused", isPaused);
         startActivity(multiPlayerIntent);
     }
