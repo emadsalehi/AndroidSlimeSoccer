@@ -15,8 +15,8 @@ public class Utils {
     static final int rightGoalLine = screenWidth * 37 / 40;
     static final int initialXVelocity = screenWidth / 130;
     static final int initialYVelocity = screenHeight / 57;
-    static final int gravityAcceleration = -screenHeight / 545;
-    static final int floorFriction = gravityAcceleration;
+    static int gravityAcceleration = -screenHeight / 545;
+    static int floorFriction = gravityAcceleration;
     static final int slimeMaxSpecialTime = 200;
     static final int slowInitialIncrease = 1;
     static final int fastInitialIncrease = 3;
