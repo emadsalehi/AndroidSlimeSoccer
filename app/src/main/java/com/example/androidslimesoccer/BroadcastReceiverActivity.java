@@ -208,7 +208,6 @@ public class BroadcastReceiverActivity extends Activity implements WifiP2pManage
 
     @Override
     public void onConnectionInfoAvailable(WifiP2pInfo info) {
-        Log.d("pre connect " , "hoooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
         if (info.groupFormed) {
             Intent intent;
             if (info.isGroupOwner) {

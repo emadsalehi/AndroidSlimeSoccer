@@ -25,7 +25,6 @@ public class ServerActivity extends Activity {
         String leftSlimeName = getIntent().getStringExtra("LEFT_SLIME_NAME");
         String rightSlimeName = getIntent().getStringExtra("RIGHT_SLIME_NAME");
         int goalLimit = getIntent().getIntExtra("GOAL_LIMIT", 5);
-        System.out.println("Serveeeeeeeeeeeeeeeeer");
         info = (WifiP2pInfo) getIntent().getExtras().get("INFO");
         serverGameView = new ServerGameView(this, leftSlimeName, rightSlimeName);
         getClientInfo.execute();

@@ -30,7 +30,6 @@ public class ClientActivity extends Activity {
         String leftSlimeName = getIntent().getStringExtra("LEFT_SLIME_NAME");
         String rightSlimeName = getIntent().getStringExtra("RIGHT_SLIME_NAME");
         info = (WifiP2pInfo) getIntent().getExtras().get("INFO");
-        System.out.println("clienttttttttttt");
         int goalLimit = getIntent().getIntExtra("GOAL_LIMIT", 5);
         clientGameView = new ClientGameView(this, leftSlimeName, rightSlimeName);
         connectToOwner.execute();
