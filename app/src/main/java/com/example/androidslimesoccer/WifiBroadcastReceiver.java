@@ -30,6 +30,7 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
         this.mActivity = activity;
         this.myPeerListListener = PLL;
     }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -62,59 +63,5 @@ public class WifiBroadcastReceiver extends BroadcastReceiver {
             // Respond to this device's wifi state changing
         }
     }
-
-/*    @Override
-    public void onPeersAvailable(WifiP2pDeviceList peerList) {
-        List<WifiP2pDevice> devices = (new ArrayList<>());
-        devices.addAll(peerList.getDeviceList());
-
-        //do something with the device list
-    } */
-
-   /* private PeerListListener peerListListener = new PeerListListener() {
-        @Override
-        public void onPeersAvailable(WifiP2pDeviceList peerList) {
-
-            // Out with the old, in with the new.
-            peers.clear();
-            peers.addAll(peerList.getDeviceList());
-
-            // If an AdapterView is backed by this data, notify it
-            // of the change.  For instance, if you have a ListView of available
-            // peers, trigger an update.
-            //((WiFiPeerListAdapter) getListAdapter()).notifyDataSetChanged();
-            if (peers.size() == 0) {
-                //no devices found
-                return;
-            }
-        }
-    };
-
-
-
-    @Override
-    public void connect() {
-        // Picking the first device found on the network.
-        WifiP2pDevice device = peers.get(0);
-
-        WifiP2pConfig config = new WifiP2pConfig();
-        config.deviceAddress = device.deviceAddress;
-        config.wps.setup = WpsInfo.PBC;
-
-        mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
-
-            @Override
-            public void onSuccess() {
-                // WiFiDirectBroadcastReceiver will notify us. Ignore for now.
-            }
-
-            @Override
-            public void onFailure(int reason) {
-                Toast.makeText(BroadcastReceiverActivity.this, "Connect failed. Retry.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-    } */
 }
-//Change device name
 

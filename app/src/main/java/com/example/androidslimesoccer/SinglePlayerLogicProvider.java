@@ -207,9 +207,12 @@ public class SinglePlayerLogicProvider {
                 }
                 break out;
             }
+
             if (relativeYVelocity < -1 && yProjection <= 1.5 * ballRatio) {
                 break out;
             }
+
+
 
 
             double theta = Math.atan2(yProjection, -xProjection);

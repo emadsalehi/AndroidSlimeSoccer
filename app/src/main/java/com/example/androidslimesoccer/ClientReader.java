@@ -3,8 +3,10 @@ package com.example.androidslimesoccer;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Socket;
@@ -30,14 +32,23 @@ public class ClientReader extends Thread {
 
     @Override
     public void run() {
-        Scanner scanner = null;
+        BufferedReader bufferedReader = null;
         try {
-            scanner = new Scanner(socket.getInputStream());
+            bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("HEarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
         while (isRunning) {
-            String[] data = scanner.nextLine().split(",");
+            String receive = null;
+            try {
+                receive = bufferedReader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            System.out.println(receive);
+            String[] data = receive.split(",");
+            System.out.println(data);
             if(data[0].equals("s")) {
                 leftGoal = Integer.valueOf(data[1]);
                 rightGoal = Integer.valueOf(data[2]);
