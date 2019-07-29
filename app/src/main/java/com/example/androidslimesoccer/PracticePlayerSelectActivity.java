@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.FileWriter;
 import java.util.*;
 
 public class PracticePlayerSelectActivity extends Activity {
@@ -29,7 +28,7 @@ public class PracticePlayerSelectActivity extends Activity {
         mediaPlayer.start();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.practice_player_select);
-        slimeName = findViewById(R.id.slime_name_1);
+        slimeName = findViewById(R.id.first_slime_name);
         isPaused = getIntent().getBooleanExtra("isPaused", false);
         typeface = Typeface.createFromAsset(getAssets(),
                 "fonts/Magenta.ttf");
@@ -92,7 +91,7 @@ public class PracticePlayerSelectActivity extends Activity {
             mediaPlayer.stop();
             startActivity(practiceIntent);
         } else {
-            slimeName = findViewById(R.id.slime_name_1);
+            slimeName = findViewById(R.id.first_slime_name);
             Typeface face = Typeface.createFromAsset(getAssets(),
                     "fonts/Magenta.ttf");
             slimeName.setTypeface(face);

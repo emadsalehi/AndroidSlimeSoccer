@@ -3,4 +3,6 @@
     <string name="single_player">Single Player</string>
     <string name="multi_player">Multi Player</string>
     <string name="practice">Practice</string>
+    <string name="choose_slimes">Please choose your slimes</string>
+    <string name="next">Next</string>
 </resources>
