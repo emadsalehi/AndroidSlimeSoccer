@@ -141,7 +141,7 @@ public class AttributeSelectActivity extends Activity {
     public void onDifficultyClick(View v) {
         easy = findViewById(R.id.easy);
         hard = findViewById(R.id.hard);
-        if (v.getTag().equals("Easy")) {
+        if ("Easy".equals(v.getTag())) {
             easy.setAlpha((float) 1.0);
             easy.setScaleX((float) 1.5);
             easy.setScaleY((float) 1.5);
