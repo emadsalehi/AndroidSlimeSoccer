@@ -153,7 +153,7 @@ public class SinglePlayerSelectActivity extends Activity {
         next = findViewById(R.id.next);
         next.setTypeface(typeface);
         next.setText(R.string.next);
-        next.setTextSize(24);
+        next.setTextSize(28);
         next.setTextColor(Color.WHITE);
     }
 }
