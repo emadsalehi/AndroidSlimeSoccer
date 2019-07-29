@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.FileWriter;
 import java.util.*;
 
 public class PracticePlayerSelectActivity extends Activity {
@@ -20,7 +21,6 @@ public class PracticePlayerSelectActivity extends Activity {
     TextView slimeName;
     Boolean isPlayerSelected = false;
     Typeface typeface;
-    Typeface face;
     Boolean isPaused;
 
     @Override

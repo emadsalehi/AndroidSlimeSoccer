@@ -4,31 +4,32 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-
-//TODO Will Be Completed By "ASHKAN"
+import android.widget.TextView;
 
 public class MenuActivity extends Activity {
+
     MediaPlayer mediaPlayer;
-    Intent practicePlayerSelect;
-    Intent singlePlayerSelect;
-    Intent singlePlayerIntent;
-    Intent multiPlayerIntent;
-    Intent slimologyIntent;
+    Intent practicePlayerSelect, singlePlayerSelect, multiPlayerIntent, slimologyIntent;
     boolean isPaused;
+    TextView singlePlayer, multiPlayer, practice;
+    ImageView soundImageView;
+    Typeface typeface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        mediaPlayer = MediaPlayer.create(this, R.raw.main_menu_theme);
-//        mediaPlayer.setLooping(true);
-//        mediaPlayer.start();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        typeface = Typeface.createFromAsset(getAssets(),
+                "fonts/Magenta.ttf");
+        setSinglePlayerText();
+        setMultiPlayerText();
+        setPracticeText();
         isPaused = getIntent().getBooleanExtra("isPaused", false);
     }
 
@@ -37,14 +38,13 @@ public class MenuActivity extends Activity {
         mediaPlayer = MediaPlayer.create(this, R.raw.main_menu_theme);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
-        ImageView soundImageView = findViewById(R.id.sound);
+        soundImageView = findViewById(R.id.sound);
         if (isPaused) {
             mediaPlayer.pause();
             Bitmap muteImageBitmap = BitmapFactory.decodeResource(getResources(),
                     getResources().getIdentifier("mute", "drawable", this.getPackageName()));
             soundImageView.setImageBitmap(muteImageBitmap);
-        }
-        else {
+        } else {
             Bitmap unMuteImageBitmap = BitmapFactory.decodeResource(getResources(),
                     getResources().getIdentifier("speaker", "drawable", this.getPackageName()));
             soundImageView.setImageBitmap(unMuteImageBitmap);
@@ -69,10 +69,8 @@ public class MenuActivity extends Activity {
         mediaPlayer.stop();
         singlePlayerSelect = new Intent(this, SinglePlayerSelectActivity.class);
         singlePlayerSelect.putExtra("isPaused", isPaused);
-//        singlePlayerIntent.putExtra("LEFT_SLIME_NAME", "indian");
-//        singlePlayerIntent.putExtra("RIGHT_SLIME_NAME", "classic");
-//        singlePlayerIntent.putExtra("GOAL_LIMIT", 5);
         startActivity(singlePlayerSelect);
+
     }
 
     public void onSoundClick(View v) {
@@ -105,14 +103,34 @@ public class MenuActivity extends Activity {
 //        multiPlayerIntent.putExtra("RIGHT_SLIME_NAME", "classic");
 //        multiPlayerIntent.putExtra("GOAL_LIMIT", 5);
 //        startActivity(multiPlayerIntent);
-        multiPlayerIntent = new Intent(this, BroadcastReceiverActivity.class);
 //        multiPlayerIntent = new Intent(this, MultiPlayerComingSoon.class);
+        multiPlayerIntent = new Intent(this, BroadcastReceiverActivity.class);
         multiPlayerIntent.putExtra("isPaused", isPaused);
         startActivity(multiPlayerIntent);
     }
 
-    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
-        return Bitmap.createScaledBitmap(bm, newWidth, newHeight, true);
+    public void setSinglePlayerText() {
+        singlePlayer = findViewById(R.id.single_player);
+        singlePlayer.setTypeface(typeface);
+        singlePlayer.setText(R.string.single_player);
+        singlePlayer.setTextSize(32);
+        singlePlayer.setTextColor(Color.WHITE);
+    }
+
+    public void setMultiPlayerText() {
+        multiPlayer = findViewById(R.id.multi_player);
+        multiPlayer.setTypeface(typeface);
+        multiPlayer.setText(R.string.multi_player);
+        multiPlayer.setTextSize(32);
+        multiPlayer.setTextColor(Color.WHITE);
+    }
+
+    public void setPracticeText() {
+        practice = findViewById(R.id.practice);
+        practice.setTypeface(typeface);
+        practice.setText(R.string.practice);
+        practice.setTextSize(32);
+        practice.setTextColor(Color.WHITE);
     }
 }
 

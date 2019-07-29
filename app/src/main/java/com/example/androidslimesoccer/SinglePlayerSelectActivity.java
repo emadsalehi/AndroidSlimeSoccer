@@ -2,7 +2,6 @@ package com.example.androidslimesoccer;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -17,14 +16,12 @@ import static android.view.View.*;
 public class SinglePlayerSelectActivity extends Activity {
 
     MediaPlayer mediaPlayer;
-    Intent singlePlayerIntent;
     Intent attributeSelectIntent;
     String firstSlimeText, firstSlimeTextPrime, secondSlimeText, secondSlimeTextPrime = "";
     TextView slimeName1, slimeName2, chooseSlime;
     ImageView firstSelector, secondSelector;
-    Boolean isFirstPlayerSelected, isSecondPlayerSelected;
+    Boolean isFirstPlayerSelected, isSecondPlayerSelected, isPaused;
     Typeface typeface;
-    Boolean isPaused;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
