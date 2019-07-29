@@ -418,7 +418,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="250dp"
         android:layout_marginBottom="5dp"
-        android:textColor="#F0F0F0F0"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/alien"
         app:layout_constraintEnd_toEndOf="parent"
