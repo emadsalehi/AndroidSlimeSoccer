@@ -5,4 +5,10 @@
     <string name="practice">Practice</string>
     <string name="choose_slimes">Please choose your slimes</string>
     <string name="next">Next</string>
+    <string name="play">Play</string>
+    <string name="select_field">Please choose a field</string>
+    <string name="goal_limit">Goal Limit</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="easy">Easy</string>
+    <string name="hard">Hard</string>
 </resources>
