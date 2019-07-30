@@ -28,6 +28,7 @@ public class SinglePlayerActivity extends Activity {
     ImageView pauseImage;
     Context context = this;
     boolean isMute;
+    String difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class SinglePlayerActivity extends Activity {
         int goalLimit = getIntent().getIntExtra("GOAL_LIMIT", 0);
         int backgroundId = getIntent().getIntExtra("FIELD", R.drawable.bg_soccerfield);
         isMute = getIntent().getBooleanExtra("isPaused", false);
+        difficulty = getIntent().getStringExtra("DIFFICULTY");
         final FrameLayout game = new FrameLayout(this);
 
         LinearLayout gameWidgets = new LinearLayout(this);
@@ -58,7 +60,7 @@ public class SinglePlayerActivity extends Activity {
             }
         });
         Log.i("singleplayer", "activity");
-        singlePlayerGameView = new SinglePlayerGameView(this, leftSlimeName, rightSlimeName, goalLimit, isMute, backgroundId);
+        singlePlayerGameView = new SinglePlayerGameView(this, leftSlimeName, rightSlimeName, goalLimit, isMute, backgroundId, difficulty);
         gameWidgets.addView(pauseImage);
         game.addView(singlePlayerGameView);
         game.addView(gameWidgets);

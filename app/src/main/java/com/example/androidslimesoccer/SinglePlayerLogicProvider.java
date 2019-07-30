@@ -14,6 +14,7 @@ public class SinglePlayerLogicProvider {
     BallSprite ballSprite;
     int slime1Goals = 0, slime2Goals = 0;
     Context context;
+    String difficulty;
 
     public float getSoundVolume() {
         return soundVolume;
@@ -26,7 +27,8 @@ public class SinglePlayerLogicProvider {
     float soundVolume;
 
     public SinglePlayerLogicProvider(SlimeSprite slimeSprite1, SlimeSprite slimeSprite2
-            , BallSprite ballSprite, SpecialSprite specialSprite1, SpecialSprite specialSprite2, Context context) {
+            , BallSprite ballSprite, SpecialSprite specialSprite1, SpecialSprite specialSprite2, Context context
+    , String difficulty) {
         this.slimeSprite1 = slimeSprite1;
         this.slimeSprite2 = slimeSprite2;
         this.ballSprite = ballSprite;
@@ -34,6 +36,7 @@ public class SinglePlayerLogicProvider {
         this.specialSprite2 = specialSprite2;
         this.context = context;
         SoundManager.InitSound(context);
+        this.difficulty = difficulty;
     }
 
 
@@ -312,7 +315,8 @@ public class SinglePlayerLogicProvider {
     }
 
     public void aiUpdateAction() {
-        if (true) {
+        Log.i("diff", difficulty);
+        if (difficulty.toLowerCase().equals("easy")) {
             if (slimeSprite2.yVelocity == 0 &&
                     slimeSprite2.y + slimeSprite2.slimeImage.getHeight() >= Utils.slimeStartY) {
                 int ballSpriteY = ballSprite.y;

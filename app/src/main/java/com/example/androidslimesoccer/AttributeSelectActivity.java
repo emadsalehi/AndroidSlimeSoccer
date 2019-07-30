@@ -28,7 +28,7 @@ public class AttributeSelectActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.attribute_select);
-        aiDifficulty = String.valueOf(R.string.easy);
+        aiDifficulty = "Easy";
         typeface = Typeface.createFromAsset(getAssets(),
                 "fonts/Magenta.ttf");
         leftSlimeName = getIntent().getStringExtra("LEFT_SLIME_NAME");
@@ -148,7 +148,7 @@ public class AttributeSelectActivity extends Activity {
             hard.setAlpha((float) 0.5);
             hard.setScaleX((float) 1.0);
             hard.setScaleY((float) 1.0);
-            aiDifficulty = String.valueOf(R.string.easy);
+            aiDifficulty = "Easy";
         } else {
             easy.setAlpha((float) 0.5);
             easy.setScaleX((float) 1.0);
@@ -156,7 +156,7 @@ public class AttributeSelectActivity extends Activity {
             hard.setAlpha((float) 1.0);
             hard.setScaleX((float) 1.5);
             hard.setScaleY((float) 1.5);
-            aiDifficulty = String.valueOf(R.string.hard);
+            aiDifficulty = "Hard";
         }
     }
 

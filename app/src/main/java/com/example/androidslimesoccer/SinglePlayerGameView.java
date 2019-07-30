@@ -41,7 +41,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
     int baclgroundId;
 
     public SinglePlayerGameView(Activity context, String leftSlimeName, String rightSlimeName
-            , int goalLimit, boolean isMute, int backgroundId) {
+            , int goalLimit, boolean isMute, int backgroundId, String difficulty) {
         super(context);
         this.context = context;
         leftGoalNumber = 0;
@@ -84,7 +84,7 @@ public class SinglePlayerGameView extends GameView implements SurfaceHolder.Call
         leftSpecialSprite = new SpecialSprite(SlimeType.valueOf(leftSlimeName.toUpperCase()), resources);
         rightSpecialSprite = new SpecialSprite(SlimeType.valueOf(rightSlimeName.toUpperCase()), resources);
         singlePlayerLogicProvider = new SinglePlayerLogicProvider(leftSlimeSprite, rightSlimeSprite
-                , ballSprite, leftSpecialSprite, rightSpecialSprite, context);
+                , ballSprite, leftSpecialSprite, rightSpecialSprite, context, difficulty);
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
