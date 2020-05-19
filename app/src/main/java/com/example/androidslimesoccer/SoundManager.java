@@ -29,7 +29,7 @@ public class SoundManager extends Activity
 //        sm[2] = soundPool.load(context, R.raw.sound_3, 1);
     }
 
-    static void playSound(int sound, float volume) {
+    public static void playSound(int sound, float volume) {
         soundPool.play(sm[sound], volume, volume, 1, 0, 1f);
     }
 

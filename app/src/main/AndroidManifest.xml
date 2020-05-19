@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MenuActivity"
+            android:name=".view.MenuActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
@@ -26,47 +26,47 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PracticeActivity"
+            android:name=".practice.activity.PracticeActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
         <activity
-            android:name=".SinglePlayerActivity"
+            android:name=".single_player.activity.SinglePlayerActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
         <activity
-            android:name=".PracticePlayerSelectActivity"
+            android:name=".practice.activity.PracticePlayerSelectActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
         <activity
-            android:name=".SinglePlayerSelectActivity"
+            android:name=".single_player.activity.SinglePlayerSelectActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
         <activity
-            android:name=".BroadcastReceiverActivity"
+            android:name=".multiplayer.activity.BroadcastReceiverActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
         <activity
-            android:name=".ClientActivity"
+            android:name=".multiplayer.activity.ClientActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
         <activity
-            android:name=".ServerActivity"
+            android:name=".multiplayer.activity.ServerActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
         <activity
-            android:name=".Slimology"
+            android:name=".slimology.Slimology"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
         <activity
-            android:name=".ResultActivity"
+            android:name=".single_player.activity.ResultActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
         <activity
-            android:name=".MultiPlayerComingSoon"
+            android:name=".multiplayer.activity.MultiPlayerComingSoon"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
         <activity
-            android:name=".AttributeSelectActivity"
+            android:name=".single_player.activity.AttributeSelectActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"></activity>
     </application>

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/player_select"
     android:onClick="onDifficultyClick"
-    tools:context=".AttributeSelectActivity">
+    tools:context=".single_player.activity.AttributeSelectActivity">
 
     <TextView
         android:id="@+id/goal_limit"

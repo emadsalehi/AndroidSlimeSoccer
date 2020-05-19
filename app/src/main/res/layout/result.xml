@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/result_background"
-    tools:context=".ResultActivity">
+    tools:context=".single_player.activity.ResultActivity">
 
     <TextView
         android:id="@+id/result"

@@ -3,8 +3,10 @@ package com.example.androidslimesoccer;
 //TODO Will Be Completed By "SINA"
 
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.SurfaceHolder;
+
+import com.example.androidslimesoccer.utils.Utils;
+import com.example.androidslimesoccer.view.GameView;
 
 public class MainThread extends Thread {
     private SurfaceHolder surfaceHolder;
@@ -78,7 +80,7 @@ public class MainThread extends Thread {
             timeMillis = (System.nanoTime() - startTime) / 1000000;
             waitTime = targetTime - timeMillis;
             try {
-                this.sleep(waitTime);
+                sleep(waitTime);
             } catch (Exception e) {}
 
             totalTime += System.nanoTime() - startTime;
